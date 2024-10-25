@@ -1,0 +1,19 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+
+
+
+</script>
+
+<style>
+/* Thêm CSS tổng thể */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+</style>

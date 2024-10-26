@@ -12,10 +12,15 @@
 
         <main>
             <header class="admin-header">
-                <h1>Admin Dashboard</h1>
-                <div class="header-links">
-                    <RouterLink to="/admin/profile" class="header-button">Profile</RouterLink>
-                    <RouterLink to="/login" class="header-button logout">Logout</RouterLink>
+                <div class="header-title">
+                    <h1>Admin Dashboard</h1>
+                    <p class="welcome-message">Xin chào, {{ adminName }}!</p>
+                </div>
+                <div class="header-actions">
+                    <RouterLink to="/admin/profile" class="header-button profile">Profile</RouterLink>
+                    <router-link :to="{ name: 'Login' }" class="header-button logout" @click.native="handleLogout">
+                        Logout
+                    </router-link>
                 </div>
             </header>
             <section class="content-section">
@@ -27,108 +32,123 @@
 
 <script>
 export default {
-    name: 'AdminLayout',
+    data() {
+        return {
+            adminName: '' // Biến lưu tên admin
+        };
+    },
+    mounted() {
+        // Lấy tên admin từ localStorage khi component được tải
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.username) {
+            this.adminName = user.username; // Gán tên admin vào adminName
+        }
+    },
+    methods: {
+        handleLogout() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user"); // Xóa thông tin người dùng
+            this.$router.push('/login');
+        }
+    }
 };
 </script>
 
 <style scoped>
-/* Style cho layout */
 .admin-layout {
     display: flex;
     height: 100vh;
-    /* Chiếm toàn bộ chiều cao màn hình */
 }
 
 .sidebar {
     width: 250px;
     background-color: #2c3e50;
-    /* Màu nền tối hơn cho sidebar */
-    color: white;
-    /* Màu chữ trắng */
+    color: #ecf0f1;
     padding: 1.5rem;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    transition: width 0.3s;
-    /* Hiệu ứng chuyển đổi khi thay đổi kích thước */
 }
 
 .sidebar h2 {
     text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 2rem;
-    font-weight: bold;
-    /* Chữ đậm cho tiêu đề */
-    font-size: 24px;
-    /* Kích thước chữ lớn hơn */
+    font-weight: 700;
 }
 
 .nav-link {
     display: block;
     padding: 12px 15px;
-    /* Tăng kích thước padding để tạo cảm giác thoải mái hơn */
     color: #bdc3c7;
-    /* Màu chữ nhạt hơn cho các liên kết */
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: background-color 0.3s, color 0.3s;
-    /* Hiệu ứng chuyển màu và nền */
 }
 
 .nav-link:hover {
     background-color: #1abc9c;
-    /* Màu nền khi hover */
     color: white;
-    /* Màu chữ chuyển sang trắng khi hover */
 }
 
 .admin-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #ecf0f1;
-    /* Màu nền của header */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dfe6e9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.header-links {
+.header-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #34495e;
+    margin: 0;
+}
+
+.welcome-message {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+}
+
+.header-actions {
     display: flex;
-    gap: 15px;
-    /* Khoảng cách giữa các nút */
+    gap: 1rem;
 }
 
 .header-button {
-    background-color: #3498db;
-    /* Màu nền cho nút */
-    color: white;
-    /* Màu chữ */
-    padding: 10px 15px;
-    /* Padding cho nút */
-    border-radius: 5px;
-    /* Bo góc cho nút */
+    display: flex;
+    align-items: center;
+    padding: 8px 18px;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 8px;
     text-decoration: none;
-    /* Không gạch chân */
-    transition: background-color 0.3s, transform 0.3s;
-    /* Hiệu ứng chuyển màu và chuyển động */
-    font-weight: bold;
-    /* Chữ in đậm */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Hiệu ứng bóng cho nút */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
-.header-button:hover {
-    background-color: #2980b9;
-    /* Màu nền khi hover */
-    transform: translateY(-2px);
-    /* Nâng nút lên khi hover */
+.header-button.profile {
+    background-color: #27ae60;
 }
 
 .header-button.logout {
-    background-color: #e74c3c;
-    /* Màu nền cho nút logout */
+    background-color: #e67e22;
+}
+
+.header-button:hover {
+    transform: translateY(-2px);
+}
+
+.header-button.profile:hover {
+    background-color: #219150;
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
 }
 
 .header-button.logout:hover {
-    background-color: #c0392b;
-    /* Màu nền khi hover cho nút logout */
+    background-color: #d35400;
+    box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
 }
 
 main {
@@ -136,11 +156,9 @@ main {
     padding: 2rem;
     background-color: #ecf0f1;
     overflow-y: auto;
-    /* Cho phép cuộn nội dung nếu quá dài */
 }
 
 .content-section {
     margin-top: 20px;
-    /* Khoảng cách giữa header và nội dung */
 }
 </style>

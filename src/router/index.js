@@ -1,64 +1,112 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Dashboard from '../views/admin/Dashboard.vue'; // Trang Dashboard
-import UserManagement from '../views/admin/UserManagement.vue'; // Trang Quản lý Người dùng
-import Reports from '../views/admin/Reports.vue'; // Trang Báo cáo
-import Settings from '../views/admin/Settings.vue'; // Trang Cài đặt
-import LoginPage from '../views/admin/Login.vue'; // Trang đăng nhập
-import Profile from '../views/admin/Profile.vue'; // Trang thông tin cá nhân
-import AdminLayout from '../layouts/AdminLayout.vue'; // Layout tổng quát cho Admin
+import Dashboard from '../views/admin/Dashboard.vue';
+import UserManagement from '../views/admin/UserManagement.vue';
+import Reports from '../views/admin/Reports.vue';
+import Settings from '../views/admin/Settings.vue';
+import LoginPage from '../views/admin/Login.vue';
+import Profile from '../views/admin/profile.vue';
+import AddCustomer from '../views/admin/AddCustomer.vue';
+import EditCustomer from '../views/admin/EditCustomer.vue';
+import CustomerDetails from '../views/admin/CustomerDetails.vue';
+import AdminLayout from '../layouts/AdminLayout.vue';
 
-// Hàm kiểm tra người dùng đã đăng nhập hay chưa
+function isTokenExpired(token) {
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decodedToken.exp < currentTime;
+  } catch (error) {
+    return true;
+  }
+}
+
 function requireAuth(to, from, next) {
   const token = localStorage.getItem('token');
-  if (!token) {
-    next('/login'); // Chuyển hướng về trang đăng nhập nếu không có token
+  if (!token || isTokenExpired(token)) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    next('/login');
   } else {
-    next(); // Cho phép truy cập nếu có token
+    next();
   }
 }
 
 const routes = [
   {
+    path: '/',
+    redirect: '/admin/dashboard',
+  },
+  {
     path: '/admin',
-    name: 'AdminLayout',
-    component: AdminLayout, // Sử dụng layout chung cho các trang admin
-    beforeEnter: requireAuth, // Bảo vệ trang admin bằng cách yêu cầu đăng nhập
+    beforeEnter: (to, from, next) => {
+      const token = localStorage.getItem('token');
+      if (token && !isTokenExpired(token)) {
+        next('/admin/dashboard');
+      } else {
+        next('/login');
+      }
+    },
+  },
+  {
+    path: '/admin',
+    component: AdminLayout,
+    beforeEnter: requireAuth,
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
         component: Dashboard,
+        meta: { requiresAuth: true, title: 'Dashboard' },
       },
       {
         path: 'users',
         name: 'UserManagement',
         component: UserManagement,
+        meta: { requiresAuth: true, title: 'User Management' },
+      },
+      {
+        path: 'users/add',
+        name: 'AddCustomer',
+        component: AddCustomer,
+        meta: { requiresAuth: true, title: 'Thêm Người Dùng' },
+      },
+      {
+        path: 'users/:userId/edit',
+        name: 'EditCustomer',
+        component: EditCustomer,
+        meta: { requiresAuth: true, title: 'Chỉnh Sửa Người Dùng' },
+      },
+      {
+        path: 'users/:userId',
+        name: 'CustomerDetails',
+        component: CustomerDetails,
+        meta: { requiresAuth: true, title: 'Chi Tiết Người Dùng' },
       },
       {
         path: 'reports',
         name: 'Reports',
         component: Reports,
+        meta: { requiresAuth: true, title: 'Reports' },
       },
       {
         path: 'settings',
         name: 'Settings',
         component: Settings,
+        meta: { requiresAuth: true, title: 'Settings' },
       },
       {
         path: 'profile',
         name: 'Profile',
-        component: Profile, // Trang thông tin cá nhân
+        component: Profile,
+        meta: { requiresAuth: true, title: 'Profile' },
       },
     ],
   },
   {
     path: '/login',
     name: 'Login',
-    component: LoginPage, // Trang đăng nhập
-  },
-  {
-    path: '/',
-    redirect: '/admin/dashboard', // Điều hướng mặc định đến trang Dashboard
+    component: LoginPage,
+    meta: { title: 'LOGIN PAGE' },
   },
 ];
 
@@ -67,21 +115,25 @@ const router = createRouter({
   routes,
 });
 
-// Bảo vệ các trang yêu cầu xác thực
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
-  if (to.meta.requiresAuth && !token) {
-    next('/login'); // Chuyển hướng nếu không có token
-  } else {
-    // Nếu có token, giải mã JWT để lấy thông tin người dùng và lưu vào localStorage
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã JWT
+  document.title = to.meta?.title ?? 'NO TITLE';
+
+  if (to.meta.requiresAuth) {
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      next('/login');
+    } else {
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
       localStorage.setItem('user', JSON.stringify({
         username: decodedToken.username,
         role: decodedToken.role,
       }));
+      next();
     }
-    next(); // Cho phép truy cập
+  } else {
+    next();
   }
 });
 

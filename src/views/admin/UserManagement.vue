@@ -15,14 +15,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
+          <tr v-for="user in users" :key="user.UserId">
+            <td>{{ user.UserId }}</td>
+            <td>{{ user.Username }}</td>
+            <td>{{ user.Email }}</td>
+            <td>{{ user.Role }}</td>
             <td>
-              <button class="edit-button" @click="editUser(user.id)">Sửa</button>
-              <button class="delete-button" @click="deleteUser(user.id)">Xóa</button>
+              <button class="view-button" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
+              <button class="edit-button" @click="editUser(user.UserId)">Sửa</button>
+              <button class="delete-button" @click="user.IsActive ? disableUser(user.UserId) : enableUser(user.UserId)">
+                {{ user.IsActive ? 'Vô hiệu hóa' : 'Kích hoạt' }}
+              </button>
             </td>
           </tr>
         </tbody>
@@ -42,30 +45,77 @@ export default {
     };
   },
   methods: {
+    async fetchUsers() {
+      try {
+        const response = await fetch('http://localhost:5000/api/AccountCustomer/getuser', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.users = data;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    },
+
+    viewUserDetails(userId) {
+      // Điều hướng đến trang chi tiết người dùng với `userId`
+      this.$router.push({ name: 'CustomerDetails', params: { userId } });
+    },
+
     editUser(userId) {
-      // Chức năng sửa người dùng
-      console.log(`Edit user with ID: ${userId}`);
+      this.$router.push({ name: 'EditCustomer', params: { userId } });
     },
-    deleteUser(userId) {
-      // Chức năng xóa người dùng
-      console.log(`Delete user with ID: ${userId}`);
+
+    async disableUser(userId) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/AccountCustomer/users/${userId}/disable`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.ok) {
+          alert('Người dùng đã bị vô hiệu hóa.');
+          this.fetchUsers();
+        }
+      } catch (error) {
+        console.error('Error disabling user:', error);
+      }
     },
+
+    async enableUser(userId) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/AccountCustomer/users/${userId}/enable`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.ok) {
+          alert('Người dùng đã được kích hoạt.');
+          this.fetchUsers();
+        }
+      } catch (error) {
+        console.error('Error enabling user:', error);
+      }
+    },
+
     addUser() {
-      // Chức năng thêm người dùng
-      console.log('Add new user');
+      this.$router.push({ name: 'AddCustomer' });
     }
   },
   mounted() {
-    // Gọi API để lấy danh sách người dùng
     this.fetchUsers();
-  },
-  async fetchUsers() {
-    try {
-      const response = await fetch('http://localhost:5000/api/users');
-      this.users = await response.json();
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
   }
 };
 </script>
@@ -74,7 +124,6 @@ export default {
 .user-management-container {
   padding: 20px;
   background-color: #ecf0f1;
-  /* Màu nền cho trang quản lý người dùng */
 }
 
 .user-management-title {
@@ -108,16 +157,14 @@ td {
 
 th {
   background-color: #34495e;
-  /* Màu nền tiêu đề bảng */
   color: white;
-  /* Màu chữ tiêu đề bảng */
 }
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
-  /* Màu nền cho hàng chẵn */
 }
 
+.view-button,
 .edit-button,
 .delete-button,
 .add-user-button {
@@ -128,37 +175,40 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
+.view-button {
+  background-color: #8e44ad;
+  color: white;
+}
+
 .edit-button {
   background-color: #3498db;
-  /* Màu nút sửa */
   color: white;
 }
 
 .delete-button {
   background-color: #e74c3c;
-  /* Màu nút xóa */
   color: white;
 }
 
 .add-user-button {
   background-color: #2ecc71;
-  /* Màu nút thêm người dùng */
   color: white;
   margin-top: 10px;
 }
 
+.view-button:hover {
+  background-color: #7d3c98;
+}
+
 .edit-button:hover {
   background-color: #2980b9;
-  /* Hiệu ứng hover cho nút sửa */
 }
 
 .delete-button:hover {
   background-color: #c0392b;
-  /* Hiệu ứng hover cho nút xóa */
 }
 
 .add-user-button:hover {
   background-color: #27ae60;
-  /* Hiệu ứng hover cho nút thêm người dùng */
 }
 </style>

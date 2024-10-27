@@ -1,6 +1,12 @@
 <template>
     <div class="profile-container">
         <h2>Thông tin cá nhân</h2>
+
+        <!-- Avatar Display -->
+        <div class="avatar-container">
+            <img :src="user.profilePicture || placeholderAvatar" alt="Ảnh đại diện" class="avatar" />
+        </div>
+
         <div v-if="!isEditing" class="profile-view">
             <div class="info-group" v-for="(value, key) in user" :key="key">
                 <label>{{ getFieldLabel(key) }}:</label>
@@ -14,7 +20,7 @@
                 <div class="input-group" v-for="(value, key) in user" :key="key">
                     <label :for="key">{{ getFieldLabel(key) }}</label>
                     <input v-model="user[key]" :id="key" :type="getInputType(key)" :disabled="key === 'username'"
-                        required />
+                        :required="isFieldRequired(key)" />
                 </div>
                 <div class="button-group">
                     <button type="submit" class="btn-update">Lưu thông tin</button>
@@ -38,11 +44,17 @@ export default {
                 email: '',
                 fullName: '',
                 phoneNumber: '',
-                address: ''
+                address: '',
+                dateOfBirth: '',
+                gender: '',
+                emergencyContact: '',
+                addressDetails: '',
+                profilePicture: ''
             },
             isEditing: false,
             successMessage: '',
-            errorMessage: ''
+            errorMessage: '',
+            placeholderAvatar: 'https://via.placeholder.com/150' // Placeholder URL for avatar
         };
     },
     mounted() {
@@ -66,7 +78,12 @@ export default {
                         email: data.Email,
                         fullName: data.FullName,
                         phoneNumber: data.PhoneNumber,
-                        address: data.Address
+                        address: data.Address,
+                        dateOfBirth: data.DateOfBirth,
+                        gender: data.Gender,
+                        emergencyContact: data.EmergencyContact,
+                        addressDetails: data.AddressDetails,
+                        profilePicture: data.ProfilePicture
                     };
                 } else {
                     this.handleError(response);
@@ -121,13 +138,33 @@ export default {
                 email: 'Email',
                 fullName: 'Họ và tên',
                 phoneNumber: 'Số điện thoại',
-                address: 'Địa chỉ'
+                address: 'Địa chỉ',
+                dateOfBirth: 'Ngày sinh',
+                gender: 'Giới tính',
+                emergencyContact: 'Liên hệ khẩn cấp',
+                addressDetails: 'Chi tiết địa chỉ',
+                profilePicture: 'Ảnh đại diện'
             };
             return labels[key] || key;
         },
 
         getInputType(key) {
-            return key === 'email' ? 'email' : 'text';
+            switch (key) {
+                case 'email':
+                    return 'email';
+                case 'dateOfBirth':
+                    return 'date';
+                case 'profilePicture':
+                    return 'url';
+                case 'gender':
+                    return 'text';
+                default:
+                    return 'text';
+            }
+        },
+
+        isFieldRequired(key) {
+            return ['username', 'email', 'fullName'].includes(key);
         }
     }
 };
@@ -149,6 +186,20 @@ h2 {
     margin-bottom: 2rem;
     font-weight: 600;
     color: #ecf0f1;
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #1abc9c;
 }
 
 .info-group,

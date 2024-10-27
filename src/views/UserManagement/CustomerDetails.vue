@@ -1,21 +1,24 @@
 <template>
     <div class="customer-details-container">
-        <h2><font-awesome-icon icon="user" /> Chi Tiết Người Dùng</h2>
+        <h2><i class="fas fa-user"></i> Thông tin người dùng</h2>
+        <div v-if="user" class="info-group">
+            <p><strong><i class="fas fa-id-badge"></i> ID:</strong> {{ user.UserId }}</p>
+            <p><strong><i class="fas fa-user"></i> Tên người dùng:</strong> {{ user.Username }}</p>
+            <p><strong><i class="fas fa-envelope"></i> Email:</strong> {{ user.Email }}</p>
+            <p><strong><i class="fas fa-phone"></i> Số điện thoại:</strong> {{ user.PhoneNumber }}</p>
+            <p><strong><i class="fas fa-toggle-on"></i> Trạng thái:</strong>
+                <span :class="user.IsActive ? 'status-active' : 'status-inactive'">
+                    {{ user.IsActive ? 'Hoạt động' : 'Vô hiệu hóa' }}
+                </span>
+            </p>
+            <p><strong><i class="fas fa-calendar-plus"></i> Ngày tạo:</strong> {{ formatDate(user.CreatedAt) }}</p>
+            <p><strong><i class="fas fa-calendar-check"></i> Ngày cập nhật:</strong> {{ formatDate(user.UpdatedAt) }}
+            </p>
+        </div>
 
-        <section class="user-info">
-            <h3><font-awesome-icon icon="user" /> Thông Tin Người Dùng</h3>
-            <p><strong><font-awesome-icon icon="user" /> Tên người dùng:</strong> {{ user.Username }}</p>
-            <p><strong><font-awesome-icon icon="id-card" /> Họ và tên:</strong> {{ user.FullName }}</p>
-            <p><strong><font-awesome-icon icon="envelope" /> Email:</strong> {{ user.Email }}</p>
-            <p><strong><font-awesome-icon icon="phone" /> Số điện thoại:</strong> {{ user.PhoneNumber }}</p>
-            <p><strong>Trạng thái:</strong> {{ user.IsActive ? "Hoạt động" : "Vô hiệu hóa" }}</p>
-            <p><strong>Ngày tạo:</strong> {{ formatDate(user.CreatedAt) }}</p>
-            <p><strong>Ngày cập nhật:</strong> {{ formatDate(user.UpdatedAt) }}</p>
-        </section>
-
-        <section class="shipping-address" v-if="address.length">
-            <h3><font-awesome-icon icon="shipping-fast" /> Địa Chỉ Vận Chuyển</h3>
-            <div v-for="addr in address" :key="addr.AddressId">
+        <section v-if="address.length" class="shipping-address">
+            <h3><i class="fas fa-shipping-fast"></i> Địa chỉ vận chuyển</h3>
+            <div v-for="addr in address" :key="addr.AddressId" class="address-info">
                 <p><strong>Tỉnh:</strong> {{ addr.Province }}</p>
                 <p><strong>Quận/Huyện:</strong> {{ addr.District }}</p>
                 <p><strong>Phường/Xã:</strong> {{ addr.Ward }}</p>
@@ -23,13 +26,13 @@
             </div>
         </section>
 
-        <section class="user-cart" v-if="cart">
-            <h3><font-awesome-icon icon="shopping-cart" /> Giỏ Hàng</h3>
+        <section v-if="cart" class="user-cart">
+            <h3><i class="fas fa-shopping-cart"></i> Giỏ hàng</h3>
             <p><strong>ID Giỏ hàng:</strong> {{ cart.CartId }}</p>
         </section>
 
-        <section class="user-orders" v-if="orders.length">
-            <h3><font-awesome-icon icon="file-alt" /> Danh Sách Đơn Hàng</h3>
+        <section v-if="orders.length" class="user-orders">
+            <h3><i class="fas fa-file-alt"></i> Danh sách đơn hàng</h3>
             <table>
                 <thead>
                     <tr>
@@ -54,8 +57,8 @@
             </table>
         </section>
 
-        <section class="user-wishlist" v-if="wishlist.length">
-            <h3><font-awesome-icon icon="heart" /> Danh Sách Mong Muốn</h3>
+        <section v-if="wishlist.length" class="user-wishlist">
+            <h3><i class="fas fa-heart"></i> Danh sách mong muốn</h3>
             <ul>
                 <li v-for="item in wishlist" :key="item.ProductId">
                     Sản phẩm ID: {{ item.ProductId }}
@@ -63,12 +66,16 @@
             </ul>
         </section>
 
-        <button class="edit-button" @click="editUser">
-            <font-awesome-icon icon="edit" /> Chỉnh Sửa Thông Tin
-        </button>
+        <div class="button-group">
+            <button class="back-button" @click="goBack">
+                <i class="fas fa-arrow-left" style="margin-right: 10px;"> </i> Quay lại
+            </button>
+            <button class="edit-button" @click="editUser">
+                <i class="fas fa-edit" style="margin-right: 10px;"> </i> Chỉnh sửa thông tin
+            </button>
+        </div>
     </div>
 </template>
-
 
 <script>
 export default {
@@ -107,6 +114,9 @@ export default {
         formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
         },
+        goBack() {
+            this.$router.push({ name: 'UserManagement' });
+        },
         editUser() {
             this.$router.push({ name: 'EditCustomer', params: { userId: this.user.UserId } });
         }
@@ -116,65 +126,107 @@ export default {
 
 <style scoped>
 .customer-details-container {
-    max-width: 800px;
+    padding: 3rem;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border-radius: 12px;
+    max-width: 600px;
     margin: auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     font-family: 'Arial', sans-serif;
+    text-align: center;
 }
 
-h2,
-h3 {
-    color: #34495e;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+h2 {
+    color: #ecf0f1;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
 }
 
-.user-info,
+.info-group,
 .shipping-address,
 .user-cart,
 .user-orders,
 .user-wishlist {
+    text-align: left;
     margin-bottom: 20px;
+}
+
+.info-group p,
+.address-info p {
+    font-size: 16px;
+    color: #bdc3c7;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.status-active {
+    color: #2ecc71;
+}
+
+.status-inactive {
+    color: #e74c3c;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    background-color: #34495e;
 }
 
 th,
 td {
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid #7f8c8d;
     text-align: left;
+    color: #ecf0f1;
 }
 
 th {
-    background-color: #34495e;
-    color: #fff;
+    background-color: #1abc9c;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #3c556b;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+.back-button,
+.edit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.back-button {
+    background-color: #2980b9;
 }
 
 .edit-button {
-    display: inline-block;
-    padding: 10px 15px;
+    background-color: #27ae60;
+}
+
+.back-button:hover {
     background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
 
 .edit-button:hover {
-    background-color: #2980b9;
+    background-color: #2ecc71;
 }
 </style>

@@ -1,14 +1,17 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Dashboard from '../views/admin/Dashboard.vue';
-import UserManagement from '../views/admin/UserManagement.vue';
-import Reports from '../views/admin/Reports.vue';
-import Settings from '../views/admin/Settings.vue';
-import LoginPage from '../views/admin/Login.vue';
-import Profile from '../views/admin/profile.vue';
-import AddCustomer from '../views/admin/AddCustomer.vue';
-import EditCustomer from '../views/admin/EditCustomer.vue';
-import CustomerDetails from '../views/admin/CustomerDetails.vue';
+import Dashboard from '../views/Dashboard.vue';
+import UserManagement from '../views/UserManagement/CustomerManagement.vue';
+import Reports from '../views/Reports.vue';
+import Settings from '../views/Settings.vue';
+import LoginPage from '../views/Profile-Login/Login.vue';
+import Profile from '../views/Profile-Login/profile.vue';
+import AddCustomer from '../views/UserManagement/AddCustomer.vue';
+import EditCustomer from '../views/UserManagement/EditCustomer.vue';
+import CustomerDetails from '../views/UserManagement/CustomerDetails.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
+import AdminManagement from '../views/AdminManagement/AdminManagement.vue';
+import AdminDetails from '../views/AdminManagement/AdminDetails.vue';
+import AdminDetailsEdit from '../views/AdminManagement/EditAdmin.vue';
 
 function isTokenExpired(token) {
   try {
@@ -63,6 +66,24 @@ const routes = [
         name: 'UserManagement',
         component: UserManagement,
         meta: { requiresAuth: true, title: 'User Management' },
+      },
+      {
+        path: 'admin',
+        name: 'AdminManagement',
+        component: AdminManagement,
+        meta: { requiresAuth: true, title: 'Admin Management' },
+      },
+      {
+        path: 'admin/details/:adminId',
+        name: 'AdminDetails',
+        component: AdminDetails,
+        meta: { requiresAuth: true, title: 'Chi Tiết Quản Trị Viên' },
+      },
+      {
+        path: 'admin/edit/:adminId',
+        name: 'EditAdmin',
+        component: AdminDetailsEdit,
+        meta: { requiresAuth: true, title: 'Chỉnh Sửa Quản Trị Viên' },
       },
       {
         path: 'users/add',
@@ -136,5 +157,4 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 export default router;

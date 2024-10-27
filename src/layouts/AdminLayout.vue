@@ -5,6 +5,7 @@
             <nav>
                 <RouterLink to="/admin/dashboard" class="nav-link">Dashboard</RouterLink>
                 <RouterLink to="/admin/users" class="nav-link">User Management</RouterLink>
+                <RouterLink to="/admin/admin" class="nav-link">Admin Management</RouterLink>
                 <RouterLink to="/admin/reports" class="nav-link">Reports</RouterLink>
                 <RouterLink to="/admin/settings" class="nav-link">Settings</RouterLink>
             </nav>

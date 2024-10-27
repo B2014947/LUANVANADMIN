@@ -1,9 +1,9 @@
 <template>
-  <div class="user-management-container">
-    <h2 class="user-management-title">User Management</h2>
+  <div class="management-container">
+    <h2 class="management-title">User Management</h2>
     <p class="description">Quản lý người dùng tại đây.</p>
 
-    <div class="user-table">
+    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -21,9 +21,10 @@
             <td>{{ user.Email }}</td>
             <td>{{ user.Role }}</td>
             <td>
-              <button class="view-button" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
-              <button class="edit-button" @click="editUser(user.UserId)">Sửa</button>
-              <button class="delete-button" @click="user.IsActive ? disableUser(user.UserId) : enableUser(user.UserId)">
+              <button class="action-button view" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
+              <button class="action-button edit" @click="editUser(user.UserId)">Sửa</button>
+              <button class="action-button toggle"
+                @click="user.IsActive ? disableUser(user.UserId) : enableUser(user.UserId)">
                 {{ user.IsActive ? 'Vô hiệu hóa' : 'Kích hoạt' }}
               </button>
             </td>
@@ -32,7 +33,7 @@
       </table>
     </div>
 
-    <button class="add-user-button" @click="addUser">Thêm Người Dùng</button>
+    <button class="add-button" @click="addUser">Thêm Người Dùng</button>
   </div>
 </template>
 
@@ -41,7 +42,7 @@ export default {
   name: 'UserManagement',
   data() {
     return {
-      users: [] // Dữ liệu người dùng sẽ được lấy từ API
+      users: []
     };
   },
   methods: {
@@ -66,7 +67,6 @@ export default {
     },
 
     viewUserDetails(userId) {
-      // Điều hướng đến trang chi tiết người dùng với `userId`
       this.$router.push({ name: 'CustomerDetails', params: { userId } });
     },
 
@@ -121,94 +121,104 @@ export default {
 </script>
 
 <style scoped>
-.user-management-container {
-  padding: 20px;
-  background-color: #ecf0f1;
+.management-container {
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  max-width: 1000px;
+  margin: auto;
 }
 
-.user-management-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #34495e;
-  margin-bottom: 10px;
+.management-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d3e50;
+  margin-bottom: 8px;
 }
 
 .description {
   font-size: 16px;
-  color: #7f8c8d;
+  color: #6c757d;
   margin-bottom: 20px;
 }
 
-.user-table {
+.table-container {
+  overflow-x: auto;
   margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-th,
-td {
-  border: 1px solid #bdc3c7;
+thead th {
+  background-color: #34495e;
+  color: #ffffff;
   padding: 12px;
   text-align: left;
+  font-weight: 500;
 }
 
-th {
-  background-color: #34495e;
-  color: white;
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  color: #2d3e50;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+tbody tr:hover {
+  background-color: #f1f3f5;
 }
 
-.view-button,
-.edit-button,
-.delete-button,
-.add-user-button {
-  padding: 8px 12px;
-  margin: 5px;
+.action-button {
+  padding: 8px 14px;
+  margin: 3px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-.view-button {
-  background-color: #8e44ad;
-  color: white;
+.view {
+  background-color: #5a67d8;
 }
 
-.edit-button {
-  background-color: #3498db;
-  color: white;
+.edit {
+  background-color: #2b8a3e;
 }
 
-.delete-button {
-  background-color: #e74c3c;
-  color: white;
+.toggle {
+  background-color: #e53e3e;
 }
 
-.add-user-button {
-  background-color: #2ecc71;
-  color: white;
-  margin-top: 10px;
+.action-button:hover {
+  opacity: 0.9;
 }
 
-.view-button:hover {
-  background-color: #7d3c98;
+.add-button {
+  display: inline-block;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.3s ease;
 }
 
-.edit-button:hover {
-  background-color: #2980b9;
-}
-
-.delete-button:hover {
-  background-color: #c0392b;
-}
-
-.add-user-button:hover {
-  background-color: #27ae60;
+.add-button:hover {
+  background-color: #45a049;
 }
 </style>

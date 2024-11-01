@@ -14,10 +14,13 @@ import AdminDetails from '../views/AdminManagement/AdminDetails.vue';
 import AdminDetailsEdit from '../views/AdminManagement/EditAdmin.vue';
 import AddAdmin from '../views/AdminManagement/AddAdmin.vue'
 import ProductList from '../views/ProductManagement/ProductList.vue';
-import ProductAdd from '../../../../Backend/uploads/products/ProductAdd.vue'
+import ProductAdd from '../views/ProductManagement/ProductAdd.vue'
 import ProductDetail from '../views/ProductManagement/ProductDetail.vue';
 import ProductForm from '../views/ProductManagement/ProductForm.vue';
 import CategoryManagement from '../views/CategoriesManagement/CategoryManagement.vue';
+import CategoryAdd from '../views/CategoriesManagement/CategoriesAdd.vue'
+import CategoryEdit from '../views/CategoriesManagement/CategoriesEdit.vue'
+import SubcategoryEdit from '../views/CategoriesManagement/SubcategoriesEdit.vue'
 import ShippingCostsManagement from '../views/ShippingCosts/ShippingCostsManagement.vue';
 import OrderManagement from '../views/OrderManagement/OrderManagement.vue';
 
@@ -142,6 +145,24 @@ const routes = [
         name: 'CategoryManagement',
         component: CategoryManagement,
         meta: { requiresAuth: true, title: 'Quản lý Danh mục' }
+      },
+      {
+        path: 'categories/add',
+        name: 'CategoriesAdd',
+        component: CategoryAdd,
+        meta: { requiresAuth: true, title: 'Thêm Danh mục' }
+      },
+      {
+        path: '/admin/categories/:categoryId',
+        name: 'CategoryEdit',
+        component: CategoryEdit,
+        meta: { requiresAuth: true, title: 'Sửa Danh mục' }
+      },
+      {
+        path: '/admin/subcategories/:subcategoryId',
+        name: 'SubcategoryEdit',
+        component: SubcategoryEdit,
+        meta: { requiresAuth: true, title: 'Sửa Danh mục phụ' }
       },
       {
         path: 'shipping-costs',

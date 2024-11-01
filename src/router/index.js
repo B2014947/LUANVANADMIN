@@ -14,6 +14,7 @@ import AdminDetails from '../views/AdminManagement/AdminDetails.vue';
 import AdminDetailsEdit from '../views/AdminManagement/EditAdmin.vue';
 import AddAdmin from '../views/AdminManagement/AddAdmin.vue'
 import ProductList from '../views/ProductManagement/ProductList.vue';
+import ProductAdd from '../../../../Backend/uploads/products/ProductAdd.vue'
 import ProductDetail from '../views/ProductManagement/ProductDetail.vue';
 import ProductForm from '../views/ProductManagement/ProductForm.vue';
 import CategoryManagement from '../views/CategoriesManagement/CategoryManagement.vue';
@@ -112,9 +113,15 @@ const routes = [
         meta: { requiresAuth: true, title: 'Danh sách Sản phẩm' },
       },
       {
+        path: 'products/edit',
+        name: 'ProductForm',
+        component: ProductForm,
+        meta: { requiresAuth: true, title: 'Sửa Sản phẩm' },
+      },
+      {
         path: 'products/new',
         name: 'AddProduct',
-        component: ProductForm,
+        component: ProductAdd,
         meta: { requiresAuth: true, title: 'Thêm Sản phẩm' },
       },
       {

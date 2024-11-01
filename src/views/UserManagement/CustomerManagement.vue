@@ -22,7 +22,8 @@
             <td>{{ user.Role }}</td>
             <td>
               <button class="action-button view" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
-              <button class="action-button edit" @click="editUser(user.UserId)">Sửa</button>
+              <button class="action-button edit" @click="editUser(user.UserId)">
+                Chỉnh Sửa</button>
               <button class="action-button toggle"
                 @click="user.IsActive ? disableUser(user.UserId) : enableUser(user.UserId)">
                 {{ user.IsActive ? 'Vô hiệu hóa' : 'Kích hoạt' }}

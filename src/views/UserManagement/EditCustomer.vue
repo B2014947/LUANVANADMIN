@@ -118,19 +118,19 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
 .form-container {
+    padding: 3rem;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border-radius: 12px;
     max-width: 600px;
     margin: auto;
-    padding: 30px;
-    background: linear-gradient(135deg, #f0f4f8, #ffffff);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    font-family: 'Arial', sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .title,
 .subtitle {
     text-align: center;
-    color: #34495e;
+    color: #ecf0f1;
     font-weight: 600;
     margin-bottom: 20px;
 }
@@ -141,38 +141,39 @@ export default {
 }
 
 label {
-    font-weight: bold;
-    color: #34495e;
+    font-weight: 500;
+    color: #bdc3c7;
     margin-bottom: 5px;
     display: block;
 }
 
 .icon {
-    color: #3498db;
+    color: #1abc9c;
     margin-right: 5px;
 }
 
 input {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #dce1e6;
+    border: 1px solid #7f8c8d;
     border-radius: 8px;
+    background-color: #34495e;
+    color: #ecf0f1;
     font-size: 15px;
     outline: none;
-    transition: border 0.3s ease;
+    transition: border-color 0.3s ease;
 }
 
 input:focus {
-    border: 1px solid #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    border: 1px solid #1abc9c;
+    box-shadow: 0 0 8px rgba(26, 188, 156, 0.5);
 }
 
-.submit-button,
-.address-button {
+.submit-button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #3498db;
+    background-color: #27ae60;
     color: #ffffff;
     font-weight: bold;
     border: none;
@@ -183,8 +184,7 @@ input:focus {
     transition: background-color 0.3s ease;
 }
 
-.submit-button:hover,
-.address-button:hover {
-    background-color: #2980b9;
+.submit-button:hover {
+    opacity: 0.9;
 }
 </style>

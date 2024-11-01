@@ -72,8 +72,9 @@ export default {
         },
 
         editAdmin(adminId) {
-            this.$router.push({ name: 'AdminDetailsEdit', params: { adminId } });
+            this.$router.push({ name: 'AdminDetails', params: { adminId, mode: 'edit' } });
         },
+
 
         async lockAdmin(adminId) {
             const confirmLock = window.confirm('Bạn có chắc chắn muốn khóa tài khoản này?');

@@ -2,6 +2,10 @@
     <div class="admin-details-container">
         <h2><i class="fas fa-user-shield"></i> Thông tin quản trị viên</h2>
         <div v-if="admin">
+            <div class="image-container">
+                <img :src="getProfilePictureUrl(admin.ProfilePicture)" alt="Profile Picture"
+                    v-if="admin.ProfilePicture" />
+            </div>
             <div class="info-group">
                 <p><strong><i class="fas fa-id-badge"></i> ID:</strong> {{ admin.AdminId }}</p>
                 <p><strong><i class="fas fa-user"></i> Tên người dùng:</strong> {{ admin.Username }}</p>
@@ -52,6 +56,7 @@ export default {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             this.admin = await response.json();
+            console.log('Admin data:', this.admin); // Kiểm tra dữ liệu nhận được
         } catch (error) {
             console.error('Error fetching admin details:', error);
         }
@@ -59,7 +64,19 @@ export default {
     methods: {
         goToEditPage() {
             this.$router.push({ name: 'EditAdmin', params: { adminId: this.admin.AdminId } });
+        },
+        getProfilePictureUrl(picture) {
+            if (picture) {
+                // Kiểm tra nếu `picture` là URL đầy đủ (bắt đầu bằng "http" hoặc "blob")
+                if (picture.startsWith('http') || picture.startsWith('blob')) {
+                    return picture; // Trả về URL đầy đủ
+                }
+                // Nếu không, tạo URL từ tên tệp
+                return `http://localhost:5000/uploads/${picture}`;
+            }
+            return ''; // Trả về chuỗi rỗng nếu không có ảnh
         }
+
     }
 };
 </script>
@@ -83,6 +100,18 @@ h2 {
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 600;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.image-container img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .info-group p {

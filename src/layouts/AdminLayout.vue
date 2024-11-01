@@ -6,10 +6,15 @@
                 <RouterLink to="/admin/dashboard" class="nav-link">Dashboard</RouterLink>
                 <RouterLink to="/admin/users" class="nav-link">User Management</RouterLink>
                 <RouterLink to="/admin/admin" class="nav-link">Admin Management</RouterLink>
+                <RouterLink to="/admin/products" class="nav-link">Product Management</RouterLink>
+                <RouterLink to="/admin/categories" class="nav-link">Category Management</RouterLink>
+                <RouterLink to="/admin/shipping-costs" class="nav-link">Shipping Costs Management</RouterLink>
+                <RouterLink to="/admin/orders" class="nav-link">Order Management</RouterLink>
                 <RouterLink to="/admin/reports" class="nav-link">Reports</RouterLink>
                 <RouterLink to="/admin/settings" class="nav-link">Settings</RouterLink>
             </nav>
         </aside>
+
 
         <main>
             <header class="admin-header">

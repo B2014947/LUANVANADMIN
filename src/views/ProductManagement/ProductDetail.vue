@@ -32,6 +32,35 @@
             </p>
         </div>
 
+        <!-- Hiển thị thông tin chi tiết sản phẩm -->
+        <div class="detail-group">
+            <h3>Thông số kỹ thuật</h3>
+            <p v-if="productDetail"><strong><i class="fas fa-microchip"></i> CPU:</strong> {{ productDetail.Processor }}
+            </p>
+            <p v-if="productDetail"><strong><i class="fas fa-memory"></i> RAM:</strong> {{ productDetail.RAM }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-hdd"></i> Lưu trữ:</strong> {{ productDetail.Storage }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-desktop"></i> Màn hình:</strong> {{ productDetail.Display
+                }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-battery-full"></i> Pin:</strong> {{ productDetail.Battery
+                }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-mobile-alt"></i> Hệ điều hành:</strong> {{
+                productDetail.OperatingSystem }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-camera"></i> Camera:</strong> {{ productDetail.Camera }}
+            </p>
+            <p v-if="productDetail"><strong><i class="fas fa-ruler-combined"></i> Kích thước:</strong> {{
+                productDetail.Dimensions }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-weight"></i> Trọng lượng:</strong> {{ productDetail.Weight
+                }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-plug"></i> Kết nối:</strong> {{ productDetail.Connectivity
+                }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-paint-brush"></i> Tùy chọn màu:</strong> {{
+                productDetail.ColorOptions }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-calendar-alt"></i> Thời gian bảo hành:</strong> {{
+                productDetail.WarrantyPeriod }}</p>
+            <p v-if="productDetail"><strong><i class="fas fa-plus-square"></i> Đặc điểm bổ sung:</strong> {{
+                productDetail.AdditionalFeatures }}</p>
+        </div>
+
         <!-- Nút Quay lại và Cập nhật -->
         <div class="button-group">
             <button class="back-button" @click="goBack">
@@ -43,6 +72,7 @@
         </div>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -90,8 +120,8 @@ export default {
             }
         },
         getImageUrl(image) {
-            // Loại bỏ phần "uploads\\" nếu tồn tại
-            const cleanedPath = image.replace(/^uploads[\\/]/, '').replace(/\\/g, '/');
+            // Loại bỏ phần "uploads/products/" nếu tồn tại
+            const cleanedPath = image.replace(/^uploads[\\/]+products[\\/]+/, '').replace(/\\/g, '/');
 
             // Kiểm tra nếu URL đã là URL đầy đủ
             if (cleanedPath.startsWith('http')) {
@@ -100,9 +130,7 @@ export default {
 
             // Ghép đường dẫn gốc với đường dẫn đã chỉnh sửa
             return `http://localhost:5000/uploads/products/${cleanedPath}`;
-        }
-
-        ,
+        },
         goBack() {
             this.$router.push('/admin/products');
         },
@@ -188,6 +216,7 @@ h2 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+
     background-color: rgba(0, 0, 0, 0.5);
     border: none;
     color: #fff;
@@ -207,7 +236,7 @@ h2 {
     right: 10px;
 }
 
-.carousel-control:hover {
+.carousel-control {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -261,16 +290,23 @@ h2 {
     background-color: #27ae60;
 }
 
-.back-button:hover {
+.back-button {
     background-color: #3498db;
 }
 
-.edit-button:hover {
+.edit-button {
     background-color: #2ecc71;
 }
 
 .back-button i,
 .edit-button i {
     margin-right: 8px;
+}
+
+.detail-group {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #34495e;
+    border-radius: 8px;
 }
 </style>

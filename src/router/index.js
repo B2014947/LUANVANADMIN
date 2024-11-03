@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Dashboard from '../views/Dashboard.vue';
 import UserManagement from '../views/UserManagement/CustomerManagement.vue';
-import Reports from '../views/Reports.vue';
+import DiscountManagement from '../views/DiscountManagement/DiscountManagement.vue';
 import Settings from '../views/Settings.vue';
 import LoginPage from '../views/Profile-Login/Login.vue';
 import Profile from '../views/Profile-Login/profile.vue';
@@ -22,7 +22,13 @@ import CategoryAdd from '../views/CategoriesManagement/CategoriesAdd.vue'
 import CategoryEdit from '../views/CategoriesManagement/CategoriesEdit.vue'
 import SubcategoryEdit from '../views/CategoriesManagement/SubcategoriesEdit.vue'
 import ShippingCostsManagement from '../views/ShippingCosts/ShippingCostsManagement.vue';
+import ShippingCostsAdd from '../views/ShippingCosts/ShippingCostsAdd.vue'
+import ShippingCostsEdit from '../views/ShippingCosts/ShippingCostEdit.vue';
 import OrderManagement from '../views/OrderManagement/OrderManagement.vue';
+import DiscountAdd from '../views/DiscountManagement/DiscountAdd.vue';
+import DiscountEdit from '../views/DiscountManagement/DiscountEdit.vue';
+import StatusManagement from '../views/StatusManagement/StatusManagement.vue'
+
 
 function isTokenExpired(token) {
   try {
@@ -165,22 +171,52 @@ const routes = [
         meta: { requiresAuth: true, title: 'Sửa Danh mục phụ' }
       },
       {
-        path: 'shipping-costs',
+        path: '/admin/shipping-costs',
         name: 'ShippingCostsManagement',
         component: ShippingCostsManagement,
         meta: { requiresAuth: true, title: 'Quản lý Chi phí vận chuyển' }
       },
       {
-        path: 'orders',
+        path: '.admin/shipping-costs/add',
+        name: 'ShippingCostsAdd',
+        component: ShippingCostsAdd,
+        meta: { requiresAuth: true, title: 'Thêm chi phí vận chuyển' }
+      },
+      {
+        path: '/admin/shipping-costs/:shippingId',
+        name: 'ShippingCostsEdit',
+        component: ShippingCostsEdit,
+        meta: { requiresAuth: true, title: 'Sửa chi phí vận chuyển' }
+      },
+      {
+        path: '/admin/status',
+        name: 'StatusManagement',
+        component: StatusManagement,
+        meta: { requiresAuth: true, title: 'Quản lý trạng thái' }
+      },
+      {
+        path: '/admin/orders',
         name: 'OrderManagement',
         component: OrderManagement,
         meta: { requiresAuth: true, title: 'Quản lý Đơn hàng' }
       },
       {
-        path: 'reports',
-        name: 'Reports',
-        component: Reports,
-        meta: { requiresAuth: true, title: 'Báo cáo' },
+        path: '/admin/discount',
+        name: 'DiscountManagement',
+        component: DiscountManagement,
+        meta: { requiresAuth: true, title: 'Khuyến mãi' },
+      },
+      {
+        path: '/admin/discount/add',
+        name: 'DiscountAdd',
+        component: DiscountAdd,
+        meta: { requiresAuth: true, title: 'Thêm Khuyến mãi' },
+      },
+      {
+        path: '/admin/discount/:discountId',
+        name: 'DiscountEdit',
+        component: DiscountEdit,
+        meta: { requiresAuth: true, title: 'Sửa Khuyến mãi' },
       },
       {
         path: 'settings',

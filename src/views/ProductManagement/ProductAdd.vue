@@ -7,8 +7,26 @@
             <label><strong>Mô tả:</strong><textarea v-model="description" required></textarea></label>
             <label><strong>Giá (VND):</strong><input type="number" v-model="price" required /></label>
             <label><strong>Số lượng trong kho:</strong><input type="number" v-model="stockQuantity" required /></label>
-            <label><strong>Danh mục phụ:</strong><input type="text" v-model="subCategoryId" required /></label>
-            <label><strong>Danh mục:</strong><input type="text" v-model="categoryId" required /></label>
+
+            <!-- Hiển thị danh mục -->
+            <label><strong>Danh mục:</strong>
+                <select v-model="categoryId" @change="fetchSubcategoriesByCategory">
+                    <option v-for="category in categories" :key="category.CategoryId" :value="category.CategoryId">
+                        {{ category.CategoryName }}
+                    </option>
+                </select>
+            </label>
+
+            <!-- Hiển thị danh mục phụ -->
+            <label><strong>Danh mục phụ:</strong>
+                <select v-model="subCategoryId">
+                    <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
+                        :value="subcategory.SubcategoryId">
+                        {{ subcategory.Description }}
+                    </option>
+                </select>
+            </label>
+
             <label><strong>Kích hoạt:</strong>
                 <select v-model="isActive">
                     <option :value="true">Có</option>
@@ -18,7 +36,13 @@
 
             <!-- Thêm phần chi tiết sản phẩm -->
             <h3>Chi tiết sản phẩm</h3>
-            <label><strong>Thương hiệu:</strong><input type="text" v-model="brand" /></label>
+            <label><strong>Thương hiệu:</strong>
+                <select v-model="brandId">
+                    <option v-for="brand in brands" :key="brand.BrandId" :value="brand.BrandId">
+                        {{ brand.BrandName }}
+                    </option>
+                </select>
+            </label>
             <label><strong>CPU:</strong><input type="text" v-model="processor" /></label>
             <label><strong>RAM:</strong><input type="text" v-model="ram" /></label>
             <label><strong>Lưu trữ:</strong><input type="text" v-model="storage" /></label>
@@ -56,17 +80,16 @@
 
 <script>
 export default {
-    name: 'CreateProduct',
     data() {
         return {
             productName: '',
             description: '',
             price: null,
             stockQuantity: null,
-            subCategoryId: '',
             categoryId: '',
+            subCategoryId: '',
             isActive: true,
-            brand: '',
+            brandId: '', // Thay đổi từ brand sang brandId
             processor: '',
             ram: '',
             storage: '',
@@ -81,10 +104,45 @@ export default {
             warrantyPeriod: null,
             additionalFeatures: '',
             imageFiles: [],
-            imagePreviews: []
+            imagePreviews: [],
+            categories: [],
+            subcategories: [],
+
         };
     },
+    mounted() {
+        this.fetchCategories();
+        this.fetchBrands(); // Gọi hàm tải nhãn hàng khi component được mount
+    },
     methods: {
+        async fetchCategories() {
+            try {
+                const response = await fetch('http://localhost:5000/api/Category');
+                this.categories = await response.json();
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách danh mục:', error);
+                alert('Đã xảy ra lỗi khi tải danh mục.');
+            }
+        },
+        async fetchBrands() {
+            try {
+                const response = await fetch('http://localhost:5000/api/Brands');
+                this.brands = await response.json(); // Tải danh sách nhãn hàng
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách nhãn hàng:', error);
+                alert('Đã xảy ra lỗi khi tải nhãn hàng.');
+            }
+        },
+        async fetchSubcategoriesByCategory() {
+            if (!this.categoryId) return;
+            try {
+                const response = await fetch(`http://localhost:5000/api/Category/${this.categoryId}`);
+                this.subcategories = await response.json();
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách danh mục phụ:', error);
+                alert('Đã xảy ra lỗi khi tải danh mục phụ.');
+            }
+        },
         async createProduct() {
             try {
                 const formData = new FormData();
@@ -92,10 +150,10 @@ export default {
                 formData.append('description', this.description);
                 formData.append('price', this.price);
                 formData.append('stockQuantity', this.stockQuantity);
-                formData.append('subCategoryId', this.subCategoryId);
                 formData.append('categoryId', this.categoryId);
+                formData.append('subCategoryId', this.subCategoryId);
                 formData.append('isActive', this.isActive);
-                formData.append('brand', this.brand);
+                formData.append('brandId', this.brandId); // Cập nhật để sử dụng brandId
                 formData.append('processor', this.processor);
                 formData.append('ram', this.ram);
                 formData.append('storage', this.storage);
@@ -147,12 +205,29 @@ export default {
             this.description = '';
             this.price = null;
             this.stockQuantity = null;
+            this.categoryId = '';
             this.subCategoryId = '';
-            this.categoryId
-                = ''; this.isActive = true; this.brand = ''; this.processor = ''; this.ram = ''; this.storage = ''; this.display = ''; this.battery = ''; this.operatingSystem = ''; this.camera = ''; this.dimensions = ''; this.weight = ''; this.connectivity = ''; this.colorOptions = ''; this.warrantyPeriod = null; this.additionalFeatures = ''; this.imageFiles = []; this.imagePreviews = [];
+            this.isActive = true;
+            this.brandId = ''; // Reset brandId
+            this.processor = '';
+            this.ram = '';
+            this.storage = '';
+            this.display = '';
+            this.battery = '';
+            this.operatingSystem = '';
+            this.camera = '';
+            this.dimensions = '';
+            this.weight = '';
+            this.connectivity = '';
+            this.colorOptions = '';
+            this.warrantyPeriod = null;
+            this.additionalFeatures = '';
+            this.imageFiles = [];
+            this.imagePreviews = [];
         }
     }
-}; </script>
+};
+</script>
 
 <style scoped>
 .create-product-container {

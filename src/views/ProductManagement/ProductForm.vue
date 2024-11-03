@@ -4,6 +4,7 @@
 
         <form @submit.prevent="updateProduct" class="product-form">
             <div v-if="product">
+                <!-- Thông tin sản phẩm -->
                 <div class="form-group">
                     <label for="ProductName"><strong>Tên sản phẩm:</strong></label>
                     <input type="text" id="ProductName" v-model="product.ProductName" required />
@@ -19,7 +20,6 @@
                         <label for="Price"><strong>Giá (VND):</strong></label>
                         <input type="number" id="Price" v-model="product.Price" required />
                     </div>
-
                     <div class="form-group half-width">
                         <label for="StockQuantity"><strong>Số lượng trong kho:</strong></label>
                         <input type="number" id="StockQuantity" v-model="product.StockQuantity" required />
@@ -28,13 +28,22 @@
 
                 <div class="form-row">
                     <div class="form-group half-width">
-                        <label for="SubCategoryId"><strong>Danh mục phụ:</strong></label>
-                        <input type="text" id="SubCategoryId" v-model="product.SubCategoryId" />
-                    </div>
-
-                    <div class="form-group half-width">
                         <label for="CategoryId"><strong>Danh mục:</strong></label>
-                        <input type="text" id="CategoryId" v-model="product.CategoryId" />
+                        <select id="CategoryId" v-model="product.CategoryId" @change="onChangeCategory">
+                            <option v-for="category in categories" :key="category.CategoryId"
+                                :value="category.CategoryId">
+                                {{ category.CategoryName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="SubCategoryId"><strong>Danh mục phụ:</strong></label>
+                        <select id="SubCategoryId" v-model="product.SubCategoryId">
+                            <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
+                                :value="subcategory.SubcategoryId">
+                                {{ subcategory.Description }}
+                            </option>
+                        </select>
                     </div>
                 </div>
 
@@ -47,10 +56,74 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="BrandId"><strong>Thương hiệu:</strong></label>
+                    <select id="BrandId" v-model="product.BrandId">
+                        <option v-for="brand in brands" :key="brand.BrandId" :value="brand.BrandId">
+                            {{ brand.BrandName }}
+                        </option>
+                    </select>
+                </div>
+
+                <h3>Thông số kỹ thuật</h3>
+                <div class="form-group">
+                    <label for="Processor"><strong>CPU:</strong></label>
+                    <input type="text" id="Processor" v-model="product.Processor" />
+                </div>
+                <div class="form-group">
+                    <label for="RAM"><strong>RAM:</strong></label>
+                    <input type="text" id="RAM" v-model="product.RAM" />
+                </div>
+                <div class="form-group">
+                    <label for="Storage"><strong>Lưu trữ:</strong></label>
+                    <input type="text" id="Storage" v-model="product.Storage" />
+                </div>
+                <div class="form-group">
+                    <label for="Display"><strong>Màn hình:</strong></label>
+                    <input type="text" id="Display" v-model="product.Display" />
+                </div>
+                <div class="form-group">
+                    <label for="Battery"><strong>Pin:</strong></label>
+                    <input type="text" id="Battery" v-model="product.Battery" />
+                </div>
+                <div class="form-group">
+                    <label for="OperatingSystem"><strong>Hệ điều hành:</strong></label>
+                    <input type="text" id="OperatingSystem" v-model="product.OperatingSystem" />
+                </div>
+                <div class="form-group">
+                    <label for="Camera"><strong>Camera:</strong></label>
+                    <input type="text" id="Camera" v-model="product.Camera" />
+                </div>
+                <div class="form-group">
+                    <label for="Dimensions"><strong>Kích thước:</strong></label>
+                    <input type="text" id="Dimensions" v-model="product.Dimensions" />
+                </div>
+                <div class="form-group">
+                    <label for="Weight"><strong>Trọng lượng:</strong></label>
+                    <input type="text" id="Weight" v-model="product.Weight" />
+                </div>
+                <div class="form-group">
+                    <label for="Connectivity"><strong>Kết nối:</strong></label>
+                    <input type="text" id="Connectivity" v-model="product.Connectivity" />
+                </div>
+                <div class="form-group">
+                    <label for="ColorOptions"><strong>Tùy chọn màu:</strong></label>
+                    <input type="text" id="ColorOptions" v-model="product.ColorOptions" />
+                </div>
+                <div class="form-group">
+                    <label for="WarrantyPeriod"><strong>Thời gian bảo hành:</strong></label>
+                    <input type="text" id="WarrantyPeriod" v-model="product.WarrantyPeriod" />
+                </div>
+                <div class="form-group">
+                    <label for="AdditionalFeatures"><strong>Đặc điểm bổ sung:</strong></label>
+                    <textarea id="AdditionalFeatures" v-model="product.AdditionalFeatures"></textarea>
+                </div>
+
+                <!-- Phần hình ảnh -->
+                <div class="form-group">
                     <label><strong>Hình ảnh hiện có:</strong></label>
                     <div class="image-list">
                         <div v-for="(url, index) in existingImages" :key="index" class="image-item">
-                            <img :src="url" alt="Ảnh sản phẩm" />
+                            <img :src="getImageUrl(url)" alt="Ảnh sản phẩm" />
                             <button class="delete-button" @click.prevent="addImageToDelete(url)">
                                 <i class="fas fa-trash"></i> Xóa
                             </button>
@@ -59,18 +132,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label><strong>Thêm URL hình ảnh mới:</strong></label>
-                    <input type="text" v-model="newImageUrl" @keyup.enter="addImageUrl"
-                        placeholder="Nhập URL và nhấn Enter" />
+                    <label><strong>Thêm hình ảnh mới:</strong></label>
+                    <input type="file" name="images" ref="fileInput" @change="handleFileUpload" multiple />
+                    <div class="image-list">
+                        <div v-for="(newImageUrl, index) in newImageUrls" :key="index" class="image-item">
+                            <img :src="newImageUrl" alt="Hình ảnh mới" />
+                            <button class="delete-button" @click.prevent="removeNewImageUrl(index)">
+                                <i class="fas fa-times"></i> Xóa
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <ul class="url-list">
-                    <li v-for="(url, index) in newImageUrls" :key="index">
-                        {{ url }}
-                        <button class="delete-button" @click.prevent="removeImageUrl(index)">
-                            <i class="fas fa-times"></i> Xóa
-                        </button>
-                    </li>
-                </ul>
 
                 <button type="submit" class="save-button"><i class="fas fa-save"></i> Lưu thay đổi</button>
             </div>
@@ -88,15 +160,23 @@ export default {
             product: {},
             existingImages: [],
             newImageUrls: [],
+            newImages: [],
             imagesToDelete: [],
-            newImageUrl: '',
             productId: this.$route.params.productId,
+            brands: [],
+            categories: [],
+            subcategories: []
         };
     },
     async created() {
         await this.fetchProduct();
+        await this.fetchBrands();
+        await this.fetchCategories();
     },
     methods: {
+        getImageUrl(url) {
+            return `${url}`; // Nếu cần thêm domain, có thể thêm `${window.location.origin}/${url}`
+        },
         async fetchProduct() {
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`);
@@ -104,26 +184,93 @@ export default {
                 const productData = await response.json();
                 this.product = productData;
 
-                if (productData.productImages && Array.isArray(productData.productImages)) {
-                    this.existingImages = productData.productImages;
+                await this.fetchProductImages(this.productId);
+                await this.fetchProductDetails();
+
+                if (this.product.CategoryId) {
+                    await this.fetchSubcategories(this.product.CategoryId);
                 }
             } catch (error) {
                 console.error(error);
                 alert('Không thể tải chi tiết sản phẩm.');
             }
         },
-        async updateProduct() {
+        async fetchProductImages(productId) {
             try {
-                const payload = {
-                    ...this.product,
-                    newImageUrls: this.newImageUrls,
-                    imagesToDelete: this.imagesToDelete,
-                };
+                const response = await fetch(`http://localhost:5000/api/Product/images/${productId}`);
+                if (!response.ok) throw new Error('Lỗi khi tải hình ảnh sản phẩm');
+                const imagesData = await response.json();
+                this.existingImages = imagesData.map(image => image.ImageUrl);
+            } catch (error) {
+                console.error('Lỗi khi tải hình ảnh:', error);
+                this.existingImages = [];
+            }
+        },
+        async fetchProductDetails() {
+            try {
+                const response = await fetch(`http://localhost:5000/api/productdetails/product/${this.productId}`);
+                if (!response.ok) throw new Error('Lỗi khi tải thông số kỹ thuật sản phẩm');
+                const details = await response.json();
+
+                if (details.length > 0) {
+                    const detail = details[0];
+                    Object.assign(this.product, detail);
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải thông số kỹ thuật:', error);
+                alert('Không thể tải thông số kỹ thuật sản phẩm.');
+            }
+        },
+        async fetchBrands() {
+            try {
+                const response = await fetch('http://localhost:5000/api/Brands');
+                this.brands = await response.json();
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách nhãn hàng:', error);
+                alert('Đã xảy ra lỗi khi tải nhãn hàng.');
+            }
+        },
+        async fetchCategories() {
+            try {
+                const response = await fetch('http://localhost:5000/api/Category');
+                this.categories = await response.json();
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách danh mục:', error);
+                alert('Đã xảy ra lỗi khi tải danh mục.');
+            }
+        },
+        async fetchSubcategories(categoryId) {
+            if (!categoryId) return;
+            try {
+                const response = await fetch(`http://localhost:5000/api/Category/${categoryId}`);
+                if (!response.ok) throw new Error('Lỗi khi tải danh mục phụ');
+                this.subcategories = await response.json();
+            } catch (error) {
+                console.error('Lỗi khi tải danh mục phụ:', error);
+                alert('Đã xảy ra lỗi khi tải danh mục phụ.');
+            }
+        },
+        async updateProduct() {
+            const formData = new FormData();
+            for (const key in this.product) {
+                if (this.product.hasOwnProperty(key)) {
+                    formData.append(key, this.product[key]);
+                }
+            }
+
+            const input = this.$refs.fileInput;
+            if (input && input.files.length > 0) {
+                for (const file of input.files) {
+                    formData.append('images', file);
+                }
+            }
+
+            try {
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
+                    body: formData
                 });
+
                 if (!response.ok) throw new Error('Lỗi khi cập nhật sản phẩm');
                 alert('Cập nhật sản phẩm thành công');
                 this.$router.push('/admin/products');
@@ -132,22 +279,31 @@ export default {
                 alert("Không thể cập nhật sản phẩm.");
             }
         },
-        addImageUrl() {
-            if (this.newImageUrl) {
-                this.newImageUrls.push(this.newImageUrl);
-                this.newImageUrl = '';
-            }
-        },
-        removeImageUrl(index) {
-            this.newImageUrls.splice(index, 1);
-        },
         addImageToDelete(url) {
             if (!this.imagesToDelete.includes(url)) {
                 this.imagesToDelete.push(url);
             }
+            this.existingImages = this.existingImages.filter(image => image !== url);
+        },
+        removeNewImageUrl(index) {
+            this.newImageUrls.splice(index, 1);
+        },
+        handleFileUpload(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) {
+                alert("Không có tệp nào được chọn.");
+                return;
+            }
+            this.newImageUrls.push(...files.map(file => {
+                this.newImages.push(file);
+                return URL.createObjectURL(file);
+            }));
         },
         goBack() {
             this.$router.push('/admin/products');
+        },
+        async onChangeCategory() {
+            await this.fetchSubcategories(this.product.CategoryId);
         }
     }
 };

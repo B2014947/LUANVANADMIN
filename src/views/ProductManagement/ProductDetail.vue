@@ -159,21 +159,21 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .product-detail-container {
-    padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
     border-radius: 12px;
-    max-width: 800px;
-    margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    max-width: 1100px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: #ecf0f1;
+    color: var(--highlight-color);
     text-align: center;
     margin-bottom: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .carousel {
@@ -216,10 +216,9 @@ h2 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-
     background-color: rgba(0, 0, 0, 0.5);
     border: none;
-    color: #fff;
+    color: #ffffff;
     padding: 10px 15px;
     cursor: pointer;
     font-size: 24px;
@@ -236,50 +235,48 @@ h2 {
     right: 10px;
 }
 
-.carousel-control {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
 .info-group p {
     font-size: 16px;
-    color: #bdc3c7;
+    color: var(--text-color);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }
 
 .info-group strong {
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 5px;
 }
 
 .status-active {
     color: #2ecc71;
+    font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
+    font-weight: 600;
 }
 
 .button-group {
     display: flex;
-    gap: 10px;
-    margin-top: 1.5rem;
+    gap: 15px;
+    margin-top: 20px;
 }
 
 .back-button,
 .edit-button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    color: white;
+    color: #ffffff;
     font-size: 16px;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .back-button {
@@ -290,12 +287,14 @@ h2 {
     background-color: #27ae60;
 }
 
-.back-button {
+.back-button:hover {
     background-color: #3498db;
+    box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
 }
 
-.edit-button {
+.edit-button:hover {
     background-color: #2ecc71;
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
 }
 
 .back-button i,
@@ -305,8 +304,9 @@ h2 {
 
 .detail-group {
     margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: #34495e;
-    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: var(--secondary-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 </style>

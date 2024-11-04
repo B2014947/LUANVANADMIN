@@ -76,23 +76,27 @@ export default {
     }
 };
 </script>
-    
+
 
 <style scoped>
 .subcategory-edit-container {
-    padding: 2rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ tối */
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 700px;
     margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
     text-align: center;
     margin-bottom: 1.5rem;
+    color: #27ae60;
+    /* Màu nhấn */
 }
 
 form {
@@ -102,37 +106,66 @@ form {
 
 label {
     margin-bottom: 1rem;
+    color: #2c3e50;
+    /* Màu chữ tối */
+    font-weight: 600;
 }
 
 input[type="text"],
 textarea {
     width: 100%;
-    padding: 10px;
-    background-color: #34495e;
-    border: none;
-    border-radius: 5px;
-    color: #ecf0f1;
+    padding: 12px;
+    background-color: #ecf0f1;
+    /* Nền sáng cho input */
+    border: 1px solid #bdc3c7;
+    /* Viền sáng */
+    border-radius: 8px;
+    color: #2c3e50;
+    /* Màu chữ tối */
     margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #27ae60;
+    /* Màu nhấn khi focus */
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+}
+
+textarea {
+    resize: vertical;
 }
 
 button {
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
-    color: #fff;
+    border-radius: 8px;
+    color: #ffffff;
     cursor: pointer;
-    margin-top: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {
     background-color: #27ae60;
+    /* Màu xanh lá */
 }
 
 .back-button {
-    background-color: #c0392b;
+    background-color: #2980b9;
+    /* Màu xanh lam */
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.95;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: scale(1);
 }
 </style>

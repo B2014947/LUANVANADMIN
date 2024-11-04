@@ -118,20 +118,21 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
 .form-container {
-    padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
     border-radius: 12px;
     max-width: 600px;
-    margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    font-family: 'Roboto', sans-serif;
 }
 
 .title,
 .subtitle {
     text-align: center;
-    color: #ecf0f1;
-    font-weight: 600;
+    color: var(--text-color);
+    font-weight: 700;
     margin-bottom: 20px;
 }
 
@@ -141,39 +142,39 @@ export default {
 }
 
 label {
-    font-weight: 500;
-    color: #bdc3c7;
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 5px;
     display: block;
 }
 
 .icon {
-    color: #1abc9c;
+    color: var(--highlight-color);
     margin-right: 5px;
 }
 
 input {
-    width: 100%;
+    width: 95%;
     padding: 12px 15px;
-    border: 1px solid #7f8c8d;
+    border: 1px solid #bdc3c7;
     border-radius: 8px;
-    background-color: #34495e;
-    color: #ecf0f1;
+    background-color: var(--secondary-bg-color);
+    color: var(--text-color);
     font-size: 15px;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
-    border: 1px solid #1abc9c;
-    box-shadow: 0 0 8px rgba(26, 188, 156, 0.5);
+    border: 1px solid var(--highlight-color);
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
 }
 
 .submit-button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #27ae60;
+    background-color: var(--accent-color);
     color: #ffffff;
     font-weight: bold;
     border: none;
@@ -181,10 +182,12 @@ input:focus {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submit-button:hover {
-    opacity: 0.9;
+    background-color: var(--hover-bg-color);
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 </style>

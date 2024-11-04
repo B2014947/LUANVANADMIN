@@ -10,6 +10,10 @@
                 <strong>Phí vận chuyển (VND):</strong>
                 <input type="number" v-model="shippingCost" required />
             </label>
+            <label>
+                <strong>Thời gian giao hàng:</strong>
+                <input type="text" v-model="estimatedDeliveryTime" required />
+            </label>
             <button type="submit" class="submit-button">Cập nhật</button>
         </form>
         <button @click="goBack" class="back-button">Quay lại</button>
@@ -22,6 +26,7 @@ export default {
         return {
             province: '',
             shippingCost: null,
+            estimatedDeliveryTime: '',
             shippingId: null // Lưu trữ ID của phí vận chuyển để cập nhật
         };
     },
@@ -36,6 +41,7 @@ export default {
                 const data = await response.json();
                 this.province = data.Province;
                 this.shippingCost = data.ShippingCosts;
+                this.estimatedDeliveryTime = data.EstimatedDeliveryTime;
             } catch (error) {
                 console.error('Lỗi khi tải thông tin phí vận chuyển:', error);
                 alert('Đã xảy ra lỗi khi tải dữ liệu.');
@@ -50,7 +56,8 @@ export default {
                     },
                     body: JSON.stringify({
                         Province: this.province,
-                        ShippingCosts: this.shippingCost
+                        ShippingCosts: this.shippingCost,
+                        EstimatedDeliveryTime: this.estimatedDeliveryTime
                     })
                 });
 

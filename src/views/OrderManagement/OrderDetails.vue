@@ -5,25 +5,32 @@
         <div v-if="order">
             <div class="order-info">
                 <h3><i class="fas fa-receipt"></i> Thông Tin Đơn Hàng</h3>
-                <p><i class="fas fa-hashtag"></i> <strong>Order ID:</strong> {{ order.OrderId }}</p>
-                <p><i class="fas fa-user"></i> <strong>User ID:</strong> {{ order.UserId }}</p>
-                <p><i class="fas fa-calendar-alt"></i> <strong>Order Date:</strong> {{ formatDate(order.OrderDate) }}
+                <p><i class="fas fa-hashtag"></i> <strong>Mã Đơn Hàng</strong>: {{ order.OrderId }}</p>
+                <p><i class="fas fa-user"></i> <strong>Mã Khách Hàng</strong>: {{ order.UserId }}</p>
+                <p><i class="fas fa-calendar-alt"></i> <strong>Ngày Đặt Hàng</strong>: {{ formatDate(order.OrderDate) }}
                 </p>
-                <p><i class="fas fa-money-bill-wave"></i> <strong>Total Amount:</strong> {{
-                    order.TotalAmount.toLocaleString() }} VND</p>
-                <p><i class="fas fa-map-marker-alt"></i> <strong>Shipping Address:</strong> {{ order.ShippingAddress }}
+                <p><i class="fas fa-money-bill-wave"></i> <strong>Tổng Tiền Hàng</strong>:{{ subtotal.toLocaleString()
+                    }} VND</p>
+                <p><i class="fas fa-shipping-fast"></i> <strong>Phí Vận Chuyển</strong>: {{
+                    shippingDetails.shippingCost.toLocaleString() }} VND</p>
+                <p><i class="fas fa-dollar-sign"></i> <strong>Tổng Thanh Toán</strong>: {{ totalAmount.toLocaleString()
+                    }} VND</p>
+                <p><i class="fas fa-calendar-check"></i> <strong>Ngày Giao Hàng Dự Kiến</strong>: {{
+                    formatDate(shippingDetails.estimatedDeliveryDate) }}</p>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Địa Chỉ Giao Hàng</strong>: {{
+                    formatAddress(shippingAddress) }}</p>
+                <p><i class="fas fa-credit-card"></i> <strong>Phương Thức Thanh Toán</strong>: {{ order.PaymentMethod }}
                 </p>
-                <p><i class="fas fa-credit-card"></i> <strong>Payment Method:</strong> {{ order.PaymentMethod }}</p>
-                <p><i class="fas fa-clipboard-check"></i> <strong>Status:</strong> {{ orderStatus.StatusName }}</p>
+                <p><i class="fas fa-clipboard-check"></i> <strong>Trạng Thái</strong>: {{ orderStatus.StatusName }}</p>
             </div>
 
             <div class="payment-info">
                 <h3><i class="fas fa-wallet"></i> Thông Tin Thanh Toán</h3>
-                <p><i class="fas fa-exclamation-circle"></i> <strong>Payment Status:</strong> {{
+                <p><i class="fas fa-exclamation-circle"></i> <strong>Trạng Thái Thanh Toán</strong>: {{
                     paymentDetails.TransactionStatus }}</p>
-                <p><i class="fas fa-coins"></i> <strong>Transaction Amount:</strong> {{
+                <p><i class="fas fa-coins"></i> <strong>Số Tiền Giao Dịch</strong>: {{
                     paymentDetails.TransactionAmount.toLocaleString() }} VND</p>
-                <p><i class="fas fa-calendar-day"></i> <strong>Payment Date:</strong> {{
+                <p><i class="fas fa-calendar-day"></i> <strong>Ngày Thanh Toán</strong>: {{
                     formatDate(paymentDetails.PaymentDate) }}</p>
             </div>
 
@@ -32,10 +39,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><i class="fas fa-barcode"></i> Product ID</th>
-                            <th><i class="fas fa-tag"></i> Product Name</th>
-                            <th><i class="fas fa-boxes"></i> Quantity</th>
-                            <th><i class="fas fa-dollar-sign"></i> Price</th>
+                            <th><i class="fas fa-barcode"></i> Mã Sản Phẩm</th>
+                            <th><i class="fas fa-tag"></i> Tên Sản Phẩm</th>
+                            <th><i class="fas fa-boxes"></i> Số Lượng</th>
+                            <th><i class="fas fa-dollar-sign"></i> Giá</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,12 +55,12 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
-        <button @click="goBack" class="back-button"><i class="fas fa-arrow-left"></i> Quay lại</button>
+        <button @click="goBack" class="back-button"><i class="fas fa-arrow-left"></i> Quay Lại</button>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -62,7 +69,11 @@ export default {
             order: null,
             orderStatus: {},
             paymentDetails: {},
-            orderItems: []
+            orderItems: [],
+            shippingDetails: {},
+            subtotal: 0,
+            totalAmount: 0,
+            shippingAddress: {}
         };
     },
     mounted() {
@@ -70,7 +81,7 @@ export default {
     },
     methods: {
         async fetchOrderDetails() {
-            const orderId = this.$route.params.orderId; // Get orderId from route parameters
+            const orderId = this.$route.params.orderId;
             try {
                 const response = await fetch(`http://localhost:5000/api/Order/${orderId}`);
                 if (!response.ok) throw new Error('Lỗi khi tải chi tiết đơn hàng');
@@ -80,20 +91,28 @@ export default {
                 this.orderStatus = data.orderStatus;
                 this.paymentDetails = data.paymentDetails;
                 this.orderItems = data.orderItems;
+                this.shippingDetails = data.shippingDetails;
+                this.subtotal = data.subtotal;
+                this.totalAmount = data.totalAmount;
+                this.shippingAddress = data.shippingAddress;
             } catch (error) {
                 console.error(error);
                 alert('Không thể tải chi tiết đơn hàng.');
             }
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('vi-VN'); // Format date
+            return new Date(date).toLocaleDateString('vi-VN');
+        },
+        formatAddress(address) {
+            return `${address.detailedAddress}, ${address.ward}, ${address.district}, ${address.province}`;
         },
         goBack() {
-            this.$router.push({ name: 'OrderManagement' }); // Navigate back to the order management page
+            this.$router.push({ name: 'OrderManagement' });
         }
     }
 };
 </script>
+
 
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');

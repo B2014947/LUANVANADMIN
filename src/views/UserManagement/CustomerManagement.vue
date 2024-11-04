@@ -1,6 +1,6 @@
 <template>
   <div class="management-container">
-    <h2 class="management-title">User Management</h2>
+    <h2 class="management-title">Quản lý người dùng</h2>
     <p class="description">Quản lý người dùng tại đây.</p>
 
     <div class="table-container">
@@ -10,7 +10,6 @@
             <th>ID</th>
             <th>Tên người dùng</th>
             <th>Email</th>
-            <th>Vai trò</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -19,7 +18,6 @@
             <td>{{ user.UserId }}</td>
             <td>{{ user.Username }}</td>
             <td>{{ user.Email }}</td>
-            <td>{{ user.Role }}</td>
             <td>
               <button class="action-button view" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
               <button class="action-button edit" @click="editUser(user.UserId)">
@@ -122,74 +120,93 @@ export default {
 </script>
 
 <style scoped>
+:root {
+  --main-bg-color: #ffffff;
+  /* Nền sáng */
+  --sidebar-bg-color: #27ae60;
+  /* Màu xanh lá cho thanh bên */
+  --text-color: #2c3e50;
+  /* Màu chữ chính */
+  --highlight-color: #27ae60;
+  /* Màu xanh lá nhấn mạnh */
+  --accent-color: #3498db;
+  /* Màu xanh lam cho nút chi tiết */
+  --hover-bg-color: #2ecc71;
+  /* Màu khi hover */
+  --danger-color: #e74c3c;
+  /* Màu đỏ cho cảnh báo */
+  --edit-color: #f39c12;
+  /* Màu cam cho chỉnh sửa */
+  --button-bg-color: #27ae60;
+  /* Màu nút chính */
+  --button-hover-color: #219150;
+  /* Màu hover của nút */
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  /* Bóng đổ */
+}
+
 .management-container {
   padding: 24px;
-  background-color: #f9f9f9;
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--main-bg-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  color: var(--text-color);
   font-family: 'Roboto', sans-serif;
-  max-width: 1000px;
-  margin: auto;
+  max-width: 1100px;
+  margin: 40px auto;
 }
 
 .management-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2d3e50;
-  margin-bottom: 12px;
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text-color);
   text-align: center;
+  margin-bottom: 16px;
 }
 
 .description {
   font-size: 16px;
-  color: #6c757d;
-  margin-bottom: 24px;
+  color: #7f8c8d;
   text-align: center;
+  margin-bottom: 24px;
 }
 
 .table-container {
   overflow-x: auto;
-  margin-bottom: 24px;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  background-color: #ecf0f1;
+  padding: 20px;
 }
 
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 16px;
 }
 
 thead th {
-  background-color: #34495e;
-  color: #ffffff;
+  background-color: var(--highlight-color);
+  color: #fff;
   padding: 14px;
   text-align: left;
-  font-weight: 500;
-  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
 }
 
 tbody td {
   padding: 12px;
-  border-bottom: 1px solid #dee2e6;
-  color: #2d3e50;
+  border-bottom: 1px solid #dfe6e9;
+  color: var(--text-color);
 }
 
 tbody tr:hover {
-  background-color: #f4f6f8;
-}
-
-.status-active {
-  color: #2ecc71;
-}
-
-.status-inactive {
-  color: #e74c3c;
+  background-color: var(--hover-bg-color);
+  color: #fff;
 }
 
 .action-button {
-  padding: 8px 14px;
+  padding: 8px 16px;
   margin: 3px;
   border: none;
   border-radius: 8px;
@@ -197,41 +214,55 @@ tbody tr:hover {
   font-size: 14px;
   font-weight: 500;
   color: #fff;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .view {
-  background-color: #5a67d8;
+  background-color: var(--accent-color);
 }
 
 .edit {
-  background-color: #3498db;
+  background-color: var(--edit-color);
 }
 
 .toggle {
-  background-color: #e74c3c;
+  background-color: var(--danger-color);
 }
 
 .action-button:hover {
   transform: scale(1.05);
 }
 
+.view:hover {
+  background-color: #2980b9;
+}
+
+.edit:hover {
+  background-color: #e67e22;
+}
+
+.toggle:hover {
+  background-color: #c0392b;
+}
+
 .add-button {
-  display: inline-block;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  background-color: #4caf50;
-  color: #ffffff;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: var(--button-bg-color);
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 12px;
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  box-shadow: 0 3px 6px var(--shadow-color);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
+  background-color: var(--hover-bg-color);
+  transform: translateY(-3px);
 }
 </style>

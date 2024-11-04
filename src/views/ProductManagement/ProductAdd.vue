@@ -1,15 +1,28 @@
 <template>
     <div class="create-product-container">
-        <h2>Tạo sản phẩm mới</h2>
+        <h2><i class="fas fa-plus-circle"></i> Tạo sản phẩm mới</h2>
         <form @submit.prevent="createProduct" class="product-form">
             <!-- Thông tin sản phẩm -->
-            <label><strong>Tên sản phẩm:</strong><input type="text" v-model="productName" required /></label>
-            <label><strong>Mô tả:</strong><textarea v-model="description" required></textarea></label>
-            <label><strong>Giá (VND):</strong><input type="number" v-model="price" required /></label>
-            <label><strong>Số lượng trong kho:</strong><input type="number" v-model="stockQuantity" required /></label>
+            <label>
+                <strong><i class="fas fa-tag"></i> Tên sản phẩm:</strong>
+                <input type="text" v-model="productName" required />
+            </label>
+            <label>
+                <strong><i class="fas fa-align-left"></i> Mô tả:</strong>
+                <textarea v-model="description" required></textarea>
+            </label>
+            <label>
+                <strong><i class="fas fa-money-bill-wave"></i> Giá (VND):</strong>
+                <input type="number" v-model="price" required />
+            </label>
+            <label>
+                <strong><i class="fas fa-box"></i> Số lượng trong kho:</strong>
+                <input type="number" v-model="stockQuantity" required />
+            </label>
 
             <!-- Hiển thị danh mục -->
-            <label><strong>Danh mục:</strong>
+            <label>
+                <strong><i class="fas fa-list"></i> Danh mục:</strong>
                 <select v-model="categoryId" @change="fetchSubcategoriesByCategory">
                     <option v-for="category in categories" :key="category.CategoryId" :value="category.CategoryId">
                         {{ category.CategoryName }}
@@ -18,7 +31,8 @@
             </label>
 
             <!-- Hiển thị danh mục phụ -->
-            <label><strong>Danh mục phụ:</strong>
+            <label>
+                <strong><i class="fas fa-list-alt"></i> Danh mục phụ:</strong>
                 <select v-model="subCategoryId">
                     <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
                         :value="subcategory.SubcategoryId">
@@ -27,7 +41,8 @@
                 </select>
             </label>
 
-            <label><strong>Kích hoạt:</strong>
+            <label>
+                <strong><i class="fas fa-toggle-on"></i> Kích hoạt:</strong>
                 <select v-model="isActive">
                     <option :value="true">Có</option>
                     <option :value="false">Không</option>
@@ -35,48 +50,91 @@
             </label>
 
             <!-- Thêm phần chi tiết sản phẩm -->
-            <h3>Chi tiết sản phẩm</h3>
-            <label><strong>Thương hiệu:</strong>
+            <h3><i class="fas fa-info-circle"></i> Chi tiết sản phẩm</h3>
+            <label>
+                <strong><i class="fas fa-industry"></i> Thương hiệu:</strong>
                 <select v-model="brandId">
                     <option v-for="brand in brands" :key="brand.BrandId" :value="brand.BrandId">
                         {{ brand.BrandName }}
                     </option>
                 </select>
             </label>
-            <label><strong>CPU:</strong><input type="text" v-model="processor" /></label>
-            <label><strong>RAM:</strong><input type="text" v-model="ram" /></label>
-            <label><strong>Lưu trữ:</strong><input type="text" v-model="storage" /></label>
-            <label><strong>Màn hình:</strong><input type="text" v-model="display" /></label>
-            <label><strong>Pin:</strong><input type="text" v-model="battery" /></label>
-            <label><strong>Hệ điều hành:</strong><input type="text" v-model="operatingSystem" /></label>
-            <label><strong>Camera:</strong><input type="text" v-model="camera" /></label>
-            <label><strong>Kích thước:</strong><input type="text" v-model="dimensions" /></label>
-            <label><strong>Trọng lượng:</strong><input type="text" v-model="weight" /></label>
-            <label><strong>Kết nối:</strong><input type="text" v-model="connectivity" /></label>
-            <label><strong>Tùy chọn màu:</strong><input type="text" v-model="colorOptions" /></label>
-            <label><strong>Thời gian bảo hành:</strong><input type="number" v-model="warrantyPeriod" /></label>
-            <label><strong>Đặc điểm bổ sung:</strong><textarea v-model="additionalFeatures"></textarea></label>
+            <label>
+                <strong><i class="fas fa-microchip"></i> CPU:</strong>
+                <input type="text" v-model="processor" />
+            </label>
+            <label>
+                <strong><i class="fas fa-memory"></i> RAM:</strong>
+                <input type="text" v-model="ram" />
+            </label>
+            <label>
+                <strong><i class="fas fa-hdd"></i> Lưu trữ:</strong>
+                <input type="text" v-model="storage" />
+            </label>
+            <label>
+                <strong><i class="fas fa-desktop"></i> Màn hình:</strong>
+                <input type="text" v-model="display" />
+            </label>
+            <label>
+                <strong><i class="fas fa-battery-half"></i> Pin:</strong>
+                <input type="text" v-model="battery" />
+            </label>
+            <label>
+                <strong><i class="fas fa-cogs"></i> Hệ điều hành:</strong>
+                <input type="text" v-model="operatingSystem" />
+            </label>
+            <label>
+                <strong><i class="fas fa-camera"></i> Camera:</strong>
+                <input type="text" v-model="camera" />
+            </label>
+            <label>
+                <strong><i class="fas fa-ruler"></i> Kích thước:</strong>
+                <input type="text" v-model="dimensions" />
+            </label>
+            <label>
+                <strong><i class="fas fa-weight"></i> Trọng lượng:</strong>
+                <input type="text" v-model="weight" />
+            </label>
+            <label>
+                <strong><i class="fas fa-wifi"></i> Kết nối:</strong>
+                <input type="text" v-model="connectivity" />
+            </label>
+            <label>
+                <strong><i class="fas fa-palette"></i> Tùy chọn màu:</strong>
+                <input type="text" v-model="colorOptions" />
+            </label>
+            <label>
+                <strong><i class="fas fa-shield-alt"></i> Thời gian bảo hành:</strong>
+                <input type="number" v-model="warrantyPeriod" />
+            </label>
+            <label>
+                <strong><i class="fas fa-lightbulb"></i> Đặc điểm bổ sung:</strong>
+                <textarea v-model="additionalFeatures"></textarea>
+            </label>
 
             <label>
-                <strong>Hình ảnh:</strong>
+                <strong><i class="fas fa-images"></i> Hình ảnh:</strong>
                 <input type="file" @change="handleFileUpload" multiple />
                 <div class="image-preview">
-                    <h4>Hình ảnh đã chọn:</h4>
+                    <h4><i class="fas fa-eye"></i> Hình ảnh đã chọn:</h4>
                     <div class="image-list">
                         <div v-for="(url, index) in imagePreviews" :key="index" class="image-item">
                             <img :src="url" alt="Ảnh sản phẩm" />
-                            <button class="delete-button" @click.prevent="removeImage(index)">Xóa</button>
+                            <button class="delete-button" @click.prevent="removeImage(index)">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
                         </div>
                     </div>
                 </div>
             </label>
 
-            <button type="submit" class="save-button">Lưu sản phẩm</button>
+            <button type="submit" class="save-button"><i class="fas fa-save"></i> Lưu sản phẩm</button>
         </form>
 
-        <button class="back-button" @click="goBack">Quay lại</button>
+        <button class="back-button" @click="goBack"><i class="fas fa-arrow-left"></i> Quay lại</button>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -232,18 +290,23 @@ export default {
 <style scoped>
 .create-product-container {
     padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ tối */
     border-radius: 12px;
     max-width: 600px;
     margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: #ecf0f1;
+    color: #27ae60;
+    /* Màu nhấn */
     text-align: center;
     margin-bottom: 1.5rem;
+    font-weight: 700;
 }
 
 .product-form {
@@ -252,8 +315,9 @@ h2 {
 }
 
 label {
-    color: #bdc3c7;
-    font-weight: 500;
+    color: #2c3e50;
+    /* Màu chữ tối */
+    font-weight: 600;
     margin-top: 1rem;
 }
 
@@ -262,36 +326,70 @@ input[type="number"],
 textarea,
 select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-top: 5px;
-    background-color: #34495e;
-    border: 1px solid #7f8c8d;
-    border-radius: 6px;
-    color: #ecf0f1;
+    background-color: #ecf0f1;
+    /* Nền sáng cho input */
+    border: 1px solid #bdc3c7;
+    /* Viền sáng */
+    border-radius: 8px;
+    color: #2c3e50;
+    /* Màu chữ tối */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #27ae60;
+    /* Màu nhấn khi focus */
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .save-button {
     background-color: #27ae60;
+    /* Màu xanh lá */
     margin-top: 1rem;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #2ecc71;
+    /* Màu xanh lá sáng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .back-button {
-    background-color: #c0392b;
+    background-color: #2980b9;
+    /* Màu xanh lam */
     width: 100%;
     margin-top: 1rem;
-}
-
-button {
-    padding: 10px 20px;
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 6px;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #3498db;
+    /* Màu xanh lam sáng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .delete-button {
     background-color: #e74c3c;
+    /* Màu đỏ */
     color: #ffffff;
     border: none;
     padding: 5px 8px;
@@ -299,14 +397,12 @@ button {
     cursor: pointer;
     font-size: 14px;
     margin-top: 5px;
+    transition: background-color 0.3s;
 }
 
 .delete-button:hover {
     background-color: #c0392b;
-}
-
-button:hover {
-    opacity: 0.9;
+    /* Màu đỏ đậm khi hover */
 }
 
 .image-preview {
@@ -341,5 +437,10 @@ button:hover {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
 }
 </style>

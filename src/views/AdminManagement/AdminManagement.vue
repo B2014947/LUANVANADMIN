@@ -130,89 +130,94 @@ export default {
 
 <style scoped>
 .management-container {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 2.5rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
     border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--shadow-color);
     font-family: 'Roboto', sans-serif;
-    max-width: 1000px;
-    margin: auto;
+    max-width: 1100px;
+    margin: 40px auto;
 }
 
 .management-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 12px;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--text-color);
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .description {
     font-size: 16px;
-    color: #6c757d;
-    margin-bottom: 24px;
+    color: #bdc3c7;
     text-align: center;
+    margin-bottom: 24px;
 }
 
 .table-container {
     overflow-x: auto;
-    margin-bottom: 24px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    background-color: #ffffff;
+    background-color: var(--secondary-bg-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 6px;
 }
 
 thead th {
-    background-color: #34495e;
+    background-color: var(--highlight-color);
     color: #ffffff;
     padding: 14px;
     text-align: left;
-    font-weight: 500;
-    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+    border-radius: 6px 6px 0 0;
 }
 
 tbody td {
     padding: 12px;
-    border-bottom: 1px solid #dee2e6;
-    color: #2d3e50;
+    border-bottom: 1px solid #7f8c8d;
+    color: var(--text-color);
 }
 
 tbody tr:hover {
-    background-color: #f4f6f8;
+    background-color: var(--hover-bg-color);
+    color: #ffffff;
 }
 
 .status-active {
     color: #2ecc71;
+    font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
+    font-weight: 600;
 }
 
 .action-button {
-    padding: 8px 12px;
+    padding: 8px 16px;
     margin: 3px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    color: #fff;
+    color: #ffffff;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .view {
-    background-color: #5a67d8;
+    background-color: var(--accent-color);
 }
 
 .edit {
-    background-color: #3498db;
+    background-color: #2980b9;
 }
 
 .toggle {
@@ -221,24 +226,28 @@ tbody tr:hover {
 
 .action-button:hover {
     transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .add-button {
-    display: inline-block;
+    display: block;
+    width: fit-content;
     padding: 12px 18px;
     font-size: 15px;
     font-weight: 600;
-    background-color: #4caf50;
+    background-color: var(--button-bg-color);
     color: #ffffff;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    margin-top: 12px;
+    margin: 20px auto 0;
+    text-align: center;
+    box-shadow: 0 3px 6px var(--shadow-color);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
-    background-color: #45a049;
+    background-color: var(--hover-bg-color);
     transform: scale(1.05);
 }
 </style>

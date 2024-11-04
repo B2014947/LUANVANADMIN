@@ -86,20 +86,23 @@ export default {
 
 .admin-details-container {
     padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    background-color: #f7f9fc;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ tối */
     border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: #ecf0f1;
+    color: #27ae60;
+    /* Màu chủ đạo */
     text-align: center;
     margin-bottom: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .image-container {
@@ -116,44 +119,59 @@ h2 {
 
 .info-group p {
     font-size: 16px;
-    color: #bdc3c7;
+    color: #34495e;
+    /* Màu chữ tối hơn */
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
+    display: block;
+    /* Hiển thị dọc */
 }
 
 .info-group strong {
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 5px;
 }
 
 .status-active {
     color: #2ecc71;
+    /* Màu xanh lá */
+    font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
+    /* Màu đỏ */
+    font-weight: 600;
 }
 
 .button-group {
     display: flex;
+    justify-content: flex-end;
+    /* Căn chỉnh nút về bên phải */
     gap: 10px;
-    margin-top: 1.5rem;
+    margin-top: 20px;
 }
 
 .back-button,
 .edit-button {
-    padding: 10px 20px;
+    padding: 8px 12px;
+    /* Giảm padding để nút nhỏ hơn */
     border: none;
     border-radius: 6px;
+    /* Giảm độ bo góc */
     cursor: pointer;
-    color: white;
-    font-size: 16px;
-    width: 100%;
+    color: #ffffff;
+    font-size: 14px;
+    /* Giảm kích thước font */
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    width: auto;
+    /* Đảm bảo chiều rộng vừa đủ với nội dung */
+    min-width: 100px;
+    /* Đặt chiều rộng tối thiểu để nút không quá nhỏ */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Giảm shadow */
 }
 
 .back-button {
@@ -166,14 +184,19 @@ h2 {
 
 .back-button:hover {
     background-color: #3498db;
+    box-shadow: 0 2px 6px rgba(41, 128, 185, 0.2);
+    /* Giảm shadow */
 }
 
 .edit-button:hover {
     background-color: #2ecc71;
+    box-shadow: 0 2px 6px rgba(39, 174, 96, 0.2);
+    /* Giảm shadow */
 }
 
 .back-button i,
 .edit-button i {
-    margin-right: 8px;
+    margin-right: 5px;
+    /* Giảm khoảng cách giữa icon và text */
 }
 </style>

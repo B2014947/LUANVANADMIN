@@ -171,27 +171,32 @@ export default {
 </script>
 
 <style scoped>
+
 .profile-container {
-    padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2rem;
+    background-color: #b2ebf2;
+    /* Nền xanh nhạt */
+    color: #004d40;
+    /* Màu chữ xanh đậm */
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 600;
-    color: #ecf0f1;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: #00acc1;
+    /* Màu xanh nổi bật */
 }
 
 .avatar-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .avatar {
@@ -199,7 +204,8 @@ h2 {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #1abc9c;
+    border: 4px solid #00acc1;
+    /* Màu xanh nổi bật */
 }
 
 .info-group,
@@ -207,13 +213,14 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 label {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
-    color: #bdc3c7;
+    color: #004d40;
+    /* Màu xanh đậm */
     flex-shrink: 0;
     width: 30%;
 }
@@ -221,67 +228,76 @@ label {
 span,
 input {
     flex-grow: 1;
-    padding: 12px;
-    background-color: #34495e;
-    border: 1px solid #7f8c8d;
+    padding: 10px;
+    background-color: #e0f7fa;
+    /* Nền xanh nhạt */
+    border: 1px solid #b2ebf2;
+    /* Viền xanh nhạt */
     border-radius: 6px;
-    color: #ecf0f1;
+    color: #004d40;
+    /* Màu chữ xanh đậm */
     transition: all 0.3s ease;
 }
 
 input:focus {
-    border-color: #1abc9c;
-    box-shadow: 0 0 8px rgba(26, 188, 156, 0.5);
+    border-color: #00acc1;
+    /* Màu xanh nổi bật */
+    box-shadow: 0 0 8px rgba(0, 172, 193, 0.3);
 }
 
 .btn-edit,
 .btn-update,
 .btn-cancel {
-    padding: 8px 16px;
+    padding: 10px 16px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
 .btn-edit {
-    background-color: #1abc9c;
+    background-color: #00acc1;
+    /* Màu xanh nổi bật */
     color: #fff;
     display: block;
     width: 100%;
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .btn-update {
-    background-color: #27ae60;
+    background-color: #0288d1;
+    /* Màu xanh lam */
     color: #fff;
 }
 
 .btn-cancel {
-    background-color: #c0392b;
+    background-color: #d32f2f;
+    /* Màu đỏ cảnh báo */
     color: #fff;
 }
 
 .button-group {
     display: flex;
     justify-content: space-between;
-    margin-top: 1.5rem;
-}
-
-.success,
-.error {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
+    margin-top: 1rem;
 }
 
 .success {
-    color: #2ecc71;
+    text-align: center;
+    margin-top: 10px;
+    color: #00acc1;
+    /* Màu xanh nổi bật */
+    font-size: 14px;
 }
 
 .error {
-    color: #e74c3c;
+    text-align: center;
+    margin-top: 10px;
+    color: #d32f2f;
+    /* Màu đỏ cảnh báo */
+    font-size: 14px;
 }
 </style>

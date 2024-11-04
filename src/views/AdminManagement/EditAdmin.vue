@@ -193,19 +193,24 @@ export default {
 
 <style scoped>
 .admin-details-container {
-    padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ tối */
     border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: #ecf0f1;
+    color: #27ae60;
+    /* Màu nhấn */
     text-align: center;
     margin-bottom: 1.5rem;
+    font-weight: 700;
 }
 
 .admin-form {
@@ -215,8 +220,9 @@ h2 {
 }
 
 label {
-    color: #bdc3c7;
-    font-weight: 500;
+    color: #2c3e50;
+    /* Màu chữ tối */
+    font-weight: 600;
     margin-top: 1rem;
 }
 
@@ -225,13 +231,27 @@ input[type="email"],
 input[type="date"],
 input[type="password"],
 input[type="file"] {
-    width: 100%;
-    padding: 10px;
+    width: 95%;
+    padding: 12px;
     margin-top: 5px;
-    background-color: #34495e;
-    border: 1px solid #7f8c8d;
-    border-radius: 6px;
-    color: #ecf0f1;
+    background-color: #ecf0f1;
+    /* Nền sáng cho input */
+    border: 1px solid #bdc3c7;
+    /* Viền sáng */
+    border-radius: 8px;
+    color: #2c3e50;
+    /* Màu chữ tối */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+label {
+    width: 100%;
+}
+
+input:focus {
+    border-color: #27ae60;
+    /* Màu nhấn khi focus */
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .image-preview {
@@ -243,29 +263,36 @@ input[type="file"] {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 0.5rem;
 }
 
 button {
-    padding: 10px 20px;
-    color: white;
+    padding: 12px 20px;
+    color: #ffffff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .save-button {
     background-color: #27ae60;
+    /* Màu xanh lá */
 }
 
 .back-button {
-    background-color: #c0392b;
+    background-color: #2980b9;
+    /* Màu xanh lam */
     width: 100%;
 }
 
 button:hover {
-    opacity: 0.9;
+    background-color: #2ecc71;
+    /* Màu xanh lá sáng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

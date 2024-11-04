@@ -73,50 +73,69 @@ export default {
 
 <style scoped>
 .form-container {
+    padding: 2rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    border-radius: 12px;
     max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background-color: #f7f9fc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
     text-align: center;
-    color: #34495e;
+    color: var(--text-color);
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
-    display: block;
-    font-weight: bold;
-    color: #34495e;
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 5px;
+    display: block;
 }
 
 input {
-    width: 100%;
-    padding: 10px;
+    width: 95%;
+    padding: 12px 15px;
     border: 1px solid #bdc3c7;
-    border-radius: 4px;
+    border-radius: 8px;
+    background-color: var(--secondary-bg-color);
+    color: var(--text-color);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border: 1px solid var(--highlight-color);
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
 }
 
 .submit-button {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #2ecc71;
-    color: white;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: #ffffff;
     font-weight: bold;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submit-button:hover {
-    background-color: #27ae60;
+    background-color: var(--hover-bg-color);
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 </style>

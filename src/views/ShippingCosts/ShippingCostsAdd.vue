@@ -10,6 +10,10 @@
                 <strong>Phí vận chuyển (VND):</strong>
                 <input type="number" v-model="shippingCost" required />
             </label>
+            <label>
+                <strong>Thời gian giao hàng:</strong>
+                <input type="text" v-model="estimatedDeliveryTime" required />
+            </label>
             <button type="submit" class="submit-button">Tạo mới</button>
         </form>
         <button @click="goBack" class="back-button">Quay lại</button>
@@ -21,7 +25,8 @@ export default {
     data() {
         return {
             province: '',
-            shippingCost: null
+            shippingCost: null,
+            estimatedDeliveryTime: ''
         };
     },
     methods: {
@@ -34,7 +39,8 @@ export default {
                     },
                     body: JSON.stringify({
                         Province: this.province,
-                        ShippingCosts: this.shippingCost
+                        ShippingCosts: this.shippingCost,
+                        EstimatedDeliveryTime: this.estimatedDeliveryTime
                     })
                 });
 

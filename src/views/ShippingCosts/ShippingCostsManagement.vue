@@ -14,6 +14,7 @@
                         <th>Shipping ID</th>
                         <th>Province</th>
                         <th>Shipping Cost (VND)</th>
+                        <th>Thời gian giao hàng</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                         <td>{{ cost.ShippingId }}</td>
                         <td>{{ cost.Province }}</td>
                         <td>{{ cost.ShippingCosts.toLocaleString() }} VND</td>
+                        <td>{{ cost.EstimatedDeliveryTime }} Ngày</td>
                         <td>
                             <button class="action-button edit" @click="goToEditCost(cost.ShippingId)">Sửa</button>
                             <button class="action-button delete"
@@ -48,9 +50,11 @@ export default {
         async fetchShippingCosts() {
             try {
                 const response = await fetch('http://localhost:5000/api/ShippingCost');
+                if (!response.ok) throw new Error('Failed to fetch data');
                 this.shippingCosts = await response.json();
             } catch (error) {
                 console.error('Lỗi khi tải danh sách phí vận chuyển:', error);
+                alert('Không thể tải dữ liệu phí vận chuyển.');
             }
         },
         goToCreate() {
@@ -62,12 +66,13 @@ export default {
         async deleteShippingCost(shippingId) {
             if (confirm('Bạn có chắc chắn muốn xóa phí vận chuyển này?')) {
                 try {
-                    await fetch(`http://localhost:5000/api/ShippingCost/${shippingId}`, { method: 'DELETE' });
+                    const response = await fetch(`http://localhost:5000/api/ShippingCost/${shippingId}`, { method: 'DELETE' });
+                    if (!response.ok) throw new Error('Failed to delete');
                     this.fetchShippingCosts();
-                    alert('Phí vận chuyển đã được xóa thành công');
+                    alert('Phí vận chuyển đã được xóa thành công.');
                 } catch (error) {
                     console.error('Lỗi khi xóa phí vận chuyển:', error);
-                    alert('Đã xảy ra lỗi.');
+                    alert('Đã xảy ra lỗi khi xóa phí vận chuyển.');
                 }
             }
         }
@@ -92,7 +97,7 @@ export default {
     font-size: 28px;
     font-weight: 700;
     color: #2d3e50;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -101,12 +106,11 @@ export default {
     font-size: 20px;
     font-weight: 600;
     color: #34495e;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .table-container {
     overflow-x: auto;
-    margin-bottom: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;
@@ -114,8 +118,7 @@ export default {
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 thead th {
@@ -123,7 +126,6 @@ thead th {
     color: #ffffff;
     padding: 12px;
     text-align: left;
-    font-weight: 500;
     border-radius: 8px 8px 0 0;
 }
 
@@ -146,7 +148,7 @@ tbody tr:hover {
     font-size: 14px;
     font-weight: 500;
     color: #fff;
-    transition: transform 0.2s ease, background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add {
@@ -162,23 +164,6 @@ tbody tr:hover {
 }
 
 .action-button:hover {
-    transform: scale(1.05);
-}
-
-.action-button {
-    padding: 8px 12px;
-    margin: 3px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    color: #fff;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.add-button:hover {
-    background-color: #45a049;
     transform: scale(1.05);
 }
 </style>

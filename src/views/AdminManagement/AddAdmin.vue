@@ -147,21 +147,21 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .create-admin-container {
-    padding: 3rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
     border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    max-width: 700px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: #ecf0f1;
+    color: var(--highlight-color);
     text-align: center;
     margin-bottom: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .create-admin-form {
@@ -173,6 +173,8 @@ label {
     color: #bdc3c7;
     font-weight: 500;
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 input[type="text"],
@@ -180,13 +182,21 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 input[type="file"] {
-    width: 100%;
-    padding: 10px;
+    width: 320%;
+    padding: 12px 15px;
     margin-top: 5px;
-    background-color: #34495e;
+    background-color: var(--secondary-bg-color);
     border: 1px solid #7f8c8d;
-    border-radius: 6px;
-    color: #ecf0f1;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
 }
 
 .image-preview {
@@ -202,28 +212,30 @@ input[type="file"] {
 }
 
 .submit-button {
-    padding: 10px 20px;
-    background-color: #27ae60;
-    color: white;
+    padding: 12px;
+    background-color: var(--button-bg-color);
+    color: #ffffff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 1.5rem;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .submit-button:hover {
-    background-color: #2ecc71;
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
 }
 
 .back-button {
-    padding: 10px 20px;
+    padding: 12px;
     background-color: #2980b9;
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 1rem;
@@ -231,11 +243,13 @@ input[type="file"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .back-button:hover {
     background-color: #3498db;
+    box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
 }
 
 .back-button i {

@@ -130,101 +130,29 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .management-container {
-    padding: 24px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
-    margin: auto;
+    max-width: 1100px;
+    margin: 40px auto;
 }
 
 .management-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--highlight-color);
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .description {
     font-size: 16px;
-    color: #6c757d;
-    margin-bottom: 24px;
+    color: #bdc3c7;
     text-align: center;
-}
-
-.table-container {
-    overflow-x: auto;
     margin-bottom: 24px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    background-color: #ffffff;
-}
-
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-thead th {
-    background-color: #34495e;
-    color: #ffffff;
-    padding: 14px;
-    text-align: left;
-    font-weight: 500;
-    border-radius: 8px 8px 0 0;
-}
-
-tbody td {
-    padding: 12px;
-    border-bottom: 1px solid #dee2e6;
-    color: #2d3e50;
-}
-
-tbody tr:hover {
-    background-color: #f4f6f8;
-}
-
-.status-active {
-    color: #2ecc71;
-}
-
-.status-inactive {
-    color: #e74c3c;
-}
-
-.action-button {
-    padding: 8px 12px;
-    margin: 3px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.view {
-    background-color: #5a67d8;
-}
-
-.edit {
-    background-color: #3498db;
-}
-
-.delete {
-    background-color: #e74c3c;
-}
-
-.add {
-    background-color: #4caf50;
-}
-
-.action-button:hover {
-    transform: scale(1.05);
 }
 
 .filter-container {
@@ -232,7 +160,7 @@ tbody tr:hover {
     gap: 12px;
     margin-bottom: 20px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
@@ -241,39 +169,119 @@ tbody tr:hover {
     padding: 10px;
     font-size: 16px;
     border-radius: 8px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #7f8c8d;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
     flex: 1;
 }
 
-.filter-container button {
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 600;
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    background-color: var(--secondary-bg-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border-radius: 6px;
+    background-color: var(--secondary-bg-color);
+}
+
+thead th {
+    background-color: var(--highlight-color);
     color: #ffffff;
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+    border-radius: 6px 6px 0 0;
+}
+
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #7f8c8d;
+    color: var(--text-color);
+}
+
+tbody tr {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: var(--hover-bg-color);
+    color: #ffffff;
+}
+
+.status-active {
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.status-inactive {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.action-button {
+    padding: 8px 16px;
+    margin: 3px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.view {
+    background-color: var(--accent-color);
+}
+
+.edit {
+    background-color: #2980b9;
+}
+
+.delete {
+    background-color: #e74c3c;
 }
 
 .search {
-    background-color: #3498db;
+    background-color: #2ecc71;
 }
 
-.search:hover {
-    background-color: #2980b9;
+.add {
+    background-color: #2ecc71;
 }
 
-button.add:hover {
-    background-color: #45a049;
+.action-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-button.edit:hover {
-    background-color: #2980b9;
+.add-button {
+    display: block;
+    width: fit-content;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: var(--button-bg-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px auto 0;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button.delete:hover {
-    background-color: #c0392b;
+.add-button:hover {
+    background-color: var(--hover-bg-color);
+    transform: scale(1.05);
 }
 </style>

@@ -138,28 +138,29 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .management-container {
-    padding: 24px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #2c3e50;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
-    margin: auto;
+    max-width: 1100px;
+    margin: 40px auto;
 }
 
 .management-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #27ae60;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .description {
     font-size: 16px;
-    color: #6c757d;
-    margin-bottom: 24px;
+    color: #7f8c8d;
     text-align: center;
+    margin-bottom: 24px;
 }
 
 .table-container {
@@ -167,28 +168,28 @@ export default {
     margin-bottom: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    background-color: #ffffff;
+    background-color: #ecf0f1;
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 thead th {
-    background-color: #34495e;
+    background-color: #27ae60;
     color: #ffffff;
     padding: 14px;
     text-align: left;
-    font-weight: 500;
-    border-radius: 8px 8px 0 0;
+    font-weight: 600;
 }
 
 tbody td {
     padding: 12px;
-    border-bottom: 1px solid #dee2e6;
-    color: #2d3e50;
+    border-bottom: 1px solid #bdc3c7;
+    color: #2c3e50;
 }
 
 tbody tr {
@@ -196,7 +197,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: #f4f6f8;
+    background-color: #d5dbdb;
 }
 
 .section-title {
@@ -213,18 +214,18 @@ tbody tr:hover {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    color: #fff;
+    color: #ffffff;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add {
-    background-color: #4caf50;
+    background-color: #27ae60;
 }
 
 .edit {
-    background-color: #3498db;
+    background-color: #2980b9;
 }
 
 .delete {
@@ -233,6 +234,7 @@ tbody tr:hover {
 
 .action-button:hover {
     transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .filter-container {
@@ -243,11 +245,11 @@ tbody tr:hover {
 }
 
 button.add:hover {
-    background-color: #45a049;
+    background-color: #2ecc71;
 }
 
 button.edit:hover {
-    background-color: #2980b9;
+    background-color: #3498db;
 }
 
 button.delete:hover {

@@ -93,20 +93,39 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+:root {
+  --main-bg-color: #34495e;
+  /* Màu nền đậm */
+  --card-bg-color: #2c3e50;
+  /* Màu thẻ tối hơn */
+  --text-color: #ecf0f1;
+  /* Màu chữ sáng */
+  --highlight-color: #1abc9c;
+  /* Màu xanh lá nổi bật */
+  --accent-color: #e67e22;
+  /* Màu cam cho điểm nhấn */
+  --hover-bg-color: #16a085;
+  /* Màu xanh lá đậm khi hover */
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  /* Bóng đổ nhẹ */
+  --box-shadow-hover: rgba(0, 0, 0, 0.5);
+  /* Bóng đổ khi hover */
+}
 
 .dashboard-container {
-  padding: 30px;
-  background-color: #f4f6f8;
+  padding: 2rem;
+  background-color: var(--main-bg-color);
+  color: var(--text-color);
   border-radius: 12px;
+  box-shadow: 0 10px 30px var(--shadow-color);
   font-family: "Roboto", sans-serif;
 }
 
 .dashboard-title {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 15px;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -114,54 +133,56 @@ export default {
 }
 
 .dashboard-title i {
-  margin-right: 10px;
-  color: #3498db;
+  margin-right: 0.5rem;
+  color: var(--highlight-color);
 }
 
 .welcome-message {
-  font-size: 18px;
-  color: #7f8c8d;
-  margin-bottom: 25px;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  opacity: 0.85;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
 .dashboard-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 25px;
-  margin-top: 25px;
+  gap: 1.5rem;
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  padding: 35px;
+  box-shadow: 0 4px 14px var(--shadow-color);
+  padding: 2rem;
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
+  color: var(--text-color);
 }
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px var(--box-shadow-hover);
 }
 
 .card-icon {
-  font-size: 30px;
-  color: #3498db;
-  margin-bottom: 15px;
+  font-size: 2rem;
+  color: var(--highlight-color);
+  margin-bottom: 1rem;
 }
 
 .card h3 {
-  font-size: 20px;
-  color: #34495e;
+  font-size: 1.2rem;
   margin: 0;
+  color: var(--text-color);
+  opacity: 0.9;
 }
 
 .card p {
-  font-size: 28px;
-  color: #2ecc71;
+  font-size: 1.8rem;
+  color: var(--accent-color);
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0.5rem;
 }
 </style>

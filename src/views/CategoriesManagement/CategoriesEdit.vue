@@ -79,48 +79,68 @@ export default {
 
 <style scoped>
 .category-edit-container {
-    padding: 2rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
+    color: #27ae60;
     text-align: center;
     margin-bottom: 1.5rem;
+    font-weight: 700;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 
 label {
-    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #34495e;
+    font-weight: 600;
 }
 
 input[type="text"],
 textarea {
     width: 100%;
-    padding: 10px;
-    background-color: #34495e;
-    border: none;
-    border-radius: 5px;
-    color: #ecf0f1;
-    margin-bottom: 1rem;
+    padding: 12px;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    color: #2c3e50;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #27ae60;
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+}
+
+textarea {
+    resize: vertical;
 }
 
 button {
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
-    color: #fff;
+    border-radius: 8px;
+    color: #ffffff;
     cursor: pointer;
-    margin-top: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1rem;
 }
 
 .submit-button {
@@ -128,10 +148,19 @@ button {
 }
 
 .back-button {
-    background-color: #c0392b;
+    background-color: #e74c3c;
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.95;
+    transform: scale(1.02);
+}
+
+button:active {
+    transform: scale(1);
+}
+
+button:focus {
+    outline: 2px solid #27ae60;
 }
 </style>

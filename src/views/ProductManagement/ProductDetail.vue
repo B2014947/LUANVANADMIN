@@ -22,8 +22,8 @@
                 {{ product.Price ? product.Price.toLocaleString() : 'N/A' }} VND
             </p>
             <p><strong><i class="fas fa-boxes"></i> Số lượng trong kho:</strong> {{ product.StockQuantity }}</p>
-            <p><strong><i class="fas fa-list-alt"></i> Danh mục phụ:</strong> {{ product.SubCategoryId }}</p>
-            <p><strong><i class="fas fa-sitemap"></i> Danh mục:</strong> {{ product.CategoryId }}</p>
+            <p><strong><i class="fas fa-list-alt"></i> Danh mục phụ:</strong> {{ product.SubCategoryName || 'N/A' }}</p>
+            <p><strong><i class="fas fa-sitemap"></i> Danh mục:</strong> {{ product.CategoryName || 'N/A' }}</p>
             <p>
                 <strong><i class="fas fa-toggle-on"></i> Kích hoạt:</strong>
                 <span :class="product.IsActive ? 'status-active' : 'status-inactive'">

@@ -118,19 +118,23 @@
                     <textarea id="AdditionalFeatures" v-model="product.AdditionalFeatures"></textarea>
                 </div>
 
-                <!-- Phần hình ảnh -->
+                <!-- Phần hình ảnh hiện có -->
                 <div class="form-group">
                     <label><strong>Hình ảnh hiện có:</strong></label>
+                    <button v-if="existingImages.length" class="delete-all-button" @click.prevent="deleteAllImages">
+                        Xóa tất cả hình ảnh
+                    </button>
                     <div class="image-list">
                         <div v-for="(url, index) in existingImages" :key="index" class="image-item">
                             <img :src="getImageUrl(url)" alt="Ảnh sản phẩm" />
                             <button class="delete-button" @click.prevent="addImageToDelete(url)">
-                                <i class="fas fa-trash"></i> Xóa
+                                Xóa
                             </button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Thêm hình ảnh mới -->
                 <div class="form-group">
                     <label><strong>Thêm hình ảnh mới:</strong></label>
                     <input type="file" name="images" ref="fileInput" @change="handleFileUpload" multiple />
@@ -138,7 +142,7 @@
                         <div v-for="(newImageUrl, index) in newImageUrls" :key="index" class="image-item">
                             <img :src="newImageUrl" alt="Hình ảnh mới" />
                             <button class="delete-button" @click.prevent="removeNewImageUrl(index)">
-                                <i class="fas fa-times"></i> Xóa
+                                Xóa
                             </button>
                         </div>
                     </div>
@@ -175,8 +179,9 @@ export default {
     },
     methods: {
         getImageUrl(url) {
-            return `${url}`; // Nếu cần thêm domain, có thể thêm `${window.location.origin}/${url}`
-        },
+            return url.startsWith('http') ? url : `http://localhost:5000/${url}`;
+        }
+        ,
         async fetchProduct() {
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`);
@@ -199,13 +204,31 @@ export default {
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/images/${productId}`);
                 if (!response.ok) throw new Error('Lỗi khi tải hình ảnh sản phẩm');
+
                 const imagesData = await response.json();
-                this.existingImages = imagesData.map(image => image.ImageUrl);
+
+                // Đảm bảo `imagesData.images` là một mảng và gán vào `existingImages`
+                if (Array.isArray(imagesData.images)) {
+                    this.existingImages = imagesData.images.map(image => this.getImageUrl(image));
+
+                    // Thông báo nếu không có ảnh
+                    if (this.existingImages.length === 0) {
+                        alert("Không có hình ảnh nào cho sản phẩm này.");
+                    }
+                } else {
+                    console.error('Dữ liệu hình ảnh không đúng định dạng:', imagesData);
+                    alert('Đã xảy ra lỗi khi tải hình ảnh sản phẩm.');
+                    this.existingImages = [];
+                }
             } catch (error) {
                 console.error('Lỗi khi tải hình ảnh:', error);
+                alert('Đã xảy ra lỗi khi tải hình ảnh sản phẩm.');
                 this.existingImages = [];
             }
-        },
+        }
+
+
+        ,
         async fetchProductDetails() {
             try {
                 const response = await fetch(`http://localhost:5000/api/productdetails/product/${this.productId}`);
@@ -252,41 +275,69 @@ export default {
         },
         async updateProduct() {
             const formData = new FormData();
+
+            // Thêm dữ liệu sản phẩm vào FormData
             for (const key in this.product) {
                 if (this.product.hasOwnProperty(key)) {
                     formData.append(key, this.product[key]);
                 }
             }
 
+            // Thêm tệp hình ảnh mới vào FormData
             const input = this.$refs.fileInput;
             if (input && input.files.length > 0) {
                 for (const file of input.files) {
-                    formData.append('images', file);
+                    formData.append('images', file); // 'images' là tên trường mà server đang nhận
                 }
             }
-
+            // Chuyển đổi imagesToDelete thành chuỗi JSON trước khi truyền đi
+            formData.append('imagesToDelete', JSON.stringify(this.imagesToDelete));
             try {
+                // Gửi yêu cầu PUT với FormData (không cần thiết lập Content-Type)
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`, {
                     method: 'PUT',
                     body: formData
                 });
 
                 if (!response.ok) throw new Error('Lỗi khi cập nhật sản phẩm');
-                alert('Cập nhật sản phẩm thành công');
+
+                const responseData = await response.json();
+
+                // Thông báo nếu có hình ảnh đã xóa
+                if (responseData.deletedImages && responseData.deletedImages.length > 0) {
+                    alert(`Các hình ảnh sau đã được xóa: \n${responseData.deletedImages.join('\n')}`);
+                } else {
+                    alert('Cập nhật sản phẩm thành công, không có hình ảnh nào cần xóa.');
+                }
+
+                // Chuyển hướng về trang sản phẩm
                 this.$router.push('/admin/products');
             } catch (error) {
                 console.error("Lỗi cập nhật:", error.message);
                 alert("Không thể cập nhật sản phẩm.");
             }
-        },
+        }
+
+
+
+
+        ,
         addImageToDelete(url) {
-            if (!this.imagesToDelete.includes(url)) {
-                this.imagesToDelete.push(url);
+            const relativeUrl = url.replace('http://localhost:5000/', '');
+            if (!this.imagesToDelete.includes(relativeUrl)) {
+                this.imagesToDelete.push(relativeUrl);
             }
             this.existingImages = this.existingImages.filter(image => image !== url);
+            console.log("Danh sách imagesToDelete:", this.imagesToDelete);
+        },
+        deleteAllImages() {
+            this.imagesToDelete = [...this.existingImages.map(url => url.replace('http://localhost:5000/', ''))];
+            this.existingImages = [];
+            console.log("Danh sách tất cả imagesToDelete:", this.imagesToDelete);
         },
         removeNewImageUrl(index) {
             this.newImageUrls.splice(index, 1);
+            this.newImages.splice(index, 1); // Xóa file khỏi newImages
         },
         handleFileUpload(event) {
             const files = Array.from(event.target.files);
@@ -392,6 +443,22 @@ select {
 }
 
 .delete-button:hover {
+    background-color: #c0392b;
+}
+
+.delete-all-button {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.delete-all-button:hover {
     background-color: #c0392b;
 }
 

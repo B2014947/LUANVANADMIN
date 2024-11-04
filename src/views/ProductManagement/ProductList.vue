@@ -103,7 +103,7 @@ export default {
             this.$router.push({ name: 'ProductDetail', params: { productId } });
         },
         editProduct(productId) {
-            this.$router.push({ name: 'EditProduct', params: { productId } });
+            this.$router.push({ name: 'ProductForm', params: { productId } });
         },
         async deleteProduct(productId) {
             const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');

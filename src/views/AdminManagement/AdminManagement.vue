@@ -133,30 +133,32 @@ export default {
     padding: 24px;
     background-color: #f9f9f9;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
     max-width: 1000px;
     margin: auto;
 }
 
 .management-title {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
     color: #2d3e50;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: center;
 }
 
 .description {
     font-size: 16px;
     color: #6c757d;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    text-align: center;
 }
 
 .table-container {
     overflow-x: auto;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;
 }
 
@@ -169,9 +171,10 @@ table {
 thead th {
     background-color: #34495e;
     color: #ffffff;
-    padding: 12px;
+    padding: 14px;
     text-align: left;
     font-weight: 500;
+    border-radius: 8px 8px 0 0;
 }
 
 tbody td {
@@ -181,19 +184,27 @@ tbody td {
 }
 
 tbody tr:hover {
-    background-color: #f1f3f5;
+    background-color: #f4f6f8;
+}
+
+.status-active {
+    color: #2ecc71;
+}
+
+.status-inactive {
+    color: #e74c3c;
 }
 
 .action-button {
-    padding: 8px 14px;
+    padding: 8px 12px;
     margin: 3px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     color: #fff;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .view {
@@ -201,15 +212,15 @@ tbody tr:hover {
 }
 
 .edit {
-    background-color: #2b8a3e;
+    background-color: #3498db;
 }
 
 .toggle {
-    background-color: #e53e3e;
+    background-color: #e74c3c;
 }
 
 .action-button:hover {
-    opacity: 0.9;
+    transform: scale(1.05);
 }
 
 .add-button {
@@ -223,10 +234,11 @@ tbody tr:hover {
     border-radius: 8px;
     cursor: pointer;
     margin-top: 12px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
     background-color: #45a049;
+    transform: scale(1.05);
 }
 </style>

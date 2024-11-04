@@ -25,6 +25,8 @@ import ShippingCostsManagement from '../views/ShippingCosts/ShippingCostsManagem
 import ShippingCostsAdd from '../views/ShippingCosts/ShippingCostsAdd.vue'
 import ShippingCostsEdit from '../views/ShippingCosts/ShippingCostEdit.vue';
 import OrderManagement from '../views/OrderManagement/OrderManagement.vue';
+import OrderDetail from '../views/OrderManagement/OrderDetails.vue'
+import TransactionsManagement from '../views/TransactionsManagement/PaymentTransactions.vue'
 import DiscountAdd from '../views/DiscountManagement/DiscountAdd.vue';
 import DiscountEdit from '../views/DiscountManagement/DiscountEdit.vue';
 import StatusManagement from '../views/StatusManagement/StatusManagement.vue'
@@ -62,98 +64,98 @@ const routes = [
     beforeEnter: requireAuth,
     children: [
       {
-        path: 'dashboard',
+        path: '/admin/dashboard',
         name: 'Dashboard',
         component: Dashboard,
         meta: { requiresAuth: true, title: 'Dashboard' },
       },
       {
-        path: 'users',
+        path: '/admin/users',
         name: 'UserManagement',
         component: UserManagement,
         meta: { requiresAuth: true, title: 'User Management' },
       },
       {
-        path: 'users/add',
+        path: '/admin/users/add',
         name: 'AddCustomer',
         component: AddCustomer,
         meta: { requiresAuth: true, title: 'Thêm Người Dùng' },
       },
       {
-        path: 'users/:userId/edit',
+        path: '/admin/users/:userId/edit',
         name: 'EditCustomer',
         component: EditCustomer,
         meta: { requiresAuth: true, title: 'Chỉnh Sửa Người Dùng' },
       },
       {
-        path: 'users/:userId',
+        path: '/admin/users/:userId',
         name: 'CustomerDetails',
         component: CustomerDetails,
         meta: { requiresAuth: true, title: 'Chi Tiết Người Dùng' },
       },
       {
-        path: 'admin',
+        path: '/admin',
         name: 'AdminManagement',
         component: AdminManagement,
         meta: { requiresAuth: true, title: 'Admin Management' },
       },
       {
-        path: 'admin/details/:adminId',
+        path: '/admin/details/:adminId',
         name: 'AdminDetails',
         component: AdminDetails,
         meta: { requiresAuth: true, title: 'Chi Tiết Quản Trị Viên' },
       },
       {
-        path: 'admin/edit/:adminId',
+        path: '/admin/edit/:adminId',
         name: 'EditAdmin',
         component: AdminDetailsEdit,
         meta: { requiresAuth: true, title: 'Chỉnh Sửa Quản Trị Viên' },
       },
       {
-        path: 'admin/AddAdmin',
+        path: '/admin/AddAdmin',
         name: 'AddAdmin',
         component: AddAdmin,
         meta: { requiresAuth: true, title: 'Add Admin' },
       },
       {
-        path: 'products',
+        path: '/admin/products',
         name: 'ProductList',
         component: ProductList,
         meta: { requiresAuth: true, title: 'Danh sách Sản phẩm' },
       },
       {
-        path: 'products/edit',
+        path: '/admin/products/edit',
         name: 'ProductForm',
         component: ProductForm,
         meta: { requiresAuth: true, title: 'Sửa Sản phẩm' },
       },
       {
-        path: 'products/new',
+        path: '/admin/products/new',
         name: 'AddProduct',
         component: ProductAdd,
         meta: { requiresAuth: true, title: 'Thêm Sản phẩm' },
       },
       {
-        path: 'products/:productId',
+        path: '/admin/products/:productId',
         name: 'ProductDetail',
         component: ProductDetail,
         meta: { requiresAuth: true, title: 'Chi tiết Sản phẩm' },
       },
 
       {
-        path: '/products/:productId/edit',
+        path: '/admin/products/:productId/edit',
         name: 'ProductForm', // Đảm bảo tên này là 'ProductForm'
         component: ProductForm,
         meta: { requiresAuth: true, title: 'Chỉnh sửa sản phẩm' }
       },
       {
-        path: 'categories',
+        path: '/admin/categories',
         name: 'CategoryManagement',
         component: CategoryManagement,
         meta: { requiresAuth: true, title: 'Quản lý Danh mục' }
       },
       {
-        path: 'categories/add',
+        path: '/admin/categories/add',
         name: 'CategoriesAdd',
         component: CategoryAdd,
         meta: { requiresAuth: true, title: 'Thêm Danh mục' }
@@ -177,7 +179,7 @@ const routes = [
         meta: { requiresAuth: true, title: 'Quản lý Chi phí vận chuyển' }
       },
       {
-        path: '.admin/shipping-costs/add',
+        path: '/admin/shipping-costs/add',
         name: 'ShippingCostsAdd',
         component: ShippingCostsAdd,
         meta: { requiresAuth: true, title: 'Thêm chi phí vận chuyển' }
@@ -201,6 +203,18 @@ const routes = [
         meta: { requiresAuth: true, title: 'Quản lý Đơn hàng' }
       },
       {
+        path: '/admin/orders/:orderId',
+        name: 'OrderDetail',
+        component: OrderDetail,
+        meta: { requiresAuth: true, title: 'Chi tiết Đơn hàng' }
+      },
+      {
+        path: '/admin/transactions',
+        name: 'TransactionsManagement',
+        component: TransactionsManagement,
+        meta: { requiresAuth: true, title: 'Quản lý Giao Dịch' }
+      },
+      {
         path: '/admin/discount',
         name: 'DiscountManagement',
         component: DiscountManagement,
@@ -219,13 +233,13 @@ const routes = [
         meta: { requiresAuth: true, title: 'Sửa Khuyến mãi' },
       },
       {
-        path: 'settings',
+        path: '/admin/settings',
         name: 'Settings',
         component: Settings,
         meta: { requiresAuth: true, title: 'Cài đặt' },
       },
       {
-        path: 'profile',
+        path: '/admin/profile',
         name: 'Profile',
         component: Profile,
         meta: { requiresAuth: true, title: 'Hồ sơ' },

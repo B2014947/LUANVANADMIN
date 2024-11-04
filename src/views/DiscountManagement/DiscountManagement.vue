@@ -1,6 +1,6 @@
 <template>
     <div class="discounts-management">
-        <h2>Quản lý Khuyến Mãi</h2>
+        <h2 class="management-title">Quản lý Khuyến Mãi</h2>
 
         <!-- Nút thêm mới -->
         <button @click="goToAddDiscount" class="add-button">Thêm mới khuyến mãi</button>
@@ -106,51 +106,62 @@ export default {
 
 <style scoped>
 .discounts-management {
-    padding: 2rem;
-    background-color: #1e2a38;
-    color: #ecf0f1;
+    padding: 24px;
+    background-color: #f9f9f9;
     border-radius: 12px;
-    max-width: 1200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    max-width: 800px;
     margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
 }
 
-h2 {
+.management-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d3e50;
+    margin-bottom: 8px;
     text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 24px;
-    color: #ffffff;
-    font-weight: bold;
+}
+
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    flex: 1;
 }
 
 .add-button,
-.search-button {
+.search-button,
+.edit-button,
+.delete-button {
     background-color: #27ae60;
+    /* Màu xanh cho các nút thêm mới và tìm kiếm */
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Thêm hiệu ứng chuyển động */
 }
 
 .add-button:hover,
-.search-button:hover {
+.search-button:hover,
+.edit-button:hover,
+.delete-button:hover {
     opacity: 0.9;
+    transform: scale(1.05);
+    /* Tăng kích thước nút khi hover */
 }
 
-.search-container {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.search-container input {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #bdc3c7;
-    border-radius: 5px;
+.table-container {
+    overflow-x: auto;
 }
 
 table {
@@ -162,43 +173,35 @@ table {
 th,
 td {
     border: 1px solid #bdc3c7;
-    padding: 12px 15px;
+    padding: 12px;
     text-align: left;
 }
 
 th {
     background-color: #34495e;
     color: #ecf0f1;
+    border-radius: 8px 8px 0 0;
+    /* Góc bo cho header bảng */
 }
 
-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 2px;
+tbody tr:hover {
+    background-color: #f1f3f5;
+    /* Đổi màu hàng khi hover */
 }
 
 .edit-button {
     background-color: #3498db;
-    color: #fff;
+    /* Màu xanh dương cho nút sửa */
 }
 
 .delete-button {
     background-color: #e74c3c;
-    color: #fff;
+    /* Màu đỏ cho nút xóa */
 }
 
-button:hover {
+.edit-button:hover,
+.delete-button:hover {
     opacity: 0.9;
-    transform: scale(1.02);
-}
-
-button:active {
-    transform: scale(1);
-}
-
-button:focus {
-    outline: 2px solid #27ae60;
+    /* Hiệu ứng hover cho nút sửa và xóa */
 }
 </style>

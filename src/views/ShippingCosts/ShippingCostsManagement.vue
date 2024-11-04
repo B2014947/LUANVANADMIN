@@ -1,13 +1,13 @@
 <template>
     <div class="shipping-costs-management">
-        <h2>Quản lý phí vận chuyển</h2>
+        <h2 class="management-title"><i class="fas fa-shipping-fast"></i> Quản lý phí vận chuyển</h2>
 
         <!-- Nút tạo mới -->
-        <button @click="goToCreate" class="add-button">Thêm mới phí vận chuyển</button>
+        <button @click="goToCreate" class="action-button add">Thêm mới phí vận chuyển</button>
 
         <!-- Danh sách phí vận chuyển -->
-        <section class="section">
-            <h3>Danh sách phí vận chuyển</h3>
+        <section class="table-container">
+            <h3 class="section-title">Danh sách phí vận chuyển</h3>
             <table>
                 <thead>
                     <tr>
@@ -21,10 +21,11 @@
                     <tr v-for="cost in shippingCosts" :key="cost.ShippingId">
                         <td>{{ cost.ShippingId }}</td>
                         <td>{{ cost.Province }}</td>
-                        <td>{{ cost.ShippingCosts }}</td>
+                        <td>{{ cost.ShippingCosts.toLocaleString() }} VND</td>
                         <td>
-                            <button @click="goToEditCost(cost.ShippingId)">Sửa</button>
-                            <button @click="deleteShippingCost(cost.ShippingId)">Xóa</button>
+                            <button class="action-button edit" @click="goToEditCost(cost.ShippingId)">Sửa</button>
+                            <button class="action-button delete"
+                                @click="deleteShippingCost(cost.ShippingId)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -37,7 +38,7 @@
 export default {
     data() {
         return {
-            shippingCosts: [] // Lưu trữ danh sách phí vận chuyển
+            shippingCosts: []
         };
     },
     mounted() {
@@ -75,49 +76,109 @@ export default {
 </script>
 
 <style scoped>
-.section {
-    margin-bottom: 2rem;
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.shipping-costs-management {
+    padding: 24px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    max-width: 1000px;
+    margin: auto;
 }
 
-h2,
-h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
+.management-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3e50;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 12px;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-th,
-td {
-    border: 1px solid #bdc3c7;
-    padding: 10px;
-    text-align: left;
-}
-
-th {
+thead th {
     background-color: #34495e;
-    color: #ecf0f1;
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    border-radius: 8px 8px 0 0;
 }
 
-button {
-    padding: 5px 10px;
-    margin-right: 5px;
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #2d3e50;
+}
+
+tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.action-button {
+    padding: 8px 12px;
+    margin: 3px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-}
-
-.add-button {
-    background-color: #27ae60;
+    font-size: 14px;
+    font-weight: 500;
     color: #fff;
-    margin-bottom: 1rem;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-button:hover {
-    opacity: 0.9;
+.add {
+    background-color: #4caf50;
+}
+
+.edit {
+    background-color: #3498db;
+}
+
+.delete {
+    background-color: #e74c3c;
+}
+
+.action-button:hover {
+    transform: scale(1.05);
+}
+
+.action-button {
+    padding: 8px 12px;
+    margin: 3px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
 }
 </style>

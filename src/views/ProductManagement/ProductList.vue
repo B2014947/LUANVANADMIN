@@ -132,33 +132,33 @@ export default {
 .management-container {
     padding: 24px;
     background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
     max-width: 1200px;
     margin: auto;
 }
 
 .management-title {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
     color: #2d3e50;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
 .description {
     font-size: 16px;
     color: #6c757d;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     text-align: center;
 }
 
 .table-container {
     overflow-x: auto;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;
 }
 
@@ -171,9 +171,10 @@ table {
 thead th {
     background-color: #34495e;
     color: #ffffff;
-    padding: 12px;
+    padding: 14px;
     text-align: left;
     font-weight: 500;
+    border-radius: 8px 8px 0 0;
 }
 
 tbody td {
@@ -183,7 +184,7 @@ tbody td {
 }
 
 tbody tr:hover {
-    background-color: #f1f3f5;
+    background-color: #f4f6f8;
 }
 
 .status-active {
@@ -198,12 +199,12 @@ tbody tr:hover {
     padding: 8px 12px;
     margin: 3px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     color: #fff;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .view {
@@ -211,23 +212,27 @@ tbody tr:hover {
 }
 
 .edit {
-    background-color: #2b8a3e;
+    background-color: #3498db;
 }
 
 .delete {
-    background-color: #e53e3e;
+    background-color: #e74c3c;
+}
+
+.add {
+    background-color: #4caf50;
 }
 
 .action-button:hover {
-    opacity: 0.9;
+    transform: scale(1.05);
 }
 
 .filter-container {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-wrap: wrap;
 }
 
@@ -246,14 +251,29 @@ tbody tr:hover {
     font-size: 15px;
     font-weight: 600;
     color: #ffffff;
-    background-color: #4caf50;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.filter-container button:hover {
+.search {
+    background-color: #3498db;
+}
+
+.search:hover {
+    background-color: #2980b9;
+}
+
+button.add:hover {
     background-color: #45a049;
+}
+
+button.edit:hover {
+    background-color: #2980b9;
+}
+
+button.delete:hover {
+    background-color: #c0392b;
 }
 </style>

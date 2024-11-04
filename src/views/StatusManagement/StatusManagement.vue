@@ -1,29 +1,30 @@
 <template>
     <div class="statuses-management">
-        <h2>Quản lý Trạng Thái Đơn Hàng</h2>
+        <h2 class="management-title">Quản lý Trạng Thái Đơn Hàng</h2>
 
         <!-- Nút thêm mới -->
-        <button @click="showAddStatusForm = true" class="add-button">Thêm mới trạng thái</button>
+        <button @click="showAddStatusForm = true" class="action-button add">Thêm mới trạng thái</button>
 
         <!-- Form thêm trạng thái mới -->
         <div v-if="showAddStatusForm" class="form-container">
-            <h3>Thêm Trạng Thái Mới</h3>
+            <h3 class="form-title">Thêm Trạng Thái Mới</h3>
             <form @submit.prevent="handleAddStatus">
                 <label>
-                    <strong>Tên Trạng Thái:</strong>
+                    Tên Trạng Thái:
                     <input type="text" v-model="newStatusName" required />
                 </label>
                 <label>
-                    <strong>Mô tả:</strong>
+                    Mô tả:
                     <textarea v-model="newDescription" required></textarea>
                 </label>
-                <button type="submit" class="submit-button">Thêm</button>
-                <button type="button" class="back-button" @click="showAddStatusForm = false">Hủy</button>
+                <button type="submit" class="action-button submit">Thêm</button>
+                <button type="button" class="action-button cancel" @click="showAddStatusForm = false">Hủy</button>
             </form>
         </div>
 
         <!-- Danh sách trạng thái -->
-        <section class="section">
+        <section class="table-container">
+            <h3 class="section-title">Danh sách trạng thái</h3>
             <table>
                 <thead>
                     <tr>
@@ -39,7 +40,7 @@
                         <td>{{ status.StatusName }}</td>
                         <td>{{ status.Description }}</td>
                         <td>
-                            <button @click="deleteStatus(status.StatusId)" class="delete-button">Xóa</button>
+                            <button @click="deleteStatus(status.StatusId)" class="action-button delete">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -52,7 +53,7 @@
 export default {
     data() {
         return {
-            statuses: [], // Danh sách trạng thái
+            statuses: [],
             newStatusName: '',
             newDescription: '',
             showAddStatusForm: false
@@ -115,102 +116,124 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 .statuses-management {
-    padding: 2rem;
-    background-color: #1e2a38;
-    color: #ecf0f1;
+    padding: 24px;
+    background-color: #f9f9f9;
     border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
     max-width: 800px;
     margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
 }
 
-h2,
-h3 {
+.management-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d3e50;
+    margin-bottom: 8px;
     text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 24px;
-    color: #ffffff;
-    font-weight: bold;
 }
 
-.add-button,
-.submit-button,
-.back-button {
-    background-color: #27ae60;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 1rem;
-}
-
-.add-button:hover,
-.submit-button:hover,
-.back-button:hover {
-    opacity: 0.9;
-}
-
-.section {
-    margin-top: 2rem;
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-th,
-td {
-    border: 1px solid #bdc3c7;
-    padding: 12px 15px;
-    text-align: left;
-}
-
-th {
+thead th {
     background-color: #34495e;
-    color: #ecf0f1;
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    border-radius: 8px 8px 0 0;
 }
 
-.delete-button {
-    background-color: #e74c3c;
-    color: #fff;
-    padding: 5px 10px;
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #2d3e50;
+}
+
+tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.action-button {
+    padding: 8px 12px;
+    margin: 3px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.delete-button:hover {
-    opacity: 0.9;
+.add {
+    background-color: #4caf50;
+}
+
+.submit {
+    background-color: #27ae60;
+}
+
+.cancel {
+    background-color: #e74c3c;
+}
+
+.delete {
+    background-color: #e74c3c;
+}
+
+.action-button:hover {
+    transform: scale(1.05);
 }
 
 .form-container {
-    margin-bottom: 2rem;
     background-color: #2c3e50;
-    padding: 2rem;
+    padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 label {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
+    display: block;
     font-size: 14px;
     color: #bdc3c7;
+    margin-bottom: 12px;
 }
 
 input[type="text"],
 textarea {
-    padding: 12px;
+    width: 100%;
+    padding: 10px;
     background-color: #34495e;
     border: 1px solid #7f8c8d;
     border-radius: 6px;
     color: #ecf0f1;
     margin-top: 5px;
+    font-size: 14px;
     outline: none;
     transition: border-color 0.3s ease;
 }

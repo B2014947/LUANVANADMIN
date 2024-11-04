@@ -1,13 +1,18 @@
 <template>
-    <div class="category-management">
-        <h2>Quản lý danh mục và danh mục phụ</h2>
+    <div class="management-container">
+        <h2 class="management-title"><i class="fas fa-list-alt"></i> Quản lý danh mục và danh mục phụ</h2>
+        <p class="description">Danh sách các danh mục và danh mục phụ hiện có trong hệ thống.</p>
 
         <!-- Nút tạo mới -->
-        <button @click="goToCreate" class="add-button">Thêm mới danh mục hoặc danh mục phụ</button>
+        <div class="filter-container">
+            <button @click="goToCreate" class="action-button add">
+                <i class="fas fa-plus-circle"></i> Thêm mới danh mục hoặc danh mục phụ
+            </button>
+        </div>
 
         <!-- Quản lý danh mục -->
-        <section class="section">
-            <h3>Danh mục</h3>
+        <section class="table-container">
+            <h3 class="section-title">Danh mục</h3>
             <table>
                 <thead>
                     <tr>
@@ -23,8 +28,10 @@
                         <td>{{ category.CategoryName }}</td>
                         <td>{{ category.Description }}</td>
                         <td>
-                            <button @click="goToEditCategory(category.CategoryId)">Sửa</button>
-                            <button @click="deleteCategory(category.CategoryId)">Xóa</button>
+                            <button class="action-button edit"
+                                @click="goToEditCategory(category.CategoryId)">Sửa</button>
+                            <button class="action-button delete"
+                                @click="deleteCategory(category.CategoryId)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -32,8 +39,8 @@
         </section>
 
         <!-- Quản lý danh mục phụ -->
-        <section class="section">
-            <h3>Danh mục phụ</h3>
+        <section class="table-container">
+            <h3 class="section-title">Danh mục phụ</h3>
             <table>
                 <thead>
                     <tr>
@@ -49,8 +56,10 @@
                         <td>{{ subcategory.CategoryId }}</td>
                         <td>{{ subcategory.Description }}</td>
                         <td>
-                            <button @click="goToEditSubcategory(subcategory.SubcategoryId)">Sửa</button>
-                            <button @click="deleteSubcategory(subcategory.SubcategoryId)">Xóa</button>
+                            <button class="action-button edit"
+                                @click="goToEditSubcategory(subcategory.SubcategoryId)">Sửa</button>
+                            <button class="action-button delete"
+                                @click="deleteSubcategory(subcategory.SubcategoryId)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -126,49 +135,122 @@ export default {
 </script>
 
 <style scoped>
-.section {
-    margin-bottom: 2rem;
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.management-container {
+    padding: 24px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    max-width: 1200px;
+    margin: auto;
 }
 
-h2,
-h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
+.management-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3e50;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.description {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-th,
-td {
-    border: 1px solid #bdc3c7;
-    padding: 10px;
-    text-align: left;
-}
-
-th {
+thead th {
     background-color: #34495e;
-    color: #ecf0f1;
+    color: #ffffff;
+    padding: 14px;
+    text-align: left;
+    font-weight: 500;
+    border-radius: 8px 8px 0 0;
 }
 
-button {
-    padding: 5px 10px;
-    margin-right: 5px;
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #2d3e50;
+}
+
+tbody tr {
+    transition: background-color 0.3s;
+}
+
+tbody tr:hover {
+    background-color: #f4f6f8;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 12px;
+}
+
+.action-button {
+    padding: 8px 12px;
+    margin: 3px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-}
-
-.add-button {
-    background-color: #27ae60;
+    font-size: 16px;
+    font-weight: 500;
     color: #fff;
-    margin-bottom: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-    opacity: 0.9;
+.add {
+    background-color: #4caf50;
+}
+
+.edit {
+    background-color: #3498db;
+}
+
+.delete {
+    background-color: #e74c3c;
+}
+
+.action-button:hover {
+    transform: scale(1.05);
+}
+
+.filter-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+button.add:hover {
+    background-color: #45a049;
+}
+
+button.edit:hover {
+    background-color: #2980b9;
+}
+
+button.delete:hover {
+    background-color: #c0392b;
 }
 </style>

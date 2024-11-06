@@ -3,7 +3,11 @@
         <h2 class="management-title"><i class="fas fa-shipping-fast"></i> Quản lý phí vận chuyển</h2>
 
         <!-- Nút tạo mới -->
-        <button @click="goToCreate" class="action-button add">Thêm mới phí vận chuyển</button>
+        <div class="filter-container">
+            <button @click="goToCreate" class="action-button add">
+                <i class="fas fa-plus-circle"></i> Thêm mới chi phí vận chuyển
+            </button>
+        </div>
 
         <!-- Danh sách phí vận chuyển -->
         <section class="table-container">
@@ -25,9 +29,12 @@
                         <td>{{ cost.ShippingCosts.toLocaleString() }} VND</td>
                         <td>{{ cost.EstimatedDeliveryTime }} Ngày</td>
                         <td>
-                            <button class="action-button edit" @click="goToEditCost(cost.ShippingId)">Sửa</button>
-                            <button class="action-button delete"
-                                @click="deleteShippingCost(cost.ShippingId)">Xóa</button>
+                            <button class="action-button edit" @click="goToEditCost(cost.ShippingId)">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="action-button delete" @click="deleteShippingCost(cost.ShippingId)">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -35,6 +42,7 @@
         </section>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -84,32 +92,26 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .shipping-costs-management {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 2rem;
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 30px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
-    max-width: 1000px;
-    margin: auto;
 }
 
 .management-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2d3e50;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #27ae60;
+    text-align: center;
     margin-bottom: 20px;
-    text-align: center;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 15px;
 }
 
 .table-container {
+    margin-top: 1rem;
     overflow-x: auto;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
@@ -119,36 +121,50 @@ export default {
 table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 thead th {
-    background-color: #34495e;
+    background-color: #27ae60;
     color: #ffffff;
     padding: 12px;
+    font-weight: 600;
     text-align: left;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px 6px 0 0;
 }
 
 tbody td {
     padding: 12px;
+    color: #2c3e50;
     border-bottom: 1px solid #dee2e6;
-    color: #2d3e50;
 }
 
 tbody tr:hover {
-    background-color: #f1f3f5;
+    background-color: #f1f8f5;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 15px;
 }
 
 .action-button {
-    padding: 8px 12px;
-    margin: 3px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    color: #fff;
+    color: #ffffff;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    align-items: center;
+    margin: 5px;
+    gap: 10px;
 }
 
 .add {
@@ -156,7 +172,7 @@ tbody tr:hover {
 }
 
 .edit {
-    background-color: #3498db;
+    background-color: #f39c12;
 }
 
 .delete {
@@ -165,5 +181,25 @@ tbody tr:hover {
 
 .action-button:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add:hover {
+    background-color: #388e3c;
+}
+
+.edit:hover {
+    background-color: #1e88e5;
+}
+
+.delete:hover {
+    background-color: #c0392b;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 12px;
 }
 </style>

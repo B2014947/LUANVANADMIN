@@ -104,21 +104,72 @@ export default {
         },
         async fetchStatistics() {
             const filterParams = new URLSearchParams();
-            if (this.selectedStatus) filterParams.set('status', this.selectedStatus); // Lọc theo trạng thái
+            if (this.selectedStatus) filterParams.set('status', this.selectedStatus);
 
             try {
                 const response = await fetch(`http://localhost:5000/api/transactions/Statistics-payment?${filterParams}`);
+                if (!response.ok) throw new Error("Lỗi khi tải thống kê giao dịch");
+
                 const data = await response.json();
                 this.statistics = data;
 
-                if (!data.totalTransactions) {
-                    alert("Không có dữ liệu cho bộ lọc hiện tại.");
+                // Hủy biểu đồ nếu có lỗi từ localhost hoặc không có dữ liệu
+                if (this.statusChart) this.statusChart.destroy();
+                if (this.amountChart) this.amountChart.destroy();
+
+                if (data.totalTransactions > 0 || data.totalAmount > 0) {
+                    this.renderCharts(); // Render biểu đồ mới nếu có dữ liệu
+                } else {
+                    alert("Không có dữ liệu cho trạng thái hiện tại.");
                 }
-                this.renderCharts(); // Render lại biểu đồ khi có thay đổi
             } catch (error) {
                 console.error("Lỗi khi tải thống kê giao dịch:", error);
-                alert("Lỗi khi tải thống kê giao dịch.");
+                alert("Lỗi khi tải thống kê giao dịch. Vui lòng kiểm tra kết nối hoặc thử lại.");
+
+                // Hủy biểu đồ nếu có lỗi từ localhost
+                if (this.statusChart) this.statusChart.destroy();
+                if (this.amountChart) this.amountChart.destroy();
             }
+        },
+        renderCharts() {
+            const ctxStatus = document.getElementById("statusChart").getContext("2d");
+            this.statusChart = new Chart(ctxStatus, {
+                type: 'bar',
+                data: {
+                    labels: ["Đang chờ xử lý", "Hoàn tất", "Thất bại"],
+                    datasets: [{
+                        data: [
+                            this.statistics.transactionStatusCounts.Pending,
+                            this.statistics.transactionStatusCounts.Completed,
+                            this.statistics.transactionStatusCounts.Failed,
+                        ],
+                        backgroundColor: ["#f39c12", "#27ae60", "#e74c3c"],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } },
+                }
+            });
+
+            const ctxAmount = document.getElementById("amountChart").getContext("2d");
+            this.amountChart = new Chart(ctxAmount, {
+                type: 'bar',
+                data: {
+                    labels: ["Tổng số tiền giao dịch"],
+                    datasets: [{
+                        label: "Số tiền (VND)",
+                        data: [this.statistics.totalAmount],
+                        backgroundColor: "#3498db",
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } },
+                    plugins: { legend: { display: false } },
+                }
+            });
         },
         renderCharts() {
             if (this.statusChart) this.statusChart.destroy();
@@ -206,121 +257,187 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
-
 .payment-transactions {
-    padding: 30px;
-    background-color: #f9f9f9;
+    padding: 2.5rem;
+    background-color: #ffffff;
     font-family: "Roboto", sans-serif;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
     margin: auto;
+    color: #2c3e50;
 }
 
 .title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    color: #27ae60;
+}
+
+.title i {
+    margin-right: 10px;
+    color: #27ae60;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.filter-container label {
+    font-weight: bold;
     color: #34495e;
+}
+
+.filter-container select {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #bdc3c7;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    width: auto;
+    /* Điều chỉnh lại để phù hợp */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .total-amount {
     font-size: 18px;
     color: #2c3e50;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
+    font-weight: bold;
 }
 
 .total-amount i {
     margin-right: 8px;
-    color: #e67e22;
+    color: #27ae60;
 }
 
 .total-amount span {
-    font-weight: bold;
     color: #3498db;
+    font-weight: bold;
 }
 
 .charts {
     display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 25px;
+    margin-bottom: 30px;
     justify-content: space-between;
 }
 
 .chart-container {
     width: 48%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    text-align: center;
 }
 
-h3 {
+.chart-container h3 {
     font-size: 18px;
+    font-weight: bold;
     color: #34495e;
-    margin: 0 0 10px;
+    margin-bottom: 15px;
+}
+
+.chart-container h3 i {
+    margin-right: 6px;
+    color: #27ae60;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 th,
 td {
-    padding: 14px 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-    font-size: 14px;
-    color: #34495e;
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 15px;
+    color: #2c3e50;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 6px 6px 0 0;
 }
 
 th {
-    background-color: #2c3e50;
+    background-color: #27ae60;
     color: #ecf0f1;
-    font-weight: bold;
+    font-weight: 600;
+}
+
+.status-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.status-cell .status-icon {
+    font-size: 18px;
 }
 
 .status-cell select {
-    font-weight: bold;
-    color: #000000;
-    background-color: inherit;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 8px;
+    padding: 10.5px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #bdc3c7;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    width: 100%;
+    /* Đảm bảo cân đối trong ô */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-.status-pending-icon,
-.status-pending select {
+.status-pending {
     background-color: #f39c12;
 }
 
-.status-completed-icon,
-.status-completed select {
+.status-completed {
     background-color: #27ae60;
 }
 
-.status-failed-icon,
-.status-failed select {
+.status-failed {
     background-color: #e74c3c;
 }
 
+.status-cell select.status-pending {
+    background-color: #f39c12;
+    color: #ffffff;
+}
+
+.status-cell select.status-completed {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.status-cell select.status-failed {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
 button {
-    padding: 8px 12px;
+    padding: 10px 16px;
     font-size: 14px;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
     display: flex;
@@ -340,4 +457,3 @@ button i {
     font-size: 14px;
 }
 </style>
-        

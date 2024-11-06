@@ -3,57 +3,57 @@
         <h2><i class="fas fa-user-plus"></i> Tạo mới tài khoản quản trị viên</h2>
         <form @submit.prevent="createAdmin" class="create-admin-form" enctype="multipart/form-data">
             <label>
-                <strong>Tên người dùng:</strong>
+                <strong><i class="fas fa-user"></i> Tên người dùng:</strong>
                 <input type="text" v-model="admin.username" required />
             </label>
 
             <label>
-                <strong>Mật khẩu:</strong>
+                <strong><i class="fas fa-lock"></i> Mật khẩu:</strong>
                 <input type="password" v-model="admin.password" required />
             </label>
 
             <label>
-                <strong>Họ và tên:</strong>
+                <strong><i class="fas fa-id-card"></i> Họ và tên:</strong>
                 <input type="text" v-model="admin.fullName" required />
             </label>
 
             <label>
-                <strong>Email:</strong>
+                <strong><i class="fas fa-envelope"></i> Email:</strong>
                 <input type="email" v-model="admin.email" required />
             </label>
 
             <label>
-                <strong>Số điện thoại:</strong>
+                <strong><i class="fas fa-phone"></i> Số điện thoại:</strong>
                 <input type="text" v-model="admin.phoneNumber" />
             </label>
 
             <label>
-                <strong>Địa chỉ:</strong>
+                <strong><i class="fas fa-map-marker-alt"></i> Địa chỉ:</strong>
                 <input type="text" v-model="admin.address" />
             </label>
 
             <label>
-                <strong>Ngày sinh:</strong>
+                <strong><i class="fas fa-calendar-alt"></i> Ngày sinh:</strong>
                 <input type="date" v-model="admin.dateOfBirth" />
             </label>
 
             <label>
-                <strong>Giới tính:</strong>
+                <strong><i class="fas fa-venus-mars"></i> Giới tính:</strong>
                 <input type="text" v-model="admin.gender" />
             </label>
 
             <label>
-                <strong>Liên hệ khẩn cấp:</strong>
+                <strong><i class="fas fa-phone-square-alt"></i> Liên hệ khẩn cấp:</strong>
                 <input type="text" v-model="admin.emergencyContact" />
             </label>
 
             <label>
-                <strong>Chi tiết địa chỉ:</strong>
+                <strong><i class="fas fa-address-book"></i> Chi tiết địa chỉ:</strong>
                 <input type="text" v-model="admin.addressDetails" />
             </label>
 
             <label>
-                <strong>Hình đại diện:</strong>
+                <strong><i class="fas fa-image"></i> Hình đại diện:</strong>
                 <input type="file" name="profilePicture" @change="handleFileUpload" />
             </label>
 
@@ -62,7 +62,7 @@
                 <img :src="previewImage" alt="Profile Picture" />
             </div>
 
-            <button type="submit" class="submit-button">Tạo tài khoản</button>
+            <button type="submit" class="submit-button"><i class="fas fa-check-circle"></i> Tạo tài khoản</button>
         </form>
 
         <button class="back-button" @click="$router.push({ name: 'AdminManagement' })">
@@ -70,6 +70,7 @@
         </button>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -144,21 +145,22 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 .create-admin-container {
     padding: 2.5rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ chính */
     border-radius: 12px;
     max-width: 700px;
     margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: var(--highlight-color);
+    color: #27ae60;
+    /* Màu chủ đạo cho tiêu đề */
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 700;
@@ -170,7 +172,8 @@ h2 {
 }
 
 label {
-    color: #bdc3c7;
+    color: #2c3e50;
+    /* Màu nhạt cho nhãn */
     font-weight: 500;
     margin-top: 1rem;
     display: flex;
@@ -182,21 +185,24 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 input[type="file"] {
-    width: 320%;
+    width: 100%;
     padding: 12px 15px;
     margin-top: 5px;
-    background-color: var(--secondary-bg-color);
+    background-color: #f4f4f4;
+    /* Màu nền cho ô nhập */
     border: 1px solid #7f8c8d;
     border-radius: 8px;
-    color: var(--text-color);
+    color: #2c3e50;
+    /* Màu chữ */
     font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    border-color: #27ae60;
+    /* Màu xanh lá khi focus */
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .image-preview {
@@ -213,7 +219,8 @@ input:focus {
 
 .submit-button {
     padding: 12px;
-    background-color: var(--button-bg-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho nút tạo tài khoản */
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -222,17 +229,19 @@ input:focus {
     margin-top: 1.5rem;
     width: 100%;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 6px var(--shadow-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #219150;
+    /* Màu xanh lá đậm khi hover */
     box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
 }
 
 .back-button {
     padding: 12px;
     background-color: #2980b9;
+    /* Màu xanh lam cho nút quay lại */
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -244,11 +253,12 @@ input:focus {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 6px var(--shadow-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .back-button:hover {
     background-color: #3498db;
+    /* Màu xanh lam đậm khi hover */
     box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
 }
 

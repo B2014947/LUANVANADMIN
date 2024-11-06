@@ -139,6 +139,7 @@ textarea {
 }
 
 button {
+    margin-top: 1rem;
     padding: 12px;
     border: none;
     border-radius: 8px;

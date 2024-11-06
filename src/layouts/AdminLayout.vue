@@ -75,12 +75,18 @@
                     </router-link>
                 </div>
             </header>
-            <section class="content-section">
-                <RouterView />
-            </section>
+            <div>
+                <router-view v-slot="{ Component }">
+                    <transition name="slide-fade">
+                        <component :is="Component" />
+                    </transition>
+                </router-view>
+
+            </div>
         </main>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -149,30 +155,25 @@ export default {
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-/* Tông màu chính và phụ */
-:root {
-    --primary-color: #2c3e50;
-    /* Màu xanh đậm cho nền */
-    --secondary-color: #34495e;
-    /* Màu xanh đậm hơn cho sidebar */
-    --accent-color: #27ae60;
-    /* Màu xanh lá nhạt làm điểm nhấn */
-    --hover-color: #1abc9c;
-    /* Màu xanh lá nhạt khi hover */
-    --text-color-light: #ffffff;
-    /* Màu chữ sáng */
-    --text-color-dark: #2c3e50;
-    /* Màu chữ tối */
-    --header-bg: #ffffff;
-    /* Nền header */
-    --badge-color: #e74c3c;
-    /* Màu đỏ cho badge */
-    --button-bg-hover: #219150;
-    /* Màu nền khi hover nút */
-    --notification-bg: #f4f6f8;
-    /* Màu nền thông báo */
+/*
+  Enter and leave animations can use different
+  durations and timing functions.
+*/
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
 }
 
+.slide-fade-leave-active {
+    transition: all 0.5s cubic-bezier(1, 0.5, 0.5, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+/* Tông màu chính và phụ */
 .admin-layout {
     display: flex;
     height: 100vh;
@@ -180,18 +181,22 @@ export default {
 
 .sidebar {
     width: 250px;
-    background-color: var(--primary-color);
-    color: var(--text-color-light);
+    background-color: #2c3e50;
+    /* Màu xanh đậm */
+    color: #ffffff;
+    /* Màu chữ sáng */
     padding: 1.5rem;
-    border-right: 1px solid var(--secondary-color);
+    border-right: 1px solid #34495e;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(180deg, #2c3e50, #34495e);
 }
 
 .sidebar h2 {
     text-align: center;
     font-size: 1.6rem;
     margin-bottom: 2rem;
-    color: var(--accent-color);
+    color: #27ae60;
+    /* Màu xanh lá nhạt */
 }
 
 .nav-link {
@@ -199,16 +204,18 @@ export default {
     display: flex;
     align-items: center;
     padding: 12px 15px;
-    color: var(--text-color-light);
+    color: #ffffff;
     text-decoration: none;
     border-radius: 6px;
-    transition: background-color 0.3s, color 0.3s;
     font-size: 1rem;
     margin-bottom: 1rem;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.nav-link:hover {
-    background-color: var(--hover-color);
+.nav-link:hover,
+.nav-link.active {
+    background-color: #1abc9c;
+    /* Màu xanh lá nhạt khi hover */
     color: #fff;
 }
 
@@ -222,15 +229,16 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: var(--header-bg);
-    border-bottom: 1px solid var(--secondary-color);
+    background-color: #ffffff;
+    /* Nền header */
+    border-bottom: 1px solid #34495e;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header-title h1 {
     font-size: 1.8rem;
     font-weight: 600;
-    color: var(--text-color-dark);
+    color: #2c3e50;
     display: flex;
     align-items: center;
     margin: 0;
@@ -238,12 +246,12 @@ export default {
 
 .header-title h1 i {
     margin-right: 10px;
-    color: var(--accent-color);
+    color: #27ae60;
 }
 
 .welcome-message {
     font-size: 1rem;
-    color: var(--text-color-dark);
+    color: #2c3e50;
     margin-top: 0.5rem;
 }
 
@@ -260,7 +268,7 @@ export default {
 
 .notification-icon {
     font-size: 1.5rem;
-    color: var(--accent-color);
+    color: #27ae60;
     transition: transform 0.2s ease-in-out;
 }
 
@@ -268,8 +276,9 @@ export default {
     position: absolute;
     top: -5px;
     right: -10px;
-    background-color: var(--badge-color);
-    color: var(--text-color-light);
+    background-color: #e74c3c;
+    /* Màu đỏ cho badge */
+    color: #ffffff;
     border-radius: 50%;
     padding: 5px 10px;
     font-size: 0.8rem;
@@ -278,8 +287,8 @@ export default {
 
 .header-button {
     padding: 8px 16px;
-    background-color: var(--accent-color);
-    color: var(--text-color-light);
+    background-color: #27ae60;
+    color: #ffffff;
     border-radius: 8px;
     text-decoration: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -287,15 +296,15 @@ export default {
 }
 
 .header-button:hover {
-    background-color: var(--button-bg-hover);
+    background-color: #219150;
 }
 
 main {
     flex-grow: 1;
     padding: 2rem;
-    background-color: var(--notification-bg);
+    background-color: #f4f6f8;
     overflow-y: auto;
-    color: var(--text-color-dark);
+    color: #2c3e50;
 }
 
 .content-section {
@@ -320,6 +329,24 @@ main {
 
     75% {
         transform: rotate(15deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .admin-header {
+        padding: 0.5rem;
+    }
+
+    main {
+        padding: 1rem;
     }
 }
 </style>

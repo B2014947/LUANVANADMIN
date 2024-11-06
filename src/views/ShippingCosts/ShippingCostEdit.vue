@@ -81,64 +81,65 @@ export default {
 
 <style scoped>
 .form-container {
-    padding: 2rem;
-    background-color: #1e2a38;
-    color: #ecf0f1;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
     max-width: 600px;
-    margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
+    color: #27ae60;
     text-align: center;
-    margin-bottom: 2rem;
-    font-size: 24px;
-    color: #ffffff;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 label {
+    font-weight: 500;
+    color: #34495e;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
-    color: #bdc3c7;
 }
 
 input[type="text"],
-input[type="number"],
-textarea {
+input[type="number"] {
     width: 100%;
-    padding: 12px;
-    background-color: #34495e;
-    border: 1px solid #7f8c8d;
-    border-radius: 6px;
-    color: #ecf0f1;
+    padding: 12px 15px;
+    background-color: #f4f4f4;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
+input:focus {
     border-color: #27ae60;
+    box-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
 }
 
 button {
     padding: 12px;
     border: none;
-    border-radius: 6px;
-    color: #fff;
+    border-radius: 8px;
+    color: #ffffff;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {
@@ -146,19 +147,16 @@ button {
 }
 
 .back-button {
-    background-color: #e74c3c;
+    background-color: #2980b9;
+    margin-top: 1rem;
 }
 
 button:hover {
-    opacity: 0.95;
-    transform: scale(1.02);
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
     transform: scale(1);
-}
-
-button:focus {
-    outline: 2px solid #27ae60;
 }
 </style>

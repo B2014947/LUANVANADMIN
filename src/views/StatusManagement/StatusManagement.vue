@@ -116,73 +116,70 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 .statuses-management {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 2.5rem;
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
 }
 
 .management-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 20px;
     text-align: center;
 }
 
 .table-container {
     overflow-x: auto;
     margin-top: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    background-color: #ffffff;
+    background-color: #f7f9fc;
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 thead th {
-    background-color: #34495e;
+    background-color: #27ae60;
     color: #ffffff;
     padding: 12px;
     text-align: left;
-    font-weight: 500;
-    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+    border-radius: 6px 6px 0 0;
 }
 
 tbody td {
     padding: 12px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #e5e7eb;
     color: #2d3e50;
 }
 
 tbody tr:hover {
-    background-color: #f1f3f5;
+    background-color: #e8f5e9;
 }
 
 .action-button {
-    padding: 8px 12px;
+    padding: 10px 15px;
     margin: 3px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: bold;
     color: #fff;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add {
-    background-color: #4caf50;
+    background-color: #27ae60;
 }
 
 .submit {
@@ -198,6 +195,7 @@ tbody tr:hover {
 }
 
 .action-button:hover {
+    opacity: 0.9;
     transform: scale(1.05);
 }
 
@@ -205,35 +203,35 @@ tbody tr:hover {
     background-color: #2c3e50;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
 .form-title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: bold;
     color: #ffffff;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     color: #bdc3c7;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 input[type="text"],
 textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #34495e;
     border: 1px solid #7f8c8d;
-    border-radius: 6px;
+    border-radius: 8px;
     color: #ecf0f1;
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease;
 }

@@ -2,7 +2,10 @@
   <div class="management-container">
     <h2 class="management-title">Quản lý người dùng</h2>
     <p class="description">Quản lý người dùng tại đây.</p>
-
+    <button class="add-button" @click="addUser">
+      <i class="fas fa-user-plus"></i> Thêm Người Dùng
+    </button>
+    <br>
     <div class="table-container">
       <table>
         <thead>
@@ -19,11 +22,15 @@
             <td>{{ user.Username }}</td>
             <td>{{ user.Email }}</td>
             <td>
-              <button class="action-button view" @click="viewUserDetails(user.UserId)">Xem Chi Tiết</button>
+              <button class="action-button view" @click="viewUserDetails(user.UserId)">
+                <i class="fas fa-eye"></i> Xem Chi Tiết
+              </button>
               <button class="action-button edit" @click="editUser(user.UserId)">
-                Chỉnh Sửa</button>
+                <i class="fas fa-edit"></i> Chỉnh Sửa
+              </button>
               <button class="action-button toggle"
                 @click="user.IsActive ? disableUser(user.UserId) : enableUser(user.UserId)">
+                <i :class="user.IsActive ? 'fas fa-user-slash' : 'fas fa-user-check'"></i>
                 {{ user.IsActive ? 'Vô hiệu hóa' : 'Kích hoạt' }}
               </button>
             </td>
@@ -32,7 +39,7 @@
       </table>
     </div>
 
-    <button class="add-button" @click="addUser">Thêm Người Dùng</button>
+
   </div>
 </template>
 
@@ -120,37 +127,14 @@ export default {
 </script>
 
 <style scoped>
-:root {
-  --main-bg-color: #ffffff;
-  /* Nền sáng */
-  --sidebar-bg-color: #27ae60;
-  /* Màu xanh lá cho thanh bên */
-  --text-color: #2c3e50;
-  /* Màu chữ chính */
-  --highlight-color: #27ae60;
-  /* Màu xanh lá nhấn mạnh */
-  --accent-color: #3498db;
-  /* Màu xanh lam cho nút chi tiết */
-  --hover-bg-color: #2ecc71;
-  /* Màu khi hover */
-  --danger-color: #e74c3c;
-  /* Màu đỏ cho cảnh báo */
-  --edit-color: #f39c12;
-  /* Màu cam cho chỉnh sửa */
-  --button-bg-color: #27ae60;
-  /* Màu nút chính */
-  --button-hover-color: #219150;
-  /* Màu hover của nút */
-  --shadow-color: rgba(0, 0, 0, 0.15);
-  /* Bóng đổ */
-}
-
 .management-container {
   padding: 24px;
-  background-color: var(--main-bg-color);
+  background-color: #ffffff;
+  /* Nền sáng */
   border-radius: 12px;
-  box-shadow: 0 4px 12px var(--shadow-color);
-  color: var(--text-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #2c3e50;
+  /* Màu chữ chính */
   font-family: 'Roboto', sans-serif;
   max-width: 1100px;
   margin: 40px auto;
@@ -159,7 +143,7 @@ export default {
 .management-title {
   font-size: 32px;
   font-weight: bold;
-  color: var(--text-color);
+  color: #27ae60;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -174,7 +158,7 @@ export default {
 .table-container {
   overflow-x: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 8px var(--shadow-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   background-color: #ecf0f1;
   padding: 20px;
 }
@@ -186,7 +170,8 @@ table {
 }
 
 thead th {
-  background-color: var(--highlight-color);
+  background-color: #27ae60;
+  /* Màu xanh lá cho thanh bên */
   color: #fff;
   padding: 14px;
   text-align: left;
@@ -197,11 +182,12 @@ thead th {
 tbody td {
   padding: 12px;
   border-bottom: 1px solid #dfe6e9;
-  color: var(--text-color);
+  color: #2c3e50;
 }
 
 tbody tr:hover {
-  background-color: var(--hover-bg-color);
+  background-color: #f1f8f5;
+  /* Màu khi hover */
   color: #fff;
 }
 
@@ -218,15 +204,18 @@ tbody tr:hover {
 }
 
 .view {
-  background-color: var(--accent-color);
+  background-color: #3498db;
+  /* Màu xanh lam cho nút chi tiết */
 }
 
 .edit {
-  background-color: var(--edit-color);
+  background-color: #f39c12;
+  /* Màu cam cho chỉnh sửa */
 }
 
 .toggle {
-  background-color: var(--danger-color);
+  background-color: #e74c3c;
+  /* Màu đỏ cho cảnh báo */
 }
 
 .action-button:hover {
@@ -249,7 +238,8 @@ tbody tr:hover {
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
-  background-color: var(--button-bg-color);
+  background-color: #27ae60;
+  /* Màu nút chính */
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -257,12 +247,13 @@ tbody tr:hover {
   display: block;
   margin: 20px auto 0;
   text-align: center;
-  box-shadow: 0 3px 6px var(--shadow-color);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
-  background-color: var(--hover-bg-color);
+  background-color: #219150;
+  /* Màu hover của nút */
   transform: translateY(-3px);
 }
 </style>

@@ -93,38 +93,21 @@ export default {
 </script>
 
 <style scoped>
-:root {
-  --main-bg-color: #34495e;
-  /* Màu nền đậm */
-  --card-bg-color: #2c3e50;
-  /* Màu thẻ tối hơn */
-  --text-color: #ecf0f1;
-  /* Màu chữ sáng */
-  --highlight-color: #1abc9c;
-  /* Màu xanh lá nổi bật */
-  --accent-color: #e67e22;
-  /* Màu cam cho điểm nhấn */
-  --hover-bg-color: #16a085;
-  /* Màu xanh lá đậm khi hover */
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  /* Bóng đổ nhẹ */
-  --box-shadow-hover: rgba(0, 0, 0, 0.5);
-  /* Bóng đổ khi hover */
-}
-
 .dashboard-container {
   padding: 2rem;
-  background-color: var(--main-bg-color);
-  color: var(--text-color);
+  background-color: #34495e;
+  /* Màu nền đậm */
+  color: #ecf0f1;
+  /* Màu chữ sáng */
   border-radius: 12px;
-  box-shadow: 0 10px 30px var(--shadow-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   font-family: "Roboto", sans-serif;
 }
 
 .dashboard-title {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--text-color);
+  color: #ecf0f1;
   margin-bottom: 1.5rem;
   text-align: center;
   display: flex;
@@ -134,12 +117,13 @@ export default {
 
 .dashboard-title i {
   margin-right: 0.5rem;
-  color: var(--highlight-color);
+  color: #1abc9c;
+  /* Màu xanh lá nổi bật */
 }
 
 .welcome-message {
   font-size: 1.2rem;
-  color: var(--text-color);
+  color: #ecf0f1;
   opacity: 0.85;
   margin-bottom: 2rem;
   text-align: center;
@@ -152,36 +136,39 @@ export default {
 }
 
 .card {
-  background-color: var(--card-bg-color);
+  background-color: #2c3e50;
+  /* Màu thẻ tối hơn */
   border-radius: 12px;
-  box-shadow: 0 4px 14px var(--shadow-color);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   padding: 2rem;
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
-  color: var(--text-color);
+  color: #ecf0f1;
 }
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 30px var(--box-shadow-hover);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .card-icon {
   font-size: 2rem;
-  color: var(--highlight-color);
+  color: #1abc9c;
+  /* Màu xanh lá nổi bật */
   margin-bottom: 1rem;
 }
 
 .card h3 {
   font-size: 1.2rem;
   margin: 0;
-  color: var(--text-color);
+  color: #ecf0f1;
   opacity: 0.9;
 }
 
 .card p {
   font-size: 1.8rem;
-  color: var(--accent-color);
+  color: #e67e22;
+  /* Màu cam cho điểm nhấn */
   font-weight: bold;
   margin-top: 0.5rem;
 }

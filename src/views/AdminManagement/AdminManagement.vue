@@ -2,7 +2,10 @@
     <div class="management-container">
         <h2 class="management-title">Admin Management</h2>
         <p class="description">Quản lý tài khoản quản trị viên tại đây.</p>
-
+        <button class="add-button" @click="addAdmin">
+            <i class="fas fa-user-plus"></i> Thêm Quản Trị Viên
+        </button>
+        <br>
         <div class="table-container">
             <table>
                 <thead>
@@ -21,11 +24,15 @@
                         <td>{{ admin.Email }}</td>
                         <td>{{ admin.IsActive ? 'Hoạt động' : 'Vô hiệu hóa' }}</td>
                         <td>
-                            <button class="action-button view" @click="viewAdminDetails(admin.AdminId)">Xem Chi
-                                Tiết</button>
-                            <button class="action-button edit" @click="editAdmin(admin.AdminId)">Chỉnh Sửa</button>
+                            <button class="action-button view" @click="viewAdminDetails(admin.AdminId)">
+                                <i class="fas fa-eye"></i> Xem Chi Tiết
+                            </button>
+                            <button class="action-button edit" @click="editAdmin(admin.AdminId)">
+                                <i class="fas fa-edit"></i> Chỉnh Sửa
+                            </button>
                             <button class="action-button toggle"
                                 @click="admin.IsActive ? lockAdmin(admin.AdminId) : unlockAdmin(admin.AdminId)">
+                                <i :class="admin.IsActive ? 'fas fa-lock' : 'fas fa-unlock'"></i>
                                 {{ admin.IsActive ? 'Khóa' : 'Mở khóa' }}
                             </button>
                         </td>
@@ -34,7 +41,7 @@
             </table>
         </div>
 
-        <button class="add-button" @click="addAdmin">Thêm Quản Trị Viên</button>
+
     </div>
 </template>
 
@@ -72,7 +79,7 @@ export default {
         },
 
         editAdmin(adminId) {
-            this.$router.push({ name: 'AdminDetails', params: { adminId, mode: 'edit' } });
+            this.$router.push({ name: 'EditAdmin', params: { adminId, mode: 'edit' } });
         },
 
 
@@ -131,10 +138,12 @@ export default {
 <style scoped>
 .management-container {
     padding: 2.5rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ chính */
     border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
     max-width: 1100px;
     margin: 40px auto;
@@ -143,7 +152,7 @@ export default {
 .management-title {
     font-size: 32px;
     font-weight: bold;
-    color: var(--text-color);
+    color: #27ae60;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -158,20 +167,23 @@ export default {
 .table-container {
     overflow-x: auto;
     border-radius: 12px;
-    background-color: var(--secondary-bg-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
+    background-color: #f4f4f4;
+    /* Nền sáng cho bảng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    background-color: var(--secondary-bg-color);
+    background-color: #f4f4f4;
+    /* Nền sáng cho bảng */
     border-radius: 6px;
 }
 
 thead th {
-    background-color: var(--highlight-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho tiêu đề bảng */
     color: #ffffff;
     padding: 14px;
     text-align: left;
@@ -182,21 +194,24 @@ thead th {
 tbody td {
     padding: 12px;
     border-bottom: 1px solid #7f8c8d;
-    color: var(--text-color);
+    color: #2c3e50;
 }
 
 tbody tr:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #f1f8f5;
+    /* Màu xanh lá nhạt khi hover */
     color: #ffffff;
 }
 
 .status-active {
     color: #2ecc71;
+    /* Màu xanh cho trạng thái hoạt động */
     font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
+    /* Màu đỏ cho trạng thái vô hiệu hóa */
     font-weight: 600;
 }
 
@@ -213,15 +228,18 @@ tbody tr:hover {
 }
 
 .view {
-    background-color: var(--accent-color);
+    background-color: #3498db;
+    /* Màu xanh lam cho nút Xem Chi Tiết */
 }
 
 .edit {
-    background-color: #2980b9;
+    background-color: #f39c12;
+    /* Màu cam cho chỉnh sửa */
 }
 
 .toggle {
     background-color: #e74c3c;
+    /* Màu đỏ cho nút Khóa/Mở khóa */
 }
 
 .action-button:hover {
@@ -235,19 +253,21 @@ tbody tr:hover {
     padding: 12px 18px;
     font-size: 15px;
     font-weight: 600;
-    background-color: var(--button-bg-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho nút Thêm Quản Trị Viên */
     color: #ffffff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     margin: 20px auto 0;
     text-align: center;
-    box-shadow: 0 3px 6px var(--shadow-color);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #219150;
+    /* Màu xanh lá đậm khi hover */
     transform: scale(1.05);
 }
 </style>

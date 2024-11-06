@@ -28,10 +28,12 @@
                         <td>{{ category.CategoryName }}</td>
                         <td>{{ category.Description }}</td>
                         <td>
-                            <button class="action-button edit"
-                                @click="goToEditCategory(category.CategoryId)">Sửa</button>
-                            <button class="action-button delete"
-                                @click="deleteCategory(category.CategoryId)">Xóa</button>
+                            <button class="action-button edit" @click="goToEditCategory(category.CategoryId)">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="action-button delete" @click="deleteCategory(category.CategoryId)">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -56,10 +58,12 @@
                         <td>{{ subcategory.CategoryId }}</td>
                         <td>{{ subcategory.Description }}</td>
                         <td>
-                            <button class="action-button edit"
-                                @click="goToEditSubcategory(subcategory.SubcategoryId)">Sửa</button>
-                            <button class="action-button delete"
-                                @click="deleteSubcategory(subcategory.SubcategoryId)">Xóa</button>
+                            <button class="action-button edit" @click="goToEditSubcategory(subcategory.SubcategoryId)">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="action-button delete" @click="deleteSubcategory(subcategory.SubcategoryId)">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -67,6 +71,7 @@
         </section>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -135,13 +140,11 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 .management-container {
     padding: 2.5rem;
     background-color: #ffffff;
     color: #2c3e50;
-    border-radius: 12px;
+    border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
     max-width: 1100px;
@@ -154,6 +157,14 @@ export default {
     color: #27ae60;
     text-align: center;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.management-title i {
+    margin-right: 8px;
+    color: #27ae60;
 }
 
 .description {
@@ -168,28 +179,31 @@ export default {
     margin-bottom: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    background-color: #ecf0f1;
+    background-color: #ffffff;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 thead th {
     background-color: #27ae60;
     color: #ffffff;
-    padding: 14px;
-    text-align: left;
+    padding: 12px;
+    text-align: center;
     font-weight: 600;
+    border-radius: 6px 6px 0 0;
 }
 
 tbody td {
-    padding: 12px;
-    border-bottom: 1px solid #bdc3c7;
+    border-bottom: 1px solid #e5e7eb;
     color: #2c3e50;
+    text-align: center;
 }
 
 tbody tr {
@@ -197,35 +211,36 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: #d5dbdb;
+    background-color: #f1f8f5;
 }
 
 .section-title {
     text-align: center;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: bold;
     color: #34495e;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .action-button {
-    padding: 8px 12px;
-    margin: 3px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: #ffffff;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 5px;
 }
 
 .add {
+    align-items: center;
     background-color: #27ae60;
 }
 
 .edit {
-    background-color: #2980b9;
+    background-color: #f39c12;
 }
 
 .delete {
@@ -239,7 +254,7 @@ tbody tr:hover {
 
 .filter-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-bottom: 24px;
     gap: 12px;
 }

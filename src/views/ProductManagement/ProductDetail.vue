@@ -160,17 +160,17 @@ export default {
 
 .product-detail-container {
     padding: 2.5rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
     max-width: 1100px;
     margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: var(--highlight-color);
+    color: #27ae60;
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 700;
@@ -207,7 +207,6 @@ h2 {
     height: auto;
     max-height: 500px;
     object-fit: contain;
-    display: block;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -224,7 +223,6 @@ h2 {
     font-size: 24px;
     z-index: 2;
     border-radius: 50%;
-    outline: none;
 }
 
 .carousel-control.prev {
@@ -237,7 +235,7 @@ h2 {
 
 .info-group p {
     font-size: 16px;
-    color: var(--text-color);
+    color: #2c3e50;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -276,7 +274,7 @@ h2 {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 6px var(--shadow-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .back-button {
@@ -305,8 +303,8 @@ h2 {
 .detail-group {
     margin-top: 1.5rem;
     padding: 1.5rem;
-    background-color: var(--secondary-bg-color);
+    background-color: #f4f4f4;
     border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 </style>

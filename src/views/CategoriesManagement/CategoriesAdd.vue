@@ -80,9 +80,7 @@ export default {
 .form-container {
     padding: 2.5rem;
     background-color: #ffffff;
-    /* Nền sáng */
     color: #2c3e50;
-    /* Màu chữ tối */
     border-radius: 12px;
     max-width: 600px;
     margin: auto;
@@ -95,7 +93,6 @@ h2 {
     margin-bottom: 2rem;
     font-size: 24px;
     color: #27ae60;
-    /* Màu nhấn */
     font-weight: bold;
 }
 
@@ -110,7 +107,6 @@ label {
     flex-direction: column;
     font-size: 14px;
     color: #2c3e50;
-    /* Màu chữ tối */
     font-weight: 600;
 }
 
@@ -119,12 +115,9 @@ textarea {
     width: 100%;
     padding: 12px;
     background-color: #ecf0f1;
-    /* Nền sáng cho input */
     border: 1px solid #bdc3c7;
-    /* Viền sáng */
     border-radius: 8px;
     color: #2c3e50;
-    /* Màu chữ tối */
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -132,7 +125,6 @@ textarea {
 input[type="text"]:focus,
 textarea:focus {
     border-color: #27ae60;
-    /* Màu nhấn khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
@@ -140,8 +132,11 @@ textarea {
     resize: vertical;
 }
 
+/* Bố trí các nút để trông ngay ngắn */
 button {
     width: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
     padding: 12px;
     border: none;
@@ -151,21 +146,20 @@ button {
     font-size: 16px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    /* Thêm khoảng cách giữa các nút */
 }
 
 .submit-button {
     background-color: #27ae60;
-    /* Màu xanh lá */
 }
 
 .back-button {
-    background-color: #c0392b;
-    /* Màu đỏ */
+    background-color: #2980b9;
 }
 
 .toggle-button {
     background-color: #2980b9;
-    /* Màu xanh lam */
 }
 
 button:hover {
@@ -180,5 +174,12 @@ button:active {
 
 button:focus {
     outline: 2px solid #27ae60;
+}
+
+/* Đảm bảo tất cả các nút căn chỉnh chính xác */
+.submit-button,
+.toggle-button,
+.back-button {
+    margin-top: 1rem;
 }
 </style>

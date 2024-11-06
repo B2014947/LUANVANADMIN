@@ -12,7 +12,7 @@
                     <th>Trạng thái</th>
                     <th>Địa chỉ giao hàng</th>
                     <th>Phương thức thanh toán</th>
-                    <th>Actions</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                             <i class="fas fa-sync-alt dropdown-icon"></i>
                         </div>
                         <button @click="viewOrderDetails(order.OrderId)" class="action-button view-details"
-                            title="View Order Details">
+                            title="Xem chi tiết đơn hàng">
                             <i class="fas fa-eye"></i>
                         </button>
                     </td>
@@ -152,24 +152,23 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 .order-management {
-    padding: 24px;
-    background-color: #f9f9f9;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1100px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
-    margin: auto;
 }
 
 .management-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #27ae60;
     text-align: center;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -184,14 +183,27 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+thead th {
+    background-color: #27ae60;
+    /* Màu xanh lá cho tiêu đề bảng */
+    color: #ffffff;
+    padding: 14px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 6px 6px 0 0;
 }
 
 th,
 td {
-    border: 1px solid #bdc3c7;
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
+    color: #2c3e50;
 }
 
 th {
@@ -200,48 +212,57 @@ th {
     font-weight: bold;
 }
 
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #7f8c8d;
+    color: #2c3e50;
+}
+
 tbody tr:hover {
-    background-color: #f4f6f8;
+    background-color: #f1f8f5;
+    /* Màu xanh lá nhạt khi hover */
+    color: #ffffff;
 }
 
 .actions-cell {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
 }
 
 /* Status dropdown with icon */
 .status-dropdown {
     position: relative;
-    display: flex;
-    align-items: center;
+    display: inline-block;
 }
 
 .dropdown-icon {
     position: absolute;
-    right: 8px;
+    margin-top: 10px;
+    right: 10px;
     pointer-events: none;
     color: #bdc3c7;
 }
 
 .status-dropdown select {
     appearance: none;
-    padding: 8px 30px 8px 12px;
+    padding: 13px;
     border: 1px solid #bdc3c7;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: #ffffff;
     font-size: 14px;
     color: #333;
     cursor: pointer;
+    padding-right: 30px;
 }
 
 /* Action button with icon */
 .action-button {
     background-color: #3498db;
-    color: #fff;
+    color: #ffffff;
     padding: 8px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     display: flex;
@@ -255,7 +276,7 @@ tbody tr:hover {
 }
 
 .action-button i {
-    font-size: 18px;
+    margin-right: 5px;
 }
 
 /* Status Styles */

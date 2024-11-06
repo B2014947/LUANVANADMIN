@@ -1,31 +1,34 @@
 <template>
     <div class="form-container">
-        <h2>Thêm Người Dùng Mới</h2>
+        <h2><i class="fas fa-user-plus"></i> Thêm Người Dùng Mới</h2>
         <form @submit.prevent="addCustomer">
             <div class="form-group">
-                <label for="username">Tên người dùng:</label>
+                <label for="username"> <i class="icon fas fa-user"></i> Tên người dùng:</label>
                 <input v-model="username" type="text" id="username" required />
             </div>
             <div class="form-group">
-                <label for="fullName">Họ và tên:</label>
+                <label for="fullName"><i class="icon fas fa-id-card"></i> Họ và tên:</label>
                 <input v-model="fullName" type="text" id="fullName" required />
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email"><i class="icon fas fa-envelope"></i> Email:</label>
                 <input v-model="email" type="email" id="email" required />
             </div>
             <div class="form-group">
-                <label for="phoneNumber">Số điện thoại:</label>
+                <label for="phoneNumber"><i class="icon fas fa-phone"></i> Số điện thoại:</label>
                 <input v-model="phoneNumber" type="text" id="phoneNumber" />
             </div>
             <div class="form-group">
-                <label for="password">Mật khẩu:</label>
+                <label for="password"><i class="icon fas fa-lock"></i> Mật khẩu:</label>
                 <input v-model="password" type="password" id="password" required />
             </div>
-            <button type="submit" class="submit-button">Thêm người dùng</button>
+            <button type="submit" class="submit-button">
+                <i class="fas fa-user-plus"></i> Thêm người dùng
+            </button>
         </form>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -74,20 +77,31 @@ export default {
 <style scoped>
 .form-container {
     padding: 2rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ chính */
     border-radius: 12px;
     max-width: 600px;
     margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
 }
 
 h2 {
     text-align: center;
-    color: var(--text-color);
+    color: #2c3e50;
     font-weight: 700;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 i {
+    margin-right: 8px;
+    color: #27ae60;
+    /* Màu xanh lá cho icon tiêu đề */
 }
 
 .form-group {
@@ -96,7 +110,7 @@ h2 {
 
 label {
     font-weight: 600;
-    color: var(--text-color);
+    color: #2c3e50;
     margin-bottom: 5px;
     display: block;
 }
@@ -106,23 +120,28 @@ input {
     padding: 12px 15px;
     border: 1px solid #bdc3c7;
     border-radius: 8px;
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color);
+    background-color: #f4f4f4;
+    /* Nền xám nhạt cho input */
+    color: #2c3e50;
     font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
-    border: 1px solid var(--highlight-color);
+    border: 1px solid #27ae60;
+    /* Màu xanh nhấn khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
 }
 
 .submit-button {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     padding: 12px;
-    background-color: var(--accent-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho nút submit */
     color: #ffffff;
     font-weight: bold;
     border: none;
@@ -133,8 +152,13 @@ input:focus {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.submit-button i {
+    margin-right: 8px;
+}
+
 .submit-button:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #219150;
+    /* Màu xanh lá đậm khi hover */
     transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

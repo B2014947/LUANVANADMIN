@@ -82,8 +82,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 .admin-details-container {
     padding: 3rem;
     background-color: #f7f9fc;
@@ -133,13 +131,13 @@ h2 {
 
 .status-active {
     color: #2ecc71;
-    /* Màu xanh lá */
+    /* Màu xanh lá cho trạng thái hoạt động */
     font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
-    /* Màu đỏ */
+    /* Màu đỏ cho trạng thái vô hiệu hóa */
     font-weight: 600;
 }
 
@@ -154,49 +152,45 @@ h2 {
 .back-button,
 .edit-button {
     padding: 8px 12px;
-    /* Giảm padding để nút nhỏ hơn */
     border: none;
     border-radius: 6px;
-    /* Giảm độ bo góc */
     cursor: pointer;
     color: #ffffff;
     font-size: 14px;
-    /* Giảm kích thước font */
     display: flex;
     align-items: center;
     justify-content: center;
     width: auto;
-    /* Đảm bảo chiều rộng vừa đủ với nội dung */
     min-width: 100px;
-    /* Đặt chiều rộng tối thiểu để nút không quá nhỏ */
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Giảm shadow */
 }
 
 .back-button {
     background-color: #2980b9;
+    /* Màu xanh lam cho nút Quay lại */
 }
 
 .edit-button {
     background-color: #27ae60;
+    /* Màu xanh lá cho nút Chỉnh sửa */
 }
 
 .back-button:hover {
     background-color: #3498db;
+    /* Màu xanh lam đậm khi hover */
     box-shadow: 0 2px 6px rgba(41, 128, 185, 0.2);
-    /* Giảm shadow */
 }
 
 .edit-button:hover {
     background-color: #2ecc71;
+    /* Màu xanh lá đậm khi hover */
     box-shadow: 0 2px 6px rgba(39, 174, 96, 0.2);
-    /* Giảm shadow */
 }
 
 .back-button i,
 .edit-button i {
     margin-right: 5px;
-    /* Giảm khoảng cách giữa icon và text */
+    /* Khoảng cách giữa icon và text */
 }
 </style>

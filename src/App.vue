@@ -11,7 +11,6 @@
 </script>
 
 <style>
-/* Thêm CSS tổng thể */
 body {
   font-family: Arial, sans-serif;
   margin: 0;

@@ -13,7 +13,7 @@ import AdminManagement from '../views/AdminManagement/AdminManagement.vue';
 import AdminDetails from '../views/AdminManagement/AdminDetails.vue';
 import AdminDetailsEdit from '../views/AdminManagement/EditAdmin.vue';
 import AddAdmin from '../views/AdminManagement/AddAdmin.vue'
-import ProductList from '../views/ProductManagement/ProductList.vue';
+import ProductManagement from '../views/ProductManagement/ProductManagement.vue';
 import ProductAdd from '../views/ProductManagement/ProductAdd.vue'
 import ProductDetail from '../views/ProductManagement/ProductDetail.vue';
 import ProductForm from '../views/ProductManagement/ProductForm.vue';
@@ -119,8 +119,8 @@ const routes = [
       },
       {
         path: '/admin/products',
-        name: 'ProductList',
-        component: ProductList,
+        name: 'ProductManagement.vue',
+        component: ProductManagement,
         meta: { requiresAuth: true, title: 'Danh sách Sản phẩm' },
       },
       {

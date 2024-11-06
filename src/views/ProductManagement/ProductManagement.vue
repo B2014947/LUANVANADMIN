@@ -12,8 +12,9 @@
                     {{ category.CategoryName }}
                 </option>
             </select>
-            <button @click="fetchProducts" class="action-button search">Tìm kiếm</button>
-            <button @click="addNewProduct" class="action-button add">Thêm sản phẩm mới</button>
+            <button @click="fetchProducts" class="action-button search"><i class="fas fa-search"></i> Tìm kiếm</button>
+            <button @click="addNewProduct" class="action-button add"><i class="fas fa-plus"></i> Thêm sản phẩm
+                mới</button>
         </div>
 
         <!-- Bảng sản phẩm -->
@@ -47,9 +48,12 @@
                             </span>
                         </td>
                         <td>
-                            <button class="action-button view" @click="viewProduct(product.ProductId)">Xem</button>
-                            <button class="action-button edit" @click="editProduct(product.ProductId)">Sửa</button>
-                            <button class="action-button delete" @click="deleteProduct(product.ProductId)">Xóa</button>
+                            <button class="action-button view" @click="viewProduct(product.ProductId)"><i
+                                    class="fas fa-eye"></i> Xem</button>
+                            <button class="action-button edit" @click="editProduct(product.ProductId)"><i
+                                    class="fas fa-edit"></i> Sửa</button>
+                            <button class="action-button delete" @click="deleteProduct(product.ProductId)"><i
+                                    class="fas fa-trash-alt"></i> Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -58,6 +62,7 @@
         </div>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -131,26 +136,26 @@ export default {
 
 .management-container {
     padding: 2.5rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    color: #2c3e50;
     border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    font-family: 'Roboto', sans-serif;
     max-width: 1100px;
     margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 .management-title {
     font-size: 32px;
     font-weight: bold;
-    color: var(--highlight-color);
+    color: #27ae60;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .description {
     font-size: 16px;
-    color: #bdc3c7;
+    color: #7f8c8d;
     text-align: center;
     margin-bottom: 24px;
 }
@@ -160,7 +165,7 @@ export default {
     gap: 12px;
     margin-bottom: 20px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -169,30 +174,29 @@ export default {
     padding: 10px;
     font-size: 16px;
     border-radius: 8px;
-    border: 1px solid #7f8c8d;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: var(--input-bg-color);
-    color: var(--text-color);
-    flex: 1;
+    border: 1px solid #bdc3c7;
+    background-color: #f4f4f4;
+    color: #2c3e50;
 }
 
 .table-container {
     overflow-x: auto;
     border-radius: 12px;
-    background-color: var(--secondary-bg-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    background-color: #ecf0f1;
     border-radius: 6px;
-    background-color: var(--secondary-bg-color);
+    overflow: hidden;
 }
 
 thead th {
-    background-color: var(--highlight-color);
+    background-color: #27ae60;
     color: #ffffff;
     padding: 14px;
     text-align: left;
@@ -202,17 +206,13 @@ thead th {
 
 tbody td {
     padding: 12px;
-    border-bottom: 1px solid #7f8c8d;
-    color: var(--text-color);
-}
-
-tbody tr {
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border-bottom: 1px solid #bdc3c7;
+    color: #2c3e50;
 }
 
 tbody tr:hover {
-    background-color: var(--hover-bg-color);
-    color: #ffffff;
+    background-color: #f1f8f5;
+    color: #2c3e50;
 }
 
 .status-active {
@@ -239,11 +239,11 @@ tbody tr:hover {
 }
 
 .view {
-    background-color: var(--accent-color);
+    background-color: #3498db;
 }
 
 .edit {
-    background-color: #2980b9;
+    background-color: #f39c12;
 }
 
 .delete {
@@ -251,7 +251,7 @@ tbody tr:hover {
 }
 
 .search {
-    background-color: #2ecc71;
+    background-color: #27ae60;
 }
 
 .add {
@@ -261,27 +261,5 @@ tbody tr:hover {
 .action-button:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.add-button {
-    display: block;
-    width: fit-content;
-    padding: 12px 18px;
-    font-size: 15px;
-    font-weight: 600;
-    background-color: var(--button-bg-color);
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 20px auto 0;
-    text-align: center;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.add-button:hover {
-    background-color: var(--hover-bg-color);
-    transform: scale(1.05);
 }
 </style>

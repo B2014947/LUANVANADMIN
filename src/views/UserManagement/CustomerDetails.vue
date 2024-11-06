@@ -145,17 +145,20 @@ export default {
 <style scoped>
 .customer-details-container {
     padding: 2rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ chính */
     border-radius: 12px;
     max-width: 1100px;
     margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
 }
 
 h2 {
-    color: var(--accent-color);
+    color: #3498db;
+    /* Màu xanh lam cho tiêu đề */
     margin-bottom: 1.5rem;
     font-weight: 700;
     text-align: center;
@@ -167,7 +170,7 @@ h2 {
 .info-group p,
 .address-info p {
     font-size: 16px;
-    color: var(--text-color);
+    color: #2c3e50;
     margin-bottom: 1rem;
     display: block;
 }
@@ -179,11 +182,13 @@ h2 {
 
 .status-active {
     color: #2ecc71;
+    /* Màu xanh cho trạng thái hoạt động */
     font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
+    /* Màu đỏ cho trạng thái vô hiệu hóa */
     font-weight: 600;
 }
 
@@ -191,7 +196,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: var(--secondary-bg-color);
+    background-color: #f4f4f4;
+    /* Màu nền sáng cho bảng */
     border-radius: 6px;
     overflow: hidden;
 }
@@ -201,21 +207,24 @@ td {
     padding: 14px;
     border: 1px solid #bdc3c7;
     text-align: left;
-    color: var(--text-color);
+    color: #2c3e50;
 }
 
 th {
-    background-color: var(--highlight-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho đầu bảng */
     color: #ffffff;
     font-weight: 600;
 }
 
 tr:nth-child(even) {
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
+    /* Màu nền xen kẽ */
 }
 
 tr:hover {
     background-color: #e0f7fa;
+    /* Màu nền khi hover */
 }
 
 .button-group {
@@ -237,20 +246,28 @@ tr:hover {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 6px var(--shadow-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .back-button {
-    background-color: var(--accent-color);
+    background-color: #3498db;
+    /* Màu xanh lam cho nút Quay Lại */
 }
 
 .edit-button {
-    background-color: var(--highlight-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho nút Chỉnh Sửa */
 }
 
-.back-button:hover,
+.back-button:hover {
+    background-color: #2980b9;
+    /* Màu xanh đậm khi hover nút Quay Lại */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .edit-button:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #219150;
+    /* Màu xanh đậm khi hover nút Chỉnh Sửa */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 </style>

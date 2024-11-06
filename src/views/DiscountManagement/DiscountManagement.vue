@@ -1,15 +1,19 @@
 <template>
     <div class="discounts-management">
-        <h2 class="management-title">Quản lý Khuyến Mãi</h2>
+        <h2 class="management-title"><i class="fas fa-tags"></i> Quản lý Khuyến Mãi</h2>
 
         <!-- Nút thêm mới -->
-        <button @click="goToAddDiscount" class="add-button">Thêm mới khuyến mãi</button>
+        <button @click="goToAddDiscount" class="add-button">
+            <i class="fas fa-plus-circle"></i> Thêm mới khuyến mãi
+        </button>
 
         <!-- Tìm kiếm khuyến mãi -->
         <div class="search-container">
-            <input type="text" v-model="searchCriteria.discountCode" placeholder="Mã khuyến mãi" />
-            <input type="text" v-model="searchCriteria.description" placeholder="Mô tả" />
-            <button @click="searchDiscounts" class="search-button">Tìm kiếm</button>
+            <input type="text" v-model="searchCriteria.discountCode" placeholder="🔍 Mã khuyến mãi" />
+            <input type="text" v-model="searchCriteria.description" placeholder="🔍 Mô tả" />
+            <button @click="searchDiscounts" class="search-button">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
         </div>
 
         <!-- Danh sách khuyến mãi -->
@@ -35,8 +39,12 @@
                         <td>{{ formatDate(discount.ExpiryDate) }}</td>
                         <td>{{ discount.IsActive ? 'Hoạt động' : 'Không hoạt động' }}</td>
                         <td>
-                            <button @click="goToEditDiscount(discount.DiscountId)" class="edit-button">Sửa</button>
-                            <button @click="deleteDiscount(discount.DiscountId)" class="delete-button">Xóa</button>
+                            <button @click="goToEditDiscount(discount.DiscountId)" class="edit-button">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button @click="deleteDiscount(discount.DiscountId)" class="delete-button">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -44,6 +52,7 @@
         </section>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -106,49 +115,73 @@ export default {
 
 <style scoped>
 .discounts-management {
-    padding: 24px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
-    max-width: 800px;
-    margin: auto;
+    max-width: 1000px;
+    margin: 40px auto;
+    color: #2c3e50;
 }
 
 .management-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #2d3e50;
-    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #27ae60;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .search-container {
+    margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 .search-container input {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #bdc3c7;
-    border-radius: 5px;
+    border-radius: 8px;
     flex: 1;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: #27ae60;
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .add-button,
 .search-button,
 .edit-button,
 .delete-button {
-    background-color: #27ae60;
-    /* Màu xanh cho các nút thêm mới và tìm kiếm */
-    color: #fff;
-    padding: 10px 20px;
+    margin: 5px;
+    padding: 12px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    color: #ffffff;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    /* Thêm hiệu ứng chuyển động */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-button,
+.search-button {
+    background-color: #27ae60;
+}
+
+.edit-button {
+    background-color: #f39c12;
+}
+
+.delete-button {
+    background-color: #e74c3c;
 }
 
 .add-button:hover,
@@ -157,7 +190,6 @@ export default {
 .delete-button:hover {
     opacity: 0.9;
     transform: scale(1.05);
-    /* Tăng kích thước nút khi hover */
 }
 
 .table-container {
@@ -167,41 +199,30 @@ export default {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 th,
 td {
-    border: 1px solid #bdc3c7;
-    padding: 12px;
+    padding: 15px 10px;
     text-align: left;
+    font-size: 15px;
+    color: #2c3e50;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 6px 6px 0 0;
 }
 
 th {
-    background-color: #34495e;
+    background-color: #27ae60;
     color: #ecf0f1;
-    border-radius: 8px 8px 0 0;
-    /* Góc bo cho header bảng */
+    font-weight: 600;
 }
 
 tbody tr:hover {
-    background-color: #f1f3f5;
-    /* Đổi màu hàng khi hover */
-}
-
-.edit-button {
-    background-color: #3498db;
-    /* Màu xanh dương cho nút sửa */
-}
-
-.delete-button {
-    background-color: #e74c3c;
-    /* Màu đỏ cho nút xóa */
-}
-
-.edit-button:hover,
-.delete-button:hover {
-    opacity: 0.9;
-    /* Hiệu ứng hover cho nút sửa và xóa */
+    background-color: #f1f8f5;
 }
 </style>

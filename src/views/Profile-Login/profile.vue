@@ -1,6 +1,6 @@
 <template>
     <div class="profile-container">
-        <h2>Thông tin cá nhân</h2>
+        <h2><i class="fas fa-user-circle"></i> Thông tin cá nhân</h2>
 
         <!-- Avatar Display -->
         <div class="avatar-container">
@@ -9,28 +9,34 @@
 
         <div v-if="!isEditing" class="profile-view">
             <div class="info-group" v-for="(value, key) in user" :key="key">
-                <label>{{ getFieldLabel(key) }}:</label>
+                <label><i :class="getIconClass(key)"></i> {{ getFieldLabel(key) }}:</label>
                 <span>{{ value }}</span>
             </div>
-            <button @click="isEditing = true" class="btn-edit">Chỉnh sửa thông tin</button>
+            <button @click="isEditing = true" class="btn-edit">
+                <i class="fas fa-edit"></i> Chỉnh sửa thông tin
+            </button>
         </div>
 
         <div v-if="isEditing" class="profile-edit">
             <form @submit.prevent="updateProfile">
                 <div class="input-group" v-for="(value, key) in user" :key="key">
-                    <label :for="key">{{ getFieldLabel(key) }}</label>
+                    <label :for="key"><i :class="getIconClass(key)"></i> {{ getFieldLabel(key) }}</label>
                     <input v-model="user[key]" :id="key" :type="getInputType(key)" :disabled="key === 'username'"
                         :required="isFieldRequired(key)" />
                 </div>
                 <div class="button-group">
-                    <button type="submit" class="btn-update">Lưu thông tin</button>
-                    <button type="button" @click="isEditing = false" class="btn-cancel">Hủy bỏ</button>
+                    <button type="submit" class="btn-update">
+                        <i class="fas fa-save"></i> Lưu thông tin
+                    </button>
+                    <button type="button" @click="isEditing = false" class="btn-cancel">
+                        <i class="fas fa-times"></i> Hủy bỏ
+                    </button>
                 </div>
             </form>
         </div>
 
-        <p v-if="successMessage" class="success">{{ successMessage }}</p>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success"><i class="fas fa-check-circle"></i> {{ successMessage }}</p>
+        <p v-if="errorMessage" class="error"><i class="fas fa-exclamation-circle"></i> {{ errorMessage }}</p>
     </div>
 </template>
 
@@ -61,6 +67,21 @@ export default {
         this.fetchUserProfile();
     },
     methods: {
+        getIconClass(key) {
+            const icons = {
+                username: 'fas fa-user',
+                email: 'fas fa-envelope',
+                fullName: 'fas fa-id-card',
+                phoneNumber: 'fas fa-phone',
+                address: 'fas fa-map-marker-alt',
+                dateOfBirth: 'fas fa-calendar-alt',
+                gender: 'fas fa-venus-mars',
+                emergencyContact: 'fas fa-phone-alt',
+                addressDetails: 'fas fa-map-marked-alt',
+                profilePicture: 'fas fa-image'
+            };
+            return icons[key] || 'fas fa-info-circle';
+        },
         async fetchUserProfile() {
             try {
                 const response = await fetch('http://localhost:5000/api/AccountAdmin/profile', {
@@ -171,6 +192,16 @@ export default {
 </script>
 
 <style scoped>
+label i {
+    margin-right: 8px;
+    color: #00acc1;
+    /* Màu xanh nổi bật */
+}
+
+.success i,
+.error i {
+    margin-right: 5px;
+}
 
 .profile-container {
     padding: 2rem;
@@ -206,6 +237,12 @@ h2 {
     object-fit: cover;
     border: 4px solid #00acc1;
     /* Màu xanh nổi bật */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
 }
 
 .info-group,
@@ -254,7 +291,7 @@ input:focus {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.1s;
 }
 
 .btn-edit {
@@ -267,16 +304,29 @@ input:focus {
     margin-top: 1rem;
 }
 
+.btn-edit:hover {
+    background-color: #008b9b;
+    transform: translateY(-2px);
+}
+
 .btn-update {
     background-color: #0288d1;
     /* Màu xanh lam */
     color: #fff;
 }
 
+.btn-update:hover {
+    background-color: #0277bd;
+}
+
 .btn-cancel {
     background-color: #d32f2f;
     /* Màu đỏ cảnh báo */
     color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #b71c1c;
 }
 
 .button-group {
@@ -291,6 +341,7 @@ input:focus {
     color: #00acc1;
     /* Màu xanh nổi bật */
     font-size: 14px;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .error {
@@ -299,5 +350,17 @@ input:focus {
     color: #d32f2f;
     /* Màu đỏ cảnh báo */
     font-size: 14px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Hiệu ứng mờ dần */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 </style>

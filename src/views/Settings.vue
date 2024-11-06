@@ -8,12 +8,13 @@
                 <h3><i :class="option.icon"></i> {{ option.title }}</h3>
                 <p>{{ option.description }}</p>
                 <div class="card-actions">
-                    <button @click="navigateTo(option.route)">Đi tới <i class="fas fa-chevron-right"></i></button>
-                    <span v-if="option.toggleable">
+                    <button @click="navigateTo(option.route)" class="action-button">Đi tới <i
+                            class="fas fa-chevron-right"></i></button>
+                    <div v-if="option.toggleable" class="toggle-switch">
                         <input type="checkbox" :id="option.title" v-model="option.enabled"
-                            @change="handleToggle(option)">
+                            @change="handleToggle(option)" />
                         <label :for="option.title">{{ option.enabled ? 'Bật' : 'Tắt' }}</label>
-                    </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,47 +23,13 @@
 
 <script>
 export default {
-    name: 'AdminSettings',
     data() {
         return {
             settingOptions: [
-                {
-                    title: 'Quản lý thanh toán',
-                    description: 'Thiết lập các phương thức thanh toán và trạng thái giao dịch.',
-                    route: '/admin/settings/payment',
-                    icon: 'fas fa-credit-card',
-                    toggleable: false
-                },
-                {
-                    title: 'Quản lý giao hàng',
-                    description: 'Thiết lập các phương thức giao hàng, chi phí và thời gian giao hàng.',
-                    route: '/admin/settings/shipping',
-                    icon: 'fas fa-shipping-fast',
-                    toggleable: true,
-                    enabled: true
-                },
-                {
-                    title: 'Cấu hình cửa hàng',
-                    description: 'Cập nhật thông tin, logo và cài đặt cửa hàng của bạn.',
-                    route: '/admin/settings/store-info',
-                    icon: 'fas fa-store',
-                    toggleable: false
-                },
-                {
-                    title: 'Quản lý người dùng',
-                    description: 'Xem và quản lý danh sách người dùng, quyền hạn và trạng thái tài khoản.',
-                    route: '/admin/settings/user-management',
-                    icon: 'fas fa-users-cog',
-                    toggleable: true,
-                    enabled: false
-                },
-                {
-                    title: 'Cài đặt bảo mật',
-                    description: 'Cấu hình các biện pháp bảo mật, xác thực và quyền truy cập.',
-                    route: '/admin/settings/security',
-                    icon: 'fas fa-lock',
-                    toggleable: false
-                }
+                { title: "Cài đặt hệ thống", description: "Điều chỉnh cấu hình hệ thống chính.", icon: "fas fa-sliders-h", route: "/system-settings", toggleable: true, enabled: true },
+                { title: "Quản lý người dùng", description: "Thiết lập và quản lý tài khoản người dùng.", icon: "fas fa-user-cog", route: "/user-management", toggleable: false },
+                { title: "Bảo mật", description: "Cài đặt bảo mật cho hệ thống.", icon: "fas fa-lock", route: "/security-settings", toggleable: true, enabled: false },
+                { title: "Thông báo", description: "Quản lý thông báo cho người dùng.", icon: "fas fa-bell", route: "/notification-settings", toggleable: true, enabled: true },
             ]
         };
     },
@@ -71,8 +38,8 @@ export default {
             this.$router.push(route);
         },
         handleToggle(option) {
-            // Thêm logic xử lý bật/tắt tính năng
-            console.log(`Đã thay đổi trạng thái của ${option.title}: ${option.enabled ? 'Bật' : 'Tắt'}`);
+            // Xử lý logic bật/tắt cho các tùy chọn cài đặt
+            console.log(`${option.title} đã được ${option.enabled ? 'bật' : 'tắt'}`);
         }
     }
 };
@@ -81,88 +48,111 @@ export default {
 <style scoped>
 .admin-settings {
     padding: 2.5rem;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
-    font-family: 'Arial', sans-serif;
+    background-color: #f7f8fc;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Roboto", sans-serif;
 }
 
 h2 {
-    font-size: 32px;
     display: flex;
     align-items: center;
-    color: #ecf0f1;
-}
-
-h2 i {
-    margin-right: 12px;
-    color: #ff8e3c;
+    gap: 10px;
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 
 p {
-    color: #bdc3c7;
-    margin-bottom: 1.5rem;
+    color: #7f8c8d;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .settings-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .setting-card {
-    background-color: #34495e;
-    border-radius: 8px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-    transition: box-shadow 0.3s;
-    position: relative;
+    transition: box-shadow 0.3s ease;
 }
 
 .setting-card h3 {
     font-size: 20px;
+    color: #34495e;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
-    color: #ff8e3c;
+    gap: 8px;
 }
 
-.setting-card h3 i {
-    margin-right: 8px;
+.setting-card p {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 1.2rem;
 }
 
 .setting-card:hover {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .card-actions {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
+    justify-content: space-between;
 }
 
-button {
-    background-color: #ff8e3c;
-    color: white;
-    border: none;
-    border-radius: 6px;
+.action-button {
+    background-color: #3498db;
+    color: #ffffff;
     padding: 8px 16px;
-    cursor: pointer;
+    border-radius: 8px;
     font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.03);
+}
+
+.toggle-switch {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-switch label {
+    display: inline-block;
+    width: 60px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    background-color: #e74c3c;
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #d9376e;
-}
-
-input[type="checkbox"] {
-    margin-right: 10px;
-    cursor: pointer;
+.toggle-switch input[type="checkbox"]:checked+label {
+    background-color: #27ae60;
 }
 </style>

@@ -99,21 +99,21 @@ export default {
 
 <style scoped>
 .form-container {
-    padding: 2rem;
-    background-color: #1e2a38;
-    color: #ecf0f1;
-    border-radius: 12px;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #2c3e50;
+    border-radius: 15px;
     max-width: 600px;
-    margin: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    font-family: 'Arial', sans-serif;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
 }
 
 h2 {
     text-align: center;
     margin-bottom: 1.5rem;
-    font-size: 24px;
-    color: #ffffff;
+    font-size: 26px;
+    color: #27ae60;
     font-weight: bold;
 }
 
@@ -127,7 +127,8 @@ label {
     display: flex;
     flex-direction: column;
     font-size: 14px;
-    color: #bdc3c7;
+    font-weight: bold;
+    color: #2c3e50;
 }
 
 input[type="text"],
@@ -137,12 +138,12 @@ textarea,
 select {
     width: 100%;
     padding: 12px;
-    background-color: #34495e;
-    border: 1px solid #7f8c8d;
-    border-radius: 6px;
-    color: #ecf0f1;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    color: #2c3e50;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -151,29 +152,38 @@ input[type="date"]:focus,
 textarea:focus,
 select:focus {
     border-color: #27ae60;
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+}
+
+textarea {
+    resize: vertical;
 }
 
 button {
     padding: 12px;
     border: none;
-    border-radius: 6px;
-    color: #fff;
+    border-radius: 8px;
+    color: #ffffff;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {
-    background-color: #2ecc71;
+    background-color: #27ae60;
+    margin-top: 10px;
 }
 
 .back-button {
-    background-color: #e74c3c;
+    background-color: #2980b9;
+    margin-top: 1rem;
 }
 
 button:hover {
-    opacity: 0.95;
-    transform: scale(1.02);
+    opacity: 0.9;
+    transform: scale(1.03);
 }
 
 button:active {

@@ -148,7 +148,7 @@ button {
 }
 
 .back-button {
-    background-color: #e74c3c;
+    background-color: #2980b9;
 }
 
 button:hover {

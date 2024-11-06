@@ -119,19 +119,21 @@ export default {
 
 .form-container {
     padding: 2rem;
-    background-color: var(--main-bg-color);
-    color: var(--text-color);
+    background-color: #ffffff;
+    /* Nền sáng */
+    color: #2c3e50;
+    /* Màu chữ chính */
     border-radius: 12px;
     max-width: 600px;
     margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     font-family: 'Roboto', sans-serif;
 }
 
 .title,
 .subtitle {
     text-align: center;
-    color: var(--text-color);
+    color: #2c3e50;
     font-weight: 700;
     margin-bottom: 20px;
 }
@@ -143,13 +145,14 @@ export default {
 
 label {
     font-weight: 600;
-    color: var(--text-color);
+    color: #2c3e50;
     margin-bottom: 5px;
     display: block;
 }
 
 .icon {
-    color: var(--highlight-color);
+    color: #27ae60;
+    /* Màu xanh lá cho icon */
     margin-right: 5px;
 }
 
@@ -158,15 +161,17 @@ input {
     padding: 12px 15px;
     border: 1px solid #bdc3c7;
     border-radius: 8px;
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color);
+    background-color: #f4f4f4;
+    /* Nền xám nhạt cho input */
+    color: #2c3e50;
     font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
-    border: 1px solid var(--highlight-color);
+    border: 1px solid #27ae60;
+    /* Màu xanh nhấn khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
 }
 
@@ -174,7 +179,8 @@ input:focus {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: var(--accent-color);
+    background-color: #27ae60;
+    /* Màu xanh lá cho nút cập nhật */
     color: #ffffff;
     font-weight: bold;
     border: none;
@@ -186,7 +192,8 @@ input:focus {
 }
 
 .submit-button:hover {
-    background-color: var(--hover-bg-color);
+    background-color: #219150;
+    /* Màu xanh lá đậm khi hover */
     transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

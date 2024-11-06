@@ -188,8 +188,7 @@ table {
 th,
 td {
     border: 1px solid #bdc3c7;
-    padding: 10px;
-    text-align: left;
+    text-align: center;
     font-size: 16px;
 }
 
@@ -266,6 +265,8 @@ tbody tr {
     background-color: #f7f7f7;
     transition: background-color 0.3s;
 }
+
+
 
 tbody tr:hover {
     background-color: #e8f6ff;

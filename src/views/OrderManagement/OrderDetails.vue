@@ -83,8 +83,8 @@ export default {
         async fetchOrderDetails() {
             const orderId = this.$route.params.orderId;
             try {
-                const response = await fetch(`http://localhost:5000/api/Order/${orderId}`);
-                if (!response.ok) throw new Error('Lỗi khi tải chi tiết đơn hàng');
+                const response = await fetch(`http://localhost:5000/api/Order/details/${orderId}`);
+                if (!response) throw new Error('Lỗi khi tải chi tiết đơn hàng');
                 const data = await response.json();
 
                 this.order = data.order;

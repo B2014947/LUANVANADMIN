@@ -2,14 +2,20 @@
     <div class="order-details">
         <h2 class="details-title"><i class="fas fa-info-circle"></i> Chi Tiết Đơn Hàng</h2>
 
-        <div v-if="order">
+        <!-- Thông báo lỗi khi không tải được thông tin đơn hàng -->
+        <div v-if="loadingError" class="alert alert-danger text-center bg-red-100 text-red-700 p-3 rounded mb-4">
+            Không thể tải chi tiết đơn hàng. Vui lòng thử lại sau.
+        </div>
+
+        <!-- Thông tin đơn hàng chỉ hiển thị nếu không có lỗi -->
+        <div v-else-if="order">
             <div class="order-info">
                 <h3><i class="fas fa-receipt"></i> Thông Tin Đơn Hàng</h3>
                 <p><i class="fas fa-hashtag"></i> <strong>Mã Đơn Hàng</strong>: {{ order.OrderId }}</p>
                 <p><i class="fas fa-user"></i> <strong>Mã Khách Hàng</strong>: {{ order.UserId }}</p>
                 <p><i class="fas fa-calendar-alt"></i> <strong>Ngày Đặt Hàng</strong>: {{ formatDate(order.OrderDate) }}
                 </p>
-                <p><i class="fas fa-money-bill-wave"></i> <strong>Tổng Tiền Hàng</strong>:{{ subtotal.toLocaleString()
+                <p><i class="fas fa-money-bill-wave"></i> <strong>Tổng Tiền Hàng</strong>: {{ subtotal.toLocaleString()
                     }} VND</p>
                 <p><i class="fas fa-shipping-fast"></i> <strong>Phí Vận Chuyển</strong>: {{
                     shippingDetails.shippingCost.toLocaleString() }} VND</p>
@@ -61,7 +67,6 @@
     </div>
 </template>
 
-
 <script>
 export default {
     data() {
@@ -73,7 +78,8 @@ export default {
             shippingDetails: {},
             subtotal: 0,
             totalAmount: 0,
-            shippingAddress: {}
+            shippingAddress: {},
+            loadingError: false,
         };
     },
     mounted() {
@@ -84,9 +90,9 @@ export default {
             const orderId = this.$route.params.orderId;
             try {
                 const response = await fetch(`http://localhost:5000/api/Order/details/${orderId}`);
-                if (!response) throw new Error('Lỗi khi tải chi tiết đơn hàng');
-                const data = await response.json();
+                if (!response.ok) throw new Error('Lỗi khi tải chi tiết đơn hàng');
 
+                const data = await response.json();
                 this.order = data.order;
                 this.orderStatus = data.orderStatus;
                 this.paymentDetails = data.paymentDetails;
@@ -95,9 +101,10 @@ export default {
                 this.subtotal = data.subtotal;
                 this.totalAmount = data.totalAmount;
                 this.shippingAddress = data.shippingAddress;
+                this.loadingError = false;
             } catch (error) {
                 console.error(error);
-                alert('Không thể tải chi tiết đơn hàng.');
+                this.loadingError = true;
             }
         },
         formatDate(date) {
@@ -108,11 +115,10 @@ export default {
         },
         goBack() {
             this.$router.push({ name: 'OrderManagement' });
-        }
-    }
+        },
+    },
 };
 </script>
-
 
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
@@ -229,44 +235,18 @@ th {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.order-items h3 {
-    font-size: 20px;
-    color: #2c3e50;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-}
-
-.order-items h3 i {
-    color: #e67e22;
-    margin-right: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px;
-}
-
 thead th {
     background-color: #34495e;
     color: #ecf0f1;
     text-align: left;
     padding: 12px;
     font-weight: 500;
-    font-size: 15px;
-}
-
-thead th i {
-    margin-right: 5px;
 }
 
 tbody tr {
     background-color: #f7f7f7;
     transition: background-color 0.3s;
 }
-
-
 
 tbody tr:hover {
     background-color: #e8f6ff;
@@ -276,19 +256,5 @@ tbody td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     color: #34495e;
-}
-
-tbody td:last-child {
-    font-weight: 600;
-    color: #27ae60;
-}
-
-table thead th,
-table tbody td {
-    padding-left: 10px;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #fbfbfb;
 }
 </style>

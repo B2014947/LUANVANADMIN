@@ -37,6 +37,9 @@
                 <RouterLink to="/admin/status" class="nav-link">
                     <i class="fas fa-tasks"></i> Status Management
                 </RouterLink>
+                <RouterLink to="/admin/brand" class="nav-link">
+                    <i class="fa-solid fa-hashtag"></i> Brand Management
+                </RouterLink>
                 <RouterLink to="/admin/settings" class="nav-link">
                     <i class="fas fa-cog"></i> Settings
                 </RouterLink>

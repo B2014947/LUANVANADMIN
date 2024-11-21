@@ -144,9 +144,9 @@
                     <label><strong><i class="fas fa-upload"></i> Thêm hình ảnh mới:</strong></label>
                     <input type="file" name="images" ref="fileInput" @change="handleFileUpload" multiple />
                     <div class="image-list">
-                        <div v-for="(newImageUrl, index) in newImageUrls" :key="index" class="image-item">
+                        <div v-for="newImageUrl in newImageUrls" :key="newImageUrl" class="image-item">
                             <img :src="newImageUrl" alt="Hình ảnh mới" />
-                            <button class="delete-button" @click.prevent="removeNewImageUrl(index)">
+                            <button class="delete-button" @click.prevent="removeNewImageUrl(newImageUrl)">
                                 <i class="fas fa-trash"></i> Xóa
                             </button>
                         </div>
@@ -186,8 +186,30 @@ export default {
     methods: {
         getImageUrl(url) {
             return url.startsWith('http') ? url : `http://localhost:5000/${url}`;
-        }
-        ,
+        },
+
+        // Kiểm tra và xử lý khi thay đổi Category
+        async onChangeCategory() {
+            // Lấy danh mục đã chọn
+            const selectedCategoryId = this.product.CategoryId;
+            console.log('CategoryId đã chọn:', selectedCategoryId);
+
+            // Nếu CategoryId thay đổi, lấy danh mục phụ mới
+            await this.fetchSubcategories(selectedCategoryId);
+
+            // Kiểm tra nếu SubCategoryId hiện tại không hợp lệ với danh mục mới
+            const validSubcategory = this.subcategories.some(subcategory => subcategory.SubcategoryId === this.product.SubCategoryId);
+            console.log('SubCategoryId hiện tại:', this.product.SubCategoryId);
+            console.log('Danh mục phụ hợp lệ:', validSubcategory);
+
+            // Nếu SubCategoryId không hợp lệ, đặt lại SubCategoryId thành null
+            if (!validSubcategory) {
+                this.product.SubCategoryId = null;  // Reset SubCategoryId
+                console.log('Đã đặt SubCategoryId thành null');
+            }
+        },
+
+        // Tải thông tin sản phẩm
         async fetchProduct() {
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`);
@@ -198,6 +220,7 @@ export default {
                 await this.fetchProductImages(this.productId);
                 await this.fetchProductDetails();
 
+                // Nếu có CategoryId, gọi fetchSubcategories
                 if (this.product.CategoryId) {
                     await this.fetchSubcategories(this.product.CategoryId);
                 }
@@ -206,18 +229,16 @@ export default {
                 alert('Không thể tải chi tiết sản phẩm.');
             }
         },
+
+        // Lấy hình ảnh sản phẩm
         async fetchProductImages(productId) {
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/images/${productId}`);
                 if (!response.ok) throw new Error('Lỗi khi tải hình ảnh sản phẩm');
 
                 const imagesData = await response.json();
-
-                // Đảm bảo `imagesData.images` là một mảng và gán vào `existingImages`
                 if (Array.isArray(imagesData.images)) {
                     this.existingImages = imagesData.images.map(image => this.getImageUrl(image));
-
-                    // Thông báo nếu không có ảnh
                     if (this.existingImages.length === 0) {
                         alert("Không có hình ảnh nào cho sản phẩm này.");
                     }
@@ -231,16 +252,14 @@ export default {
                 alert('Đã xảy ra lỗi khi tải hình ảnh sản phẩm.');
                 this.existingImages = [];
             }
-        }
+        },
 
-
-        ,
+        // Tải thông số kỹ thuật sản phẩm
         async fetchProductDetails() {
             try {
                 const response = await fetch(`http://localhost:5000/api/productdetails/product/${this.productId}`);
                 if (!response.ok) throw new Error('Lỗi khi tải thông số kỹ thuật sản phẩm');
                 const details = await response.json();
-
                 if (details.length > 0) {
                     const detail = details[0];
                     Object.assign(this.product, detail);
@@ -250,6 +269,8 @@ export default {
                 alert('Không thể tải thông số kỹ thuật sản phẩm.');
             }
         },
+
+        // Tải danh sách nhãn hàng
         async fetchBrands() {
             try {
                 const response = await fetch('http://localhost:5000/api/Brands');
@@ -259,6 +280,8 @@ export default {
                 alert('Đã xảy ra lỗi khi tải nhãn hàng.');
             }
         },
+
+        // Tải danh sách danh mục
         async fetchCategories() {
             try {
                 const response = await fetch('http://localhost:5000/api/Category');
@@ -268,19 +291,31 @@ export default {
                 alert('Đã xảy ra lỗi khi tải danh mục.');
             }
         },
+
+        // Lấy danh mục phụ dựa trên CategoryId
         async fetchSubcategories(categoryId) {
             if (!categoryId) return;
             try {
                 const response = await fetch(`http://localhost:5000/api/Category/${categoryId}`);
                 if (!response.ok) throw new Error('Lỗi khi tải danh mục phụ');
                 this.subcategories = await response.json();
+                console.log('Danh mục phụ hiện tại:', this.subcategories);
             } catch (error) {
                 console.error('Lỗi khi tải danh mục phụ:', error);
                 alert('Đã xảy ra lỗi khi tải danh mục phụ.');
             }
         },
+
+        // Cập nhật sản phẩm
         async updateProduct() {
             const formData = new FormData();
+
+            // Kiểm tra và reset SubCategoryId nếu không hợp lệ
+            console.log('Trước khi cập nhật, SubCategoryId:', this.product.SubCategoryId);
+            if (!this.product.SubCategoryId) {
+                this.product.SubCategoryId = null;
+                console.log('SubCategoryId đã được reset thành null');
+            }
 
             // Thêm dữ liệu sản phẩm vào FormData
             for (const key in this.product) {
@@ -296,10 +331,12 @@ export default {
                     formData.append('images', file); // 'images' là tên trường mà server đang nhận
                 }
             }
+
             // Chuyển đổi imagesToDelete thành chuỗi JSON trước khi truyền đi
             formData.append('imagesToDelete', JSON.stringify(this.imagesToDelete));
+
             try {
-                // Gửi yêu cầu PUT với FormData (không cần thiết lập Content-Type)
+                // Gửi yêu cầu PUT với FormData
                 const response = await fetch(`http://localhost:5000/api/Product/${this.productId}`, {
                     method: 'PUT',
                     body: formData
@@ -322,12 +359,9 @@ export default {
                 console.error("Lỗi cập nhật:", error.message);
                 alert("Không thể cập nhật sản phẩm.");
             }
-        }
+        },
 
-
-
-
-        ,
+        // Các phương thức xử lý hình ảnh
         addImageToDelete(url) {
             const relativeUrl = url.replace('http://localhost:5000/', '');
             if (!this.imagesToDelete.includes(relativeUrl)) {
@@ -336,35 +370,43 @@ export default {
             this.existingImages = this.existingImages.filter(image => image !== url);
             console.log("Danh sách imagesToDelete:", this.imagesToDelete);
         },
+
         deleteAllImages() {
             this.imagesToDelete = [...this.existingImages.map(url => url.replace('http://localhost:5000/', ''))];
             this.existingImages = [];
             console.log("Danh sách tất cả imagesToDelete:", this.imagesToDelete);
         },
+
         removeNewImageUrl(index) {
             this.newImageUrls.splice(index, 1);
             this.newImages.splice(index, 1); // Xóa file khỏi newImages
         },
+
         handleFileUpload(event) {
             const files = Array.from(event.target.files);
-            if (files.length === 0) {
-                alert("Không có tệp nào được chọn.");
-                return;
-            }
-            this.newImageUrls.push(...files.map(file => {
-                this.newImages.push(file);
-                return URL.createObjectURL(file);
-            }));
-        },
+
+            files.forEach((file) => {
+                // Kiểm tra nếu tệp đã tồn tại trong danh sách newImages
+                const isFileExists = this.newImages.some(existingFile => existingFile.name === file.name);
+                if (!isFileExists) {
+                    this.newImages.push(file);
+                    const url = URL.createObjectURL(file);
+                    this.newImageUrls.push(url);
+                }
+            });
+
+            console.log('Danh sách URL ảnh mới:', this.newImageUrls);
+            console.log('Danh sách tệp ảnh mới:', this.newImages);
+        }
+        ,
+
         goBack() {
             this.$router.push('/admin/products');
-        },
-        async onChangeCategory() {
-            await this.fetchSubcategories(this.product.CategoryId);
         }
     }
 };
 </script>
+
 
 <style scoped>
 .product-edit-container {

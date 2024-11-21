@@ -145,7 +145,7 @@ export default {
             price: null,
             stockQuantity: null,
             categoryId: '',
-            subCategoryId: '',
+            subCategoryId: null,
             isActive: true,
             brandId: '', // Thay đổi từ brand sang brandId
             processor: '',

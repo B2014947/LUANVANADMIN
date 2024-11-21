@@ -6,20 +6,33 @@
         <!-- Thanh tìm kiếm và bộ lọc -->
         <div class="filter-container">
             <input type="text" v-model="searchTerm" placeholder="🔍 Tìm kiếm sản phẩm..." />
-            <select v-model="selectedCategory">
+
+            <!-- Lọc theo Category -->
+            <select v-model="selectedCategory" @change="fetchSubcategories">
                 <option value="">Tất cả danh mục</option>
                 <option v-for="category in categories" :key="category.CategoryId" :value="category.CategoryId">
                     {{ category.CategoryName }}
                 </option>
+            </select>
+
+            <!-- Lọc theo SubCategory -->
+            <select v-model="selectedSubcategory" :disabled="!subcategories.length" @change="logSelectedSubcategory">
+                <option value="">Tất cả loại sản phẩm</option>
+                <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
+                    :value="subcategory.SubcategoryId">
+                    {{ subcategory.Description }}
+                </option>
+
             </select>
             <button @click="fetchProducts" class="action-button search"><i class="fas fa-search"></i> Tìm kiếm</button>
             <button @click="addNewProduct" class="action-button add"><i class="fas fa-plus"></i> Thêm sản phẩm
                 mới</button>
         </div>
 
+
         <!-- Bảng sản phẩm -->
         <div class="table-container">
-            <table v-if="products.length">
+            <table v-if="paginatedProducts.length">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -34,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in products" :key="product.ProductId">
+                    <tr v-for="product in paginatedProducts" :key="product.ProductId">
                         <td>{{ product.ProductId }}</td>
                         <td>{{ product.ProductName }}</td>
                         <td>{{ product.Description }}</td>
@@ -44,7 +57,7 @@
                         <td>{{ new Date(product.UpdatedAt).toLocaleDateString() }}</td>
                         <td>
                             <span :class="product.IsActive ? 'status-active' : 'status-inactive'">
-                                {{ product.IsActive ? 'Có' : 'Không' }}
+                                {{ product.IsActive ? 'Còn bán' : 'Ngừng bán' }}
                             </span>
                         </td>
                         <td>
@@ -52,8 +65,14 @@
                                     class="fas fa-eye"></i> Xem</button>
                             <button class="action-button edit" @click="editProduct(product.ProductId)"><i
                                     class="fas fa-edit"></i> Sửa</button>
-                            <button class="action-button delete" @click="deleteProduct(product.ProductId)"><i
-                                    class="fas fa-trash-alt"></i> Xóa</button>
+                            <button class="action-button deactivate" @click="deactivateProduct(product.ProductId)"
+                                :disabled="!product.IsActive"><i class="fas fa-pause"></i> Ngừng bán</button>
+                            <button class="action-button reactivate" @click="reactivateProduct(product.ProductId)"
+                                :disabled="product.IsActive"><i class="fas fa-play"></i> Bán lại</button>
+                            <!-- Nút Xóa sản phẩm -->
+                            <button class="action-button delete" @click="deleteProduct(product.ProductId)">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -61,8 +80,26 @@
             <p v-else>Không có sản phẩm nào được tìm thấy.</p>
         </div>
     </div>
-</template>
 
+    <!-- Thanh phân trang -->
+    <div v-if="totalProducts > productsPerPage" class="pagination-container flex justify-center items-center mt-6">
+        <button class="pagination-button" :disabled="currentPage === 1" @click="goToPage(1)">
+            Đầu
+        </button>
+        <button class="pagination-button" :disabled="currentPage === 1" @click="previousPage">
+            Trước
+        </button>
+        <span class="pagination-info">Trang {{ currentPage }} / {{ Math.ceil(totalProducts / productsPerPage) }}</span>
+        <button class="pagination-button" :disabled="currentPage === Math.ceil(totalProducts / productsPerPage)"
+            @click="nextPage">
+            Sau
+        </button>
+        <button class="pagination-button" :disabled="currentPage === Math.ceil(totalProducts / productsPerPage)"
+            @click="goToPage(Math.ceil(totalProducts / productsPerPage))">
+            Cuối
+        </button>
+    </div>
+</template>
 
 <script>
 export default {
@@ -71,15 +108,53 @@ export default {
         return {
             products: [],
             categories: [],
+            subcategories: [], // Danh sách SubCategory
             selectedCategory: '',
+            selectedSubcategory: '', // SubCategory được chọn
             searchTerm: '',
+            currentPage: 1,
+            productsPerPage: 10,
+            totalProducts: 0,
+            paginatedProducts: []
         };
     },
+
     async created() {
         await this.fetchCategories();
         await this.fetchProducts();
+        await this.fetchSubcategories();
     },
     methods: {
+
+        logSelectedSubcategory() {
+            console.log('Selected SubCategory:', this.selectedSubcategory);
+        }
+        ,
+        async fetchSubcategories() {
+            try {
+                if (!this.selectedCategory) {
+                    this.subcategories = [];
+                    this.selectedSubcategory = ''; // Reset SubCategory nếu không chọn danh mục
+                    console.log('No Category selected. Subcategories cleared.');
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:5000/api/Category/${this.selectedCategory}`);
+                if (!response.ok) throw new Error('Lỗi khi tải danh sách loại sản phẩm');
+
+                this.subcategories = await response.json(); // Cập nhật danh sách SubCategory
+                console.log('Fetched Subcategories:', this.subcategories);
+
+                // Reset selectedSubcategory khi thay đổi Category
+                this.selectedSubcategory = this.subcategories.length > 0 ? '' : undefined;
+            } catch (error) {
+                console.error(error);
+                alert('Không thể tải danh sách loại sản phẩm.');
+            }
+        }
+
+
+        ,
         async fetchCategories() {
             try {
                 const response = await fetch(`http://localhost:5000/api/Category`);
@@ -90,40 +165,117 @@ export default {
                 alert('Không thể tải danh sách danh mục.');
             }
         },
+
         async fetchProducts() {
             try {
                 const query = new URLSearchParams();
-                if (this.selectedCategory) query.append('categoryId', this.selectedCategory);
-                if (this.searchTerm) query.append('productName', this.searchTerm);
 
-                const response = await fetch(`http://localhost:5000/api/Product/search?${query.toString()}`);
+                // Thêm các điều kiện tìm kiếm
+                if (this.selectedCategory) query.append('categoryId', this.selectedCategory);
+                if (this.selectedSubcategory) query.append('subCategoryId', this.selectedSubcategory); // SubCategoryId
+                if (this.searchTerm) query.append('productName', this.searchTerm); // Tìm kiếm theo tên
+
+                // Log URL và tham số gửi đi
+                console.log('Selected SubCategory:', this.selectedSubcategory);
+                const url = `http://localhost:5000/api/Product/Prod/search?${query.toString()}`;
+                console.log('Fetch URL:', url);
+
+                const response = await fetch(url);
                 if (!response.ok) throw new Error('Lỗi khi tải danh sách sản phẩm');
-                this.products = await response.json();
+
+                const result = await response.json();
+
+                // Log dữ liệu nhận về từ API
+                console.log('Fetch Products Result:', result);
+
+                this.products = result;
+                this.totalProducts = result.length;
+                this.paginateProducts();
             } catch (error) {
                 console.error(error);
                 alert('Không thể tải danh sách sản phẩm.');
             }
+        }
+
+        ,
+        paginateProducts() {
+            const start = (this.currentPage - 1) * this.productsPerPage;
+            const end = start + this.productsPerPage;
+            this.paginatedProducts = this.products.slice(start, end);
         },
+
+        nextPage() {
+            if (this.currentPage < Math.ceil(this.totalProducts / this.productsPerPage)) {
+                this.currentPage++;
+                this.paginateProducts();
+            }
+        },
+
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.paginateProducts();
+            }
+        },
+
+        goToPage(page) {
+            this.currentPage = page;
+            this.paginateProducts();
+        },
+
         viewProduct(productId) {
             this.$router.push({ name: 'ProductDetail', params: { productId } });
         },
+
         editProduct(productId) {
             this.$router.push({ name: 'ProductForm', params: { productId } });
         },
+
+        async deactivateProduct(productId) {
+            const confirmDeactivate = window.confirm('Bạn có chắc chắn muốn ngừng bán sản phẩm này?');
+            if (!confirmDeactivate) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/Product/${productId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Lỗi khi ngừng bán sản phẩm');
+                alert('Sản phẩm đã được ngừng bán thành công.');
+                this.fetchProducts();
+            } catch (error) {
+                console.error(error);
+                alert('Lỗi khi ngừng bán sản phẩm.');
+            }
+        },
+
+        async reactivateProduct(productId) {
+            const confirmReactivate = window.confirm('Bạn có chắc chắn muốn bán lại sản phẩm này?');
+            if (!confirmReactivate) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/Product/${productId}/reactivate`, { method: 'PUT' });
+                if (!response.ok) throw new Error('Lỗi khi bán lại sản phẩm');
+                alert('Sản phẩm đã được bán lại thành công.');
+                this.fetchProducts();
+            } catch (error) {
+                console.error(error);
+                alert('Lỗi khi bán lại sản phẩm.');
+            }
+        },
+
         async deleteProduct(productId) {
             const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
             if (!confirmDelete) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/Product/${productId}`, { method: 'DELETE' });
+                const response = await fetch(`http://localhost:5000/api/Product/product-d/${productId}`, { method: 'DELETE' });
                 if (!response.ok) throw new Error('Lỗi khi xóa sản phẩm');
                 alert('Sản phẩm đã được xóa thành công.');
-                this.fetchProducts(); // Cập nhật lại danh sách sản phẩm
+                this.fetchProducts(); // Lấy lại danh sách sản phẩm sau khi xóa
             } catch (error) {
                 console.error(error);
                 alert('Lỗi khi xóa sản phẩm.');
             }
         },
+
         addNewProduct() {
             this.$router.push({ name: 'AddProduct' });
         }
@@ -226,6 +378,7 @@ tbody tr:hover {
 }
 
 .action-button {
+    background-color: #7f8c8d;
     padding: 8px 16px;
     margin: 3px;
     border: none;
@@ -261,5 +414,35 @@ tbody tr:hover {
 .action-button:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.pagination-container {
+    margin-top: 20px;
+    text-align: center;
+    gap: 8px;
+}
+
+.pagination-button {
+    padding: 8px 16px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.pagination-button:hover {
+    background-color: #2ecc71;
+}
+
+.pagination-info {
+    font-size: 16px;
+    color: #2c3e50;
 }
 </style>

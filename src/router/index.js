@@ -30,7 +30,9 @@ import TransactionsManagement from '../views/TransactionsManagement/PaymentTrans
 import DiscountAdd from '../views/DiscountManagement/DiscountAdd.vue';
 import DiscountEdit from '../views/DiscountManagement/DiscountEdit.vue';
 import StatusManagement from '../views/StatusManagement/StatusManagement.vue'
-
+import BrandManagement from '../views/BrandManagement/BrandManagement.vue'
+import BrandAdd from '../views/BrandManagement/BrandAdd.vue'
+import BrandEdit from '@/views/BrandManagement/BrandEdit.vue';
 
 function isTokenExpired(token) {
   try {
@@ -243,6 +245,24 @@ const routes = [
         name: 'Profile',
         component: Profile,
         meta: { requiresAuth: true, title: 'Hồ sơ' },
+      },
+      {
+        path: '/admin/brand',
+        name: 'BrandManagement',
+        component: BrandManagement,
+        meta: { requiresAuth: true, title: 'Nhãn Hàng' },
+      },
+      {
+        path: '/admin/brand/add',
+        name: 'BrandAdd',
+        component: BrandAdd,
+        meta: { requiresAuth: true, title: 'Thêm Nhãn Hàng' },
+      },
+      {
+        path: '/admin/brand/edit/:brandId',
+        name: 'BrandEdit',
+        component: BrandEdit,
+        meta: { requiresAuth: true, title: 'Sửa Nhãn Hàng' },
       },
     ],
   },

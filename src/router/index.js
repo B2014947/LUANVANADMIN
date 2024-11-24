@@ -15,7 +15,7 @@ import AdminDetailsEdit from '../views/AdminManagement/EditAdmin.vue';
 import AddAdmin from '../views/AdminManagement/AddAdmin.vue'
 import ProductManagement from '../views/ProductManagement/ProductManagement.vue';
 import ProductAdd from '../views/ProductManagement/ProductAdd.vue'
-import ProductDetail from '../views/ProductManagement/ProductDetail.vue';
+import ProductDetail from '../views/ProductManagement/ProductDetailAD.vue';
 import ProductForm from '../views/ProductManagement/ProductForm.vue';
 import CategoryManagement from '../views/CategoriesManagement/CategoryManagement.vue';
 import CategoryAdd from '../views/CategoriesManagement/CategoriesAdd.vue'

@@ -37,16 +37,20 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group half-width">
-                        <label for="SubCategoryId"><strong><i class="fas fa-th-large"></i> Danh mục
-                                phụ:</strong></label>
-                        <select id="SubCategoryId" v-model="product.SubCategoryId">
-                            <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
-                                :value="subcategory.SubcategoryId">
-                                {{ subcategory.Description }}
-                            </option>
-                        </select>
+                    <!-- Lọc theo danh mục phụ -->
+                    <div class="mb-4" v-if="subcategories.length > 0">
+                        <div class="form-group half-width">
+                            <label for="SubCategoryId"><strong><i class="fas fa-th-large"></i> Danh mục
+                                    phụ:</strong></label>
+                            <select id="SubCategoryId" v-model="product.SubCategoryId">
+                                <option v-for="subcategory in subcategories" :key="subcategory.SubcategoryId"
+                                    :value="subcategory.SubcategoryId">
+                                    {{ subcategory.Description }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="form-group">

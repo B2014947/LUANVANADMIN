@@ -34,6 +34,8 @@ import BrandManagement from '../views/BrandManagement/BrandManagement.vue'
 import BrandAdd from '../views/BrandManagement/BrandAdd.vue'
 import BrandEdit from '@/views/BrandManagement/BrandEdit.vue';
 
+import Chat from '../views/AdminChatPage.vue'
+
 function isTokenExpired(token) {
   try {
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
@@ -263,6 +265,12 @@ const routes = [
         name: 'BrandEdit',
         component: BrandEdit,
         meta: { requiresAuth: true, title: 'Sửa Nhãn Hàng' },
+      },
+      {
+        path: '/admin/chat',
+        name: 'Chat',
+        component: Chat,
+        meta: { requiresAuth: true, title: 'Tin nhắn' },
       },
     ],
   },

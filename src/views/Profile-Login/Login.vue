@@ -48,6 +48,10 @@ export default {
                     // Lưu token vào localStorage
                     localStorage.setItem('token', data.token);
 
+                    // Giả sử API trả về một đối tượng có thông tin adminId
+                    const adminId = data.adminId; // Lấy adminId từ phản hồi của API
+                    localStorage.setItem('adminId', adminId); // Lưu adminId vào localStorage
+
                     // Lưu thông tin người dùng vào localStorage
                     const decodedToken = JSON.parse(atob(data.token.split('.')[1]));
                     localStorage.setItem('user', JSON.stringify({
@@ -57,7 +61,8 @@ export default {
 
                     // Chuyển hướng đến dashboard admin
                     this.$router.push('/admin/dashboard');
-                } else {
+                }
+                else {
                     // Hiển thị thông báo lỗi
                     this.errorMessage = data.message;
                 }

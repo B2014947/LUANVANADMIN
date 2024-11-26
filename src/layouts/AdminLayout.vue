@@ -73,6 +73,9 @@
                     <RouterLink to="/admin/profile" class="header-button profile">
                         <i class="fas fa-user-circle"></i> Profile
                     </RouterLink>
+                    <RouterLink to="/admin/chat" class="header-button chat">
+                        <i class="fas fa-comments"></i> Chat
+                    </RouterLink>
                     <router-link :to="{ name: 'Login' }" class="header-button logout" @click.native="handleLogout">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </router-link>
@@ -84,7 +87,6 @@
                         <component :is="Component" />
                     </transition>
                 </router-view>
-
             </div>
         </main>
     </div>
@@ -225,6 +227,35 @@ export default {
 .nav-link i {
     margin-right: 10px;
     font-size: 1.2rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-button {
+    padding: 8px 16px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.header-button:hover {
+    background-color: #219150;
+}
+
+.header-button.chat {
+    background-color: #3498db;
+    /* Blue color for Chat */
+}
+
+.header-button.chat:hover {
+    background-color: #2980b9;
 }
 
 .admin-header {

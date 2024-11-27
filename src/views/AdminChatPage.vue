@@ -171,33 +171,51 @@ export default {
         async sendMessage() {
             if (this.newMessage.trim() === '') return;
 
+            // Lấy thời gian hiện tại và chuyển thành số nguyên với định dạng HHMM
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();  // Lấy giá trị giây
+
+            // Đảm bảo minutes và seconds luôn có 2 chữ số (thêm số 0 nếu chỉ có 1 chữ số)
+            const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+            const secondsStr = seconds < 10 ? `0${seconds}` : seconds;
+
+            // Tạo messageId theo định dạng HHMMSS
+            const messageId = `${hours}${minutesStr}${secondsStr}`;
+            console.log('Generated MessageId:', messageId);
             const messageData = {
-                MessageId: Date.now(),
+                MessageId: messageId,
                 UserId: this.selectedUserId,
                 MessageContent: this.newMessage,
                 SenderRole: 'Admin',
                 CreatedAt: new Date(),
             };
 
+            // Thêm tin nhắn vào giao diện ngay lập tức
+            this.selectedMessages.push(messageData);
+
             // Gửi tin nhắn qua socket
             this.socket.emit('adminMessage', messageData);
 
             // Gửi tin nhắn tới server để lưu vào cơ sở dữ liệu
             try {
-                await axios.post('http://localhost:5000/api/messagesnew', messageData);
+                const response = await axios.post('http://localhost:5000/api/messagesnew', messageData);
             } catch (error) {
                 console.error('Error sending message to server:', error);
             }
 
-            // Thêm tin nhắn vào giao diện
-            this.newMessage = '';  // Xóa nội dung tin nhắn sau khi gửi
+            // Xóa nội dung tin nhắn sau khi gửi
+            this.newMessage = '';
 
             // Lưu lại trạng thái mới vào localStorage
             this.saveMessagesToLocalStorage();
 
             // Cuộn xuống cuối cùng
             this.scrollToBottom();
-        },
+        }
+
+        ,
 
         closeChat() {
             this.selectedUserId = null;

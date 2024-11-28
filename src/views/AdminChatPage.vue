@@ -20,6 +20,11 @@
             </div>
         </div>
 
+        <!-- Phần hiển thị thông báo -->
+        <div v-if="notificationMessage" class="notification-message">
+            {{ notificationMessage }}
+        </div>
+
         <div v-if="selectedUserId" class="chat-box">
             <div class="chat-header">
                 <h3>Chat with User {{ selectedUserId }}</h3>
@@ -35,10 +40,11 @@
                 </div>
             </div>
             <textarea v-model="newMessage" placeholder="Type your response..."></textarea>
-            <button @click="sendMessage">Send Response</button>
+            <button @click="sendMessage">Gửi</button>
         </div>
     </div>
 </template>
+
 
 
 
@@ -55,8 +61,16 @@ export default {
             selectedMessages: [],  // Tin nhắn của người dùng đang chọn
             newMessage: '',  // Tin nhắn mới gửi
             socket: null,  // Kết nối socket
+            notificationMessage: '',  // Thông báo cho admin
+            unreadCount: 0,  // Số lượng tin nhắn chưa đọc tổng cộng
         };
     },
+    computed: {
+        totalUnreadMessages() {
+            return Object.values(this.unreadMessagesCount).reduce((acc, count) => acc + count, 0);
+        }
+    },
+
     mounted() {
         this.setupSocket();
         this.loadMessagesFromLocalStorage();  // Kiểm tra và tải dữ liệu từ localStorage nếu có
@@ -106,13 +120,16 @@ export default {
             }
         },
 
+        clearNotification() {
+            this.notificationMessage = '';
+        },
+
         setupSocket() {
             this.socket = io('http://localhost:5000');
             this.socket.emit('joinAdminRoom');  // Admin vào phòng chat
 
             // Nhận tin nhắn từ người dùng
             this.socket.on('userMessage', (message) => {
-                // Kiểm tra và đảm bảo groupedMessages[message.UserId] là một mảng
                 if (!Array.isArray(this.groupedMessages[message.UserId])) {
                     this.groupedMessages[message.UserId] = [];
                 }
@@ -123,16 +140,27 @@ export default {
 
                 // Tăng số lượng tin nhắn chưa đọc
                 if (!message.isRead) {
-                    this.unreadMessagesCount[message.UserId]++;
+                    // Nếu chưa có tin nhắn chưa đọc, khởi tạo giá trị cho unreadMessagesCount
+                    if (typeof this.unreadMessagesCount[message.UserId] === 'undefined') {
+                        this.unreadMessagesCount[message.UserId] = 0;
+                    }
+                    this.unreadMessagesCount[message.UserId]++;  // Tăng số lượng tin nhắn chưa đọc
+                    this.$store.commit('setUnreadMessagesCount', {
+                        userId: message.UserId,
+                        count: this.unreadMessagesCount[message.UserId]
+                    });
                 }
 
                 // Lưu dữ liệu sau khi nhận tin nhắn
                 this.saveMessagesToLocalStorage();
 
-                // Thực hiện rung khi có tin nhắn mới
-                this.vibrateDevice();
+                // Thông báo cho admin
+                this.notificationMessage = `Có tin nhắn mới từ User ${message.UserId}`;
 
-
+                // Xóa thông báo sau 5 giây
+                setTimeout(() => {
+                    this.clearNotification();
+                }, 3000);
             });
 
             // Nhận tin nhắn phản hồi từ admin
@@ -146,7 +174,8 @@ export default {
                     }
                 }
             });
-        },
+        }
+        ,
 
         selectUser(userId) {
             this.selectedUserId = userId;
@@ -156,7 +185,16 @@ export default {
             this.selectedMessages.forEach((msg) => {
                 if (!msg.isRead) {
                     msg.isRead = true;  // Đánh dấu là đã đọc
-                    this.unreadMessagesCount[userId]--; // Giảm số lượng tin nhắn chưa đọc
+
+                    // Kiểm tra số lượng tin nhắn chưa đọc trước khi giảm
+                    if (this.unreadMessagesCount[userId] > 0) {
+                        this.unreadMessagesCount[userId]--; // Giảm số lượng tin nhắn chưa đọc
+                        // Cập nhật lại số lượng tin nhắn chưa đọc trong Vuex store
+                        this.$store.commit('setUnreadMessagesCount', {
+                            userId: userId,
+                            count: this.unreadMessagesCount[userId],
+                        });
+                    }
                 }
             });
 
@@ -165,7 +203,8 @@ export default {
 
             // Cuộn xuống khi mở chat
             this.scrollToBottom();
-        },
+        }
+        ,
 
         async sendMessage() {
             if (this.newMessage.trim() === '') return;
@@ -242,6 +281,16 @@ export default {
 
 
 <style scoped>
+.notification-message {
+    background-color: #f39c12;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
 /* Styles cho giao diện */
 .admin-chat-container {
     width: 85%;
@@ -365,7 +414,7 @@ textarea {
 
 button {
     padding: 12px 18px;
-    background-color: #3498db;
+    background-color: #009688;
     color: white;
     border: none;
     border-radius: 5px;

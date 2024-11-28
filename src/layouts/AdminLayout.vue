@@ -1,4 +1,5 @@
 <template>
+    <NotificationHeader />
     <div class="admin-layout">
         <aside class="sidebar">
             <h2><i class="fas fa-cogs"></i> Admin Panel</h2>
@@ -75,6 +76,10 @@
                     </RouterLink>
                     <RouterLink to="/admin/chat" class="header-button chat">
                         <i class="fas fa-comments"></i> Chat
+                        <!-- Hiển thị tổng số thông báo trong chat -->
+                        <span v-if="unreadCount > 0" class="unread-count">
+                            {{ unreadCount }}
+                        </span>
                     </RouterLink>
                     <router-link :to="{ name: 'Login' }" class="header-button logout" @click.native="handleLogout">
                         <i class="fas fa-sign-out-alt"></i> Logout
@@ -94,15 +99,23 @@
 
 
 <script>
+import NotificationHeader from '../NotificationHeader.vue';
+import { io } from 'socket.io-client';
 export default {
+    components: {
+        NotificationHeader
+    },
     data() {
         return {
             adminName: '',
             transactionNotificationCount: 0,
+            chatNotificationCount: 0,
             orderNotificationCount: 0,
             isRinging: false,
             showNotifications: false,
-            notifications: [] // Danh sách thông báo chi tiết
+            notifications: [], // Danh sách thông báo chi tiết
+            notificationCount: 0,
+            unreadCount: 0,
         };
     },
     mounted() {
@@ -112,14 +125,26 @@ export default {
         }
         this.fetchNotificationCounts();
 
-        // Set interval to 1 second for ringing animation
         setInterval(() => {
             this.isRinging = !this.isRinging;
         }, 1000);
 
-        // Fetch notification counts every 5 seconds
         setInterval(this.fetchNotificationCounts, 5000);
-    },
+
+        this.socket = io('http://localhost:5000'); // Kết nối với server socket
+        this.socket.on('connect', () => {
+            console.log('Socket connected successfully');
+        });
+
+        this.socket.on('new-notification', (data) => {
+            console.log("Received new notification:", data); // Kiểm tra dữ liệu nhận được
+            console.log(this.chatNotificationCount);
+            this.notificationCount += 1;
+            this.notifications.push(data.message); // Thêm thông báo mới vào danh sách
+            console.log("Notifications list:", this.notifications); // Kiểm tra xem thông báo có được thêm vào đúng cách
+        });
+    }
+    ,
     methods: {
         async fetchNotificationCounts() {
             try {
@@ -164,6 +189,38 @@ export default {
   Enter and leave animations can use different
   durations and timing functions.
 */
+.unread-messages {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.unread-count {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.9rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Thêm phần CSS cho icon thông báo trong chat */
+.header-button.chat {
+    position: relative;
+    /* Để có thể đặt thông báo lên trên */
+}
+
+.notification-badge-chat {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+
 .slide-fade-enter-active {
     transition: all 0.3s ease-out;
 }

@@ -89,15 +89,13 @@ export default {
                         this.unreadMessagesCount[message.UserId] = 0;
                     }
 
-                    // Kiểm tra nếu tin nhắn đã tồn tại trong nhóm
-                    if (!this.groupedMessages[message.UserId].some(msg => msg.MessageId === message.MessageId)) {
-                        message.isRead = false;  // Mặc định tin nhắn chưa đọc
-                        this.groupedMessages[message.UserId].push(message);
+                    // Thêm tin nhắn vào nhóm mà không cần kiểm tra duplicates
+                    message.isRead = false;  // Mặc định tin nhắn chưa đọc
+                    this.groupedMessages[message.UserId].push(message);
 
-                        // Tăng số lượng tin nhắn chưa đọc
-                        if (!message.isRead) {
-                            this.unreadMessagesCount[message.UserId]++;
-                        }
+                    // Tăng số lượng tin nhắn chưa đọc
+                    if (!message.isRead) {
+                        this.unreadMessagesCount[message.UserId]++;
                     }
                 });
 
@@ -114,26 +112,27 @@ export default {
 
             // Nhận tin nhắn từ người dùng
             this.socket.on('userMessage', (message) => {
-                if (!this.groupedMessages[message.UserId]) {
+                // Kiểm tra và đảm bảo groupedMessages[message.UserId] là một mảng
+                if (!Array.isArray(this.groupedMessages[message.UserId])) {
                     this.groupedMessages[message.UserId] = [];
-                    this.unreadMessagesCount[message.UserId] = 0;
                 }
-                // Chỉ thêm tin nhắn nếu chưa có trong danh sách
-                if (!this.groupedMessages[message.UserId].some(msg => msg.MessageId === message.MessageId)) {
-                    message.isRead = false;  // Mặc định tin nhắn chưa đọc
-                    this.groupedMessages[message.UserId].push(message);
 
-                    // Tăng số lượng tin nhắn chưa đọc
-                    if (!message.isRead) {
-                        this.unreadMessagesCount[message.UserId]++;
-                    }
+                // Thêm tin nhắn vào mảng
+                message.isRead = false;  // Mặc định tin nhắn chưa đọc
+                this.groupedMessages[message.UserId].push(message);
 
-                    // Lưu dữ liệu sau khi nhận tin nhắn
-                    this.saveMessagesToLocalStorage();
-
-                    // Thực hiện rung khi có tin nhắn mới
-                    this.vibrateDevice();
+                // Tăng số lượng tin nhắn chưa đọc
+                if (!message.isRead) {
+                    this.unreadMessagesCount[message.UserId]++;
                 }
+
+                // Lưu dữ liệu sau khi nhận tin nhắn
+                this.saveMessagesToLocalStorage();
+
+                // Thực hiện rung khi có tin nhắn mới
+                this.vibrateDevice();
+
+
             });
 
             // Nhận tin nhắn phản hồi từ admin
@@ -151,7 +150,7 @@ export default {
 
         selectUser(userId) {
             this.selectedUserId = userId;
-            this.selectedMessages = this.groupedMessages[userId] || [];
+            this.selectedMessages = this.groupedMessages[userId] || [];  // Đảm bảo luôn là mảng
 
             // Đánh dấu tất cả tin nhắn là đã đọc khi admin mở cuộc trò chuyện
             this.selectedMessages.forEach((msg) => {
@@ -213,9 +212,7 @@ export default {
 
             // Cuộn xuống cuối cùng
             this.scrollToBottom();
-        }
-
-        ,
+        },
 
         closeChat() {
             this.selectedUserId = null;

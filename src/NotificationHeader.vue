@@ -81,7 +81,7 @@ export default {
 <style scoped>
 .notification {
     position: fixed;
-    bottom: 20px;
+    bottom: 60px;
     right: 20px;
     background-color: #fff;
     padding: 10px 20px;

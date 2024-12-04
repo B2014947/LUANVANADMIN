@@ -102,6 +102,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     name: 'ProductList',
     data() {
@@ -232,49 +234,76 @@ export default {
         },
 
         async deactivateProduct(productId) {
-            const confirmDeactivate = window.confirm('Bạn có chắc chắn muốn ngừng bán sản phẩm này?');
-            if (!confirmDeactivate) return;
+            const confirmDeactivate = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn ngừng bán sản phẩm này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (!confirmDeactivate.isConfirmed) return;
 
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/${productId}`, { method: 'DELETE' });
                 if (!response.ok) throw new Error('Lỗi khi ngừng bán sản phẩm');
-                alert('Sản phẩm đã được ngừng bán thành công.');
+
+                Swal.fire('Sản phẩm đã được ngừng bán thành công!', '', 'success');
                 this.fetchProducts();
             } catch (error) {
                 console.error(error);
-                alert('Lỗi khi ngừng bán sản phẩm.');
+                Swal.fire('Lỗi', 'Không thể ngừng bán sản phẩm.', 'error');
             }
-        },
+        }
+        ,
 
         async reactivateProduct(productId) {
-            const confirmReactivate = window.confirm('Bạn có chắc chắn muốn bán lại sản phẩm này?');
-            if (!confirmReactivate) return;
+            const confirmReactivate = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn bán lại sản phẩm này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (!confirmReactivate.isConfirmed) return;
 
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/${productId}/reactivate`, { method: 'PUT' });
                 if (!response.ok) throw new Error('Lỗi khi bán lại sản phẩm');
-                alert('Sản phẩm đã được bán lại thành công.');
+
+                Swal.fire('Sản phẩm đã được bán lại thành công!', '', 'success');
                 this.fetchProducts();
             } catch (error) {
                 console.error(error);
-                alert('Lỗi khi bán lại sản phẩm.');
+                Swal.fire('Lỗi', 'Không thể bán lại sản phẩm.', 'error');
             }
-        },
+        }
+        ,
 
         async deleteProduct(productId) {
-            const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
-            if (!confirmDelete) return;
+            const confirmDelete = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (!confirmDelete.isConfirmed) return;
 
             try {
                 const response = await fetch(`http://localhost:5000/api/Product/product-d/${productId}`, { method: 'DELETE' });
                 if (!response.ok) throw new Error('Lỗi khi xóa sản phẩm');
-                alert('Sản phẩm đã được xóa thành công.');
+
+                Swal.fire('Sản phẩm đã được xóa thành công!', '', 'success');
                 this.fetchProducts(); // Lấy lại danh sách sản phẩm sau khi xóa
             } catch (error) {
                 console.error(error);
-                alert('Lỗi khi xóa sản phẩm.');
+                Swal.fire('Lỗi', 'Không thể xóa sản phẩm.', 'error');
             }
-        },
+        }
+        ,
 
         addNewProduct() {
             this.$router.push({ name: 'AddProduct' });

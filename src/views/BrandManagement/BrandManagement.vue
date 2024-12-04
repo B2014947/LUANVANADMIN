@@ -29,6 +29,8 @@
 
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     data() {
         return {
@@ -50,17 +52,38 @@ export default {
             }
         },
         async deleteBrand(brandId) {
-            if (!confirm("Bạn có chắc muốn xóa thương hiệu này?")) return;
-            try {
-                const response = await fetch(`http://localhost:5000/api/brands/${brandId}`, {
-                    method: "DELETE"
-                });
-                if (!response.ok) throw new Error("Lỗi khi xóa thương hiệu.");
-                alert("Xóa thương hiệu thành công.");
-                await this.fetchBrands();
-            } catch (error) {
-                console.error("Lỗi khi xóa thương hiệu:", error);
-                alert("Không thể xóa thương hiệu.");
+            // Sử dụng SweetAlert2 để xác nhận xóa
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa thương hiệu này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            // Nếu người dùng chọn "Xóa", tiếp tục thực hiện xóa
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/brands/${brandId}`, {
+                        method: "DELETE"
+                    });
+                    if (!response.ok) throw new Error("Lỗi khi xóa thương hiệu.");
+                    await Swal.fire({
+                        title: 'Xóa thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Đóng'
+                    });
+                    await this.fetchBrands();
+                } catch (error) {
+                    console.error("Lỗi khi xóa thương hiệu:", error);
+                    await Swal.fire({
+                        title: 'Không thể xóa thương hiệu.',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                }
             }
         },
         navigateToCreate() {

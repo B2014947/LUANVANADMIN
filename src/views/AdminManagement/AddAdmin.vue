@@ -2,59 +2,78 @@
     <div class="create-admin-container">
         <h2><i class="fas fa-user-plus"></i> Tạo mới tài khoản quản trị viên</h2>
         <form @submit.prevent="createAdmin" class="create-admin-form" enctype="multipart/form-data">
+
             <label>
                 <strong><i class="fas fa-user"></i> Tên người dùng:</strong>
-                <input type="text" v-model="admin.username" required />
+                <input type="text" v-model="admin.username" placeholder="Nhập tên người dùng" required />
+                <div class="input-description">Tên người dùng sẽ được dùng để đăng nhập vào hệ thống.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-lock"></i> Mật khẩu:</strong>
-                <input type="password" v-model="admin.password" required />
+                <input type="password" v-model="admin.password" placeholder="Nhập mật khẩu" required />
+                <div class="input-description">Mật khẩu phải có ít nhất 6 ký tự.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-id-card"></i> Họ và tên:</strong>
-                <input type="text" v-model="admin.fullName" required />
+                <input type="text" v-model="admin.fullName" placeholder="Nhập họ và tên đầy đủ" required />
+                <div class="input-description">Vui lòng nhập tên đầy đủ của bạn.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-envelope"></i> Email:</strong>
-                <input type="email" v-model="admin.email" required />
+                <input type="email" v-model="admin.email" placeholder="Nhập email" required />
+                <div class="input-description">Email sẽ được dùng gửi thông tin công việc.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-phone"></i> Số điện thoại:</strong>
-                <input type="text" v-model="admin.phoneNumber" />
+                <input type="text" v-model="admin.phoneNumber" placeholder="Nhập số điện thoại" />
+                <div class="input-description">Số điện thoại để liên hệ nếu cần thiết.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-map-marker-alt"></i> Địa chỉ:</strong>
-                <input type="text" v-model="admin.address" />
+                <input type="text" v-model="admin.address" placeholder="Nhập địa chỉ nơi ở" />
+                <div class="input-description">Địa chỉ sẽ được dùng trong các giao dịch cần thiết.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-calendar-alt"></i> Ngày sinh:</strong>
-                <input type="date" v-model="admin.dateOfBirth" />
+                <input type="date" v-model="admin.dateOfBirth" required />
+                <div class="input-description">Ngày sinh của bạn (VD: 01/01/1990).</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-venus-mars"></i> Giới tính:</strong>
-                <input type="text" v-model="admin.gender" />
+                <input type="text" v-model="admin.gender" placeholder="Nhập giới tính" />
+                <div class="input-description">Vui lòng nhập giới tính của bạn.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-phone-square-alt"></i> Liên hệ khẩn cấp:</strong>
-                <input type="text" v-model="admin.emergencyContact" />
+                <input type="text" v-model="admin.emergencyContact" placeholder="Nhập người liên hệ khẩn cấp" />
+                <div class="input-description">Đây là người bạn cần chúng tôi liên hệ trong trường hợp khẩn cấp.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-address-book"></i> Chi tiết địa chỉ:</strong>
-                <input type="text" v-model="admin.addressDetails" />
+                <input type="text" v-model="admin.addressDetails" placeholder="Nhập chi tiết địa chỉ" />
+                <div class="input-description">Thông tin chi tiết về địa chỉ của bạn.</div>
+            </label>
+
+            <label>
+                <strong><i class="fas fa-id-card"></i> Căn cước công dân:</strong>
+                <input type="text" v-model="admin.identityCard" maxlength="12" pattern="\d{12}" required
+                    title="Căn cước công dân phải gồm 12 chữ số" placeholder="Nhập số căn cước công dân" />
+                <div class="input-description">Số căn cước công dân phải bao gồm 12 chữ số.</div>
             </label>
 
             <label>
                 <strong><i class="fas fa-image"></i> Hình đại diện:</strong>
                 <input type="file" name="profilePicture" @change="handleFileUpload" />
+                <div class="input-description">Chọn ảnh đại diện cho tài khoản quản trị viên.</div>
             </label>
 
             <div v-if="previewImage" class="image-preview">
@@ -82,6 +101,7 @@ export default {
                 password: '',
                 fullName: '',
                 email: '',
+                identityCard: '',
                 phoneNumber: '',
                 address: '',
                 dateOfBirth: '',
@@ -145,14 +165,19 @@ export default {
 </script>
 
 <style scoped>
+.input-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
 .create-admin-container {
     padding: 2.5rem;
     background-color: #ffffff;
-    /* Nền sáng */
     color: #2c3e50;
-    /* Màu chữ chính */
     border-radius: 12px;
-    max-width: 700px;
+    max-width: 900px;
+    /* Điều chỉnh lại chiều rộng tổng thể */
     margin: 40px auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -160,22 +185,21 @@ export default {
 
 h2 {
     color: #27ae60;
-    /* Màu chủ đạo cho tiêu đề */
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 700;
 }
 
 .create-admin-form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    /* Tăng khoảng cách giữa các trường */
 }
 
 label {
     color: #2c3e50;
-    /* Màu nhạt cho nhãn */
     font-weight: 500;
-    margin-top: 1rem;
     display: flex;
     flex-direction: column;
 }
@@ -187,13 +211,10 @@ input[type="date"],
 input[type="file"] {
     width: 100%;
     padding: 12px 15px;
-    margin-top: 5px;
     background-color: #f4f4f4;
-    /* Màu nền cho ô nhập */
     border: 1px solid #7f8c8d;
     border-radius: 8px;
     color: #2c3e50;
-    /* Màu chữ */
     font-size: 15px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -201,13 +222,14 @@ input[type="file"] {
 
 input:focus {
     border-color: #27ae60;
-    /* Màu xanh lá khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .image-preview {
     margin-top: 1rem;
     text-align: center;
+    grid-column: span 2;
+    /* Chiếm cả 2 cột cho phần xem ảnh */
 }
 
 .image-preview img {
@@ -220,7 +242,6 @@ input:focus {
 .submit-button {
     padding: 12px;
     background-color: #27ae60;
-    /* Màu xanh lá cho nút tạo tài khoản */
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -228,20 +249,20 @@ input:focus {
     font-size: 16px;
     margin-top: 1.5rem;
     width: 100%;
+    grid-column: span 2;
+    /* Nút tạo tài khoản chiếm cả 2 cột */
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button:hover {
     background-color: #219150;
-    /* Màu xanh lá đậm khi hover */
     box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
 }
 
 .back-button {
     padding: 12px;
     background-color: #2980b9;
-    /* Màu xanh lam cho nút quay lại */
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -258,7 +279,6 @@ input:focus {
 
 .back-button:hover {
     background-color: #3498db;
-    /* Màu xanh lam đậm khi hover */
     box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
 }
 

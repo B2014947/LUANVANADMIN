@@ -206,14 +206,14 @@ label i {
 .profile-container {
     padding: 2rem;
     background-color: #b2ebf2;
-    /* Nền xanh nhạt */
     color: #004d40;
-    /* Màu chữ xanh đậm */
     border-radius: 12px;
     max-width: 800px;
     margin: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    /* Ngăn không cho các phần tử vượt ngoài form */
 }
 
 h2 {
@@ -221,7 +221,6 @@ h2 {
     margin-bottom: 1.5rem;
     font-weight: 700;
     color: #00acc1;
-    /* Màu xanh nổi bật */
 }
 
 .avatar-container {
@@ -236,7 +235,6 @@ h2 {
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid #00acc1;
-    /* Màu xanh nổi bật */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
@@ -251,15 +249,22 @@ h2 {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
+    word-wrap: break-word;
+    /* Đảm bảo văn bản không bị tràn */
 }
 
 label {
     font-weight: 600;
     font-size: 14px;
     color: #004d40;
-    /* Màu xanh đậm */
     flex-shrink: 0;
     width: 30%;
+    white-space: nowrap;
+    /* Đảm bảo không bị ngắt dòng */
+    overflow: hidden;
+    /* Ẩn đi phần tràn */
+    text-overflow: ellipsis;
+    /* Thêm dấu "..." nếu có quá dài */
 }
 
 span,
@@ -267,18 +272,19 @@ input {
     flex-grow: 1;
     padding: 10px;
     background-color: #e0f7fa;
-    /* Nền xanh nhạt */
     border: 1px solid #b2ebf2;
-    /* Viền xanh nhạt */
     border-radius: 6px;
     color: #004d40;
-    /* Màu chữ xanh đậm */
     transition: all 0.3s ease;
+    max-width: calc(100% - 20px);
+    /* Đảm bảo chúng không vượt ra ngoài form */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Thêm dấu "..." khi giá trị quá dài */
 }
 
 input:focus {
     border-color: #00acc1;
-    /* Màu xanh nổi bật */
     box-shadow: 0 0 8px rgba(0, 172, 193, 0.3);
 }
 
@@ -296,7 +302,6 @@ input:focus {
 
 .btn-edit {
     background-color: #00acc1;
-    /* Màu xanh nổi bật */
     color: #fff;
     display: block;
     width: 100%;
@@ -311,7 +316,6 @@ input:focus {
 
 .btn-update {
     background-color: #0288d1;
-    /* Màu xanh lam */
     color: #fff;
 }
 
@@ -321,7 +325,6 @@ input:focus {
 
 .btn-cancel {
     background-color: #d32f2f;
-    /* Màu đỏ cảnh báo */
     color: #fff;
 }
 
@@ -335,22 +338,22 @@ input:focus {
     margin-top: 1rem;
 }
 
-.success {
-    text-align: center;
-    margin-top: 10px;
-    color: #00acc1;
-    /* Màu xanh nổi bật */
-    font-size: 14px;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
+.success,
 .error {
     text-align: center;
     margin-top: 10px;
-    color: #d32f2f;
-    /* Màu đỏ cảnh báo */
     font-size: 14px;
     animation: fadeIn 0.5s ease-in-out;
+    width: 100%;
+    /* Đảm bảo các thông báo không vượt quá chiều rộng */
+}
+
+.success {
+    color: #00acc1;
+}
+
+.error {
+    color: #d32f2f;
 }
 
 /* Hiệu ứng mờ dần */

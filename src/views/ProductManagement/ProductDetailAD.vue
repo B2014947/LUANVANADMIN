@@ -163,7 +163,7 @@ export default {
     background-color: #ffffff;
     color: #2c3e50;
     border-radius: 12px;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 40px auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -205,8 +205,10 @@ h2 {
 .carousel-item img {
     width: 100%;
     height: auto;
-    max-height: 500px;
+    max-height: 200px;
+    /* Thay đổi max-height để làm hình ảnh nhỏ hơn */
     object-fit: contain;
+    /* Giữ tỷ lệ của hình ảnh */
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -233,15 +235,26 @@ h2 {
     right: 10px;
 }
 
-.info-group p {
+/* Chia thành 3 cột */
+.info-group,
+.detail-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 cột có kích thước bằng nhau */
+    gap: 2rem;
+    /* Khoảng cách giữa các cột */
+    margin-top: 1.5rem;
+}
+
+.info-group p,
+.detail-group p {
     font-size: 16px;
     color: #2c3e50;
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
 }
 
-.info-group strong {
+.info-group strong,
+.detail-group strong {
     font-weight: 600;
     margin-right: 5px;
 }
@@ -298,6 +311,7 @@ h2 {
 .back-button i,
 .edit-button i {
     margin-right: 8px;
+
 }
 
 .detail-group {

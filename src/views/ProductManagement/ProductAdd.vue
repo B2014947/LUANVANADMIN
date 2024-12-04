@@ -127,10 +127,8 @@
                     </div>
                 </div>
             </label>
-
-            <button type="submit" class="save-button"><i class="fas fa-save"></i> Lưu sản phẩm</button>
         </form>
-
+        <button type="submit" class="save-button"><i class="fas fa-save"></i> Lưu sản phẩm</button>
         <button class="back-button" @click="goBack"><i class="fas fa-arrow-left"></i> Quay lại</button>
     </div>
 </template>
@@ -289,13 +287,13 @@ export default {
 
 <style scoped>
 .create-product-container {
-    padding: 3rem;
+    padding: 2rem 3rem;
+    /* Giảm khoảng cách padding cho gọn gàng */
     background-color: #ffffff;
-    /* Nền sáng */
     color: #2c3e50;
-    /* Màu chữ tối */
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 1200px;
+    /* Đặt giới hạn chiều rộng */
     margin: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -303,20 +301,23 @@ export default {
 
 h2 {
     color: #27ae60;
-    /* Màu nhấn */
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    /* Tăng khoảng cách dưới tiêu đề */
     font-weight: 700;
+    font-size: 24px;
 }
 
 .product-form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Chia thành 4 cột */
+    gap: 2rem;
+    /* Thêm khoảng cách giữa các cột */
 }
 
 label {
     color: #2c3e50;
-    /* Màu chữ tối */
     font-weight: 600;
     margin-top: 1rem;
 }
@@ -329,12 +330,9 @@ select {
     padding: 12px;
     margin-top: 5px;
     background-color: #ecf0f1;
-    /* Nền sáng cho input */
     border: 1px solid #bdc3c7;
-    /* Viền sáng */
     border-radius: 8px;
     color: #2c3e50;
-    /* Màu chữ tối */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -342,71 +340,58 @@ input:focus,
 textarea:focus,
 select:focus {
     border-color: #27ae60;
-    /* Màu nhấn khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
-.save-button {
-    background-color: #27ae60;
-    /* Màu xanh lá */
-    margin-top: 1rem;
-    color: #ffffff;
-    border: none;
+.save-button,
+.back-button {
+    width: 100%;
     padding: 12px 20px;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 16px;
+    cursor: pointer;
+    margin-top: 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.save-button {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
 .save-button:hover {
     background-color: #2ecc71;
-    /* Màu xanh lá sáng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .back-button {
     background-color: #2980b9;
-    /* Màu xanh lam */
-    width: 100%;
-    margin-top: 1rem;
     color: #ffffff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .back-button:hover {
     background-color: #3498db;
-    /* Màu xanh lam sáng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .delete-button {
     background-color: #e74c3c;
-    /* Màu đỏ */
     color: #ffffff;
     border: none;
     padding: 5px 8px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    margin-top: 5px;
     transition: background-color 0.3s;
 }
 
 .delete-button:hover {
     background-color: #c0392b;
-    /* Màu đỏ đậm khi hover */
 }
 
 .image-preview {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .image-list {
@@ -417,10 +402,12 @@ select:focus {
 
 .image-item {
     position: relative;
+    width: 100px;
+    /* Thêm giới hạn chiều rộng cho ảnh */
 }
 
 .image-item img {
-    width: 100px;
+    width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -442,5 +429,33 @@ select:focus {
 
 .delete-button:hover {
     background-color: #c0392b;
+}
+
+/* Tạo khoảng cách cho các trường thêm chi tiết sản phẩm */
+h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Cải thiện hiển thị các trường chọn (select) */
+select {
+    padding: 10px;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-size: 14px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .product-form {
+        grid-template-columns: 1fr;
+        /* Chuyển sang một cột cho màn hình nhỏ */
+    }
 }
 </style>

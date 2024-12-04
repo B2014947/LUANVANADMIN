@@ -33,7 +33,7 @@
                                     {{ name }}
                                 </option>
                             </select>
-                            <i class="fas fa-sync-alt dropdown-icon"></i>
+                            <i class="fa-solid fa-bars dropdown-icon"></i>
                         </div>
                         <button @click="viewOrderDetails(order.OrderId)" class="action-button view-details"
                             title="Xem chi tiết đơn hàng">
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
     data() {
         return {
@@ -125,23 +126,37 @@ export default {
         async updateOrderStatus(order) {
             const newStatus = order.newStatus;
             if (newStatus) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/Order/${order.OrderId}/update-status`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ statusId: newStatus })
-                    });
-                    if (!response.ok) throw new Error('Lỗi khi cập nhật trạng thái đơn hàng');
-                    alert('Trạng thái đơn hàng đã được cập nhật thành công.');
-                    this.fetchOrders();
-                } catch (error) {
-                    console.error(error);
-                    alert('Đã xảy ra lỗi khi cập nhật trạng thái.');
+                // Hiển thị cảnh báo trước khi cập nhật trạng thái
+                const result = await Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: `Bạn muốn thay đổi trạng thái đơn hàng thành "${this.getStatusName(newStatus)}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy bỏ',
+                    reverseButtons: true
+                });
+
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch(`http://localhost:5000/api/Order/${order.OrderId}/update-status`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ statusId: newStatus })
+                        });
+                        if (!response.ok) throw new Error('Lỗi khi cập nhật trạng thái đơn hàng');
+
+                        Swal.fire('Thành công!', 'Trạng thái đơn hàng đã được cập nhật.', 'success');
+                        this.fetchOrders();
+                    } catch (error) {
+                        console.error(error);
+                        Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi cập nhật trạng thái.', 'error');
+                    }
                 }
             } else {
-                alert('Trạng thái không hợp lệ.');
+                Swal.fire('Cảnh báo!', 'Trạng thái không hợp lệ.', 'warning');
             }
         },
         viewOrderDetails(orderId) {

@@ -1,6 +1,6 @@
 <template>
     <div class="management-container">
-        <h2 class="management-title">Admin Management</h2>
+        <h2 class="management-title">Quản lý nhân viên quản lý</h2>
         <p class="description">Quản lý tài khoản quản trị viên tại đây.</p>
         <button class="add-button" @click="addAdmin">
             <i class="fas fa-user-plus"></i> Thêm Quản Trị Viên
@@ -31,7 +31,7 @@
                                 <i class="fas fa-edit"></i> Chỉnh Sửa
                             </button>
                             <button class="action-button toggle"
-                                @click="admin.IsActive ? lockAdmin(admin.AdminId) : unlockAdmin(admin.AdminId)">
+                                @click="admin.IsActive ? lockAdmin(admin.AdminId, admin.Username) : unlockAdmin(admin.AdminId, admin.Username)">
                                 <i :class="admin.IsActive ? 'fas fa-lock' : 'fas fa-unlock'"></i>
                                 {{ admin.IsActive ? 'Khóa' : 'Mở khóa' }}
                             </button>
@@ -40,12 +40,12 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     name: 'AdminManagement',
     data() {
@@ -82,10 +82,18 @@ export default {
             this.$router.push({ name: 'EditAdmin', params: { adminId, mode: 'edit' } });
         },
 
+        async lockAdmin(adminId, username) {
+            const confirmLock = await Swal.fire({
+                title: `Bạn có chắc chắn muốn khóa tài khoản của ${username} (ID: ${adminId})?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Khóa',
+                cancelButtonText: 'Hủy'
+            });
 
-        async lockAdmin(adminId) {
-            const confirmLock = window.confirm('Bạn có chắc chắn muốn khóa tài khoản này?');
-            if (!confirmLock) return;
+            if (!confirmLock.isConfirmed) return;
 
             try {
                 const response = await fetch(`http://localhost:5000/api/AccountAdmin/lock/${adminId}`, {
@@ -95,18 +103,29 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 });
+
                 if (response.ok) {
-                    alert('Tài khoản đã bị khóa.');
+                    Swal.fire('Đã khóa!', `Tài khoản của ${username} (ID: ${adminId}) đã bị khóa.`, 'success');
                     this.fetchAdmins();
                 }
             } catch (error) {
                 console.error('Error locking admin:', error);
             }
-        },
+        }
+        ,
 
-        async unlockAdmin(adminId) {
-            const confirmUnlock = window.confirm('Bạn có chắc chắn muốn mở khóa tài khoản này?');
-            if (!confirmUnlock) return;
+        async unlockAdmin(adminId, username) {
+            const confirmUnlock = await Swal.fire({
+                title: `Bạn có chắc chắn muốn mở khóa tài khoản của ${username} (ID: ${adminId})?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Mở khóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (!confirmUnlock.isConfirmed) return;
 
             try {
                 const response = await fetch(`http://localhost:5000/api/AccountAdmin/unlock/${adminId}`, {
@@ -116,14 +135,16 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 });
+
                 if (response.ok) {
-                    alert('Tài khoản đã được mở khóa.');
+                    Swal.fire('Đã mở khóa!', `Tài khoản của ${username} (ID: ${adminId}) đã được mở khóa.`, 'success');
                     this.fetchAdmins();
                 }
             } catch (error) {
                 console.error('Error unlocking admin:', error);
             }
-        },
+        }
+        ,
 
         addAdmin() {
             this.$router.push({ name: 'AddAdmin' });

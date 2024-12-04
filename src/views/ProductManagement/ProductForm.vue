@@ -535,6 +535,8 @@ button {
 .save-button {
     background-color: #27ae60;
     /* Màu xanh lá */
+    width: 100%;
+    ;
 }
 
 .back-button {

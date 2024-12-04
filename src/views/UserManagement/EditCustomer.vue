@@ -28,15 +28,6 @@
                 <input v-model="phoneNumber" type="text" id="phoneNumber" />
             </div>
 
-            <!-- Trường nhập mật khẩu mới (nếu cần) -->
-            <div class="form-group">
-                <label for="newPassword">
-                    <i class="icon fas fa-lock"></i> Mật khẩu mới:
-                </label>
-                <input v-model="newPassword" type="password" id="newPassword"
-                    placeholder="Để trống nếu không thay đổi" />
-            </div>
-
             <!-- Nút cập nhật thông tin -->
             <button type="submit" class="submit-button">Cập nhật thông tin</button>
         </form>
@@ -53,7 +44,6 @@ export default {
             fullName: '',
             email: '',
             phoneNumber: '',
-            newPassword: '', // Thêm trường cho mật khẩu mới
         };
     },
 
@@ -65,6 +55,7 @@ export default {
             console.error("User ID is missing");
         }
     },
+
     methods: {
         async fetchUserDetails() {
             try {
@@ -91,7 +82,6 @@ export default {
                         fullName: this.fullName,
                         email: this.email,
                         phoneNumber: this.phoneNumber,
-                        newPassword: this.newPassword || null // Gửi newPassword nếu có, nếu không thì gửi null
                     })
                 });
 
@@ -110,9 +100,6 @@ export default {
     }
 };
 </script>
-
-
-
 
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');

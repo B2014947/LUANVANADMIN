@@ -55,6 +55,7 @@
 
 
 <script>
+import Swal from 'sweetalert2';
 export default {
     data() {
         return {
@@ -85,14 +86,25 @@ export default {
             this.$router.push({ name: 'DiscountEdit', params: { discountId } });
         },
         async deleteDiscount(discountId) {
-            if (confirm('Bạn có chắc chắn muốn xóa khuyến mãi này?')) {
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa khuyến mãi này?',
+                text: "Hành động này không thể hoàn tác!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (result.isConfirmed) {
                 try {
                     await fetch(`http://localhost:5000/api/discounts/${discountId}`, { method: 'DELETE' });
-                    alert('Khuyến mãi đã được xóa thành công');
+                    Swal.fire('Đã xóa!', 'Khuyến mãi đã được xóa thành công.', 'success');
                     this.fetchDiscounts();
                 } catch (error) {
                     console.error('Lỗi khi xóa khuyến mãi:', error);
-                    alert('Đã xảy ra lỗi khi xóa khuyến mãi.');
+                    Swal.fire('Lỗi', 'Đã xảy ra lỗi khi xóa khuyến mãi.', 'error');
                 }
             }
         },

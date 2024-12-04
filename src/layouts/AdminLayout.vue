@@ -2,55 +2,55 @@
     <NotificationHeader />
     <div class="admin-layout">
         <aside class="sidebar">
-            <h2><i class="fas fa-cogs"></i> Admin Panel</h2>
+            <h2><i class="fas fa-cogs"></i> Bảng Điều Khiển Quản Trị</h2>
             <nav>
                 <RouterLink to="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                    <i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển
                 </RouterLink>
                 <RouterLink to="/admin/users" class="nav-link">
-                    <i class="fas fa-users"></i> User Management
+                    <i class="fas fa-users"></i> Quản Lý Người Dùng
                 </RouterLink>
                 <RouterLink to="/admin" class="nav-link">
-                    <i class="fas fa-user-shield"></i> Admin Management
+                    <i class="fas fa-user-shield"></i> Nhân viên quản lý cửa hàng
                 </RouterLink>
                 <RouterLink to="/admin/products" class="nav-link">
-                    <i class="fas fa-box-open"></i> Product Management
+                    <i class="fas fa-box-open"></i> Quản Lý Sản Phẩm
                 </RouterLink>
                 <RouterLink to="/admin/categories" class="nav-link">
-                    <i class="fas fa-tags"></i> Category Management
+                    <i class="fas fa-tags"></i> Quản Lý Danh Mục
                 </RouterLink>
                 <RouterLink to="/admin/shipping-costs" class="nav-link">
-                    <i class="fas fa-shipping-fast"></i> Shipping Costs
+                    <i class="fas fa-shipping-fast"></i> Chi Phí Vận Chuyển
                 </RouterLink>
                 <RouterLink to="/admin/orders" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i> Order Management
+                    <i class="fas fa-shopping-cart"></i> Quản Lý Đơn Hàng
                     <span v-if="orderNotificationCount > 0" class="notification-badge">{{ orderNotificationCount
                         }}</span>
                 </RouterLink>
                 <RouterLink to="/admin/transactions" class="nav-link">
-                    <i class="fas fa-receipt"></i> Transaction Management
+                    <i class="fas fa-receipt"></i> Quản Lý Giao Dịch
                     <span v-if="transactionNotificationCount > 0" class="notification-badge">{{
                         transactionNotificationCount }}</span>
                 </RouterLink>
                 <RouterLink to="/admin/discount" class="nav-link">
-                    <i class="fas fa-percentage"></i> Discount Management
+                    <i class="fas fa-percentage"></i> Quản Lý Khuyến Mãi
                 </RouterLink>
                 <RouterLink to="/admin/status" class="nav-link">
-                    <i class="fas fa-tasks"></i> Status Management
+                    <i class="fas fa-tasks"></i> Quản Lý Trạng Thái
                 </RouterLink>
                 <RouterLink to="/admin/brand" class="nav-link">
-                    <i class="fa-solid fa-hashtag"></i> Brand Management
+                    <i class="fa-solid fa-hashtag"></i> Quản Lý Thương Hiệu
                 </RouterLink>
                 <RouterLink to="/admin/settings" class="nav-link">
-                    <i class="fas fa-cog"></i> Settings
+                    <i class="fas fa-cog"></i> Cài Đặt
                 </RouterLink>
             </nav>
         </aside>
 
-        <main>
+        <main class="main">
             <header class="admin-header">
                 <div class="header-title">
-                    <h1><i class="fas fa-home"></i> Admin Dashboard</h1>
+                    <h1><i class="fas fa-home"></i> Bảng Điều Khiển Quản Trị</h1>
                     <p class="welcome-message">Xin chào, {{ adminName }}!</p>
                 </div>
                 <div class="header-actions">
@@ -72,17 +72,16 @@
                         </div>
                     </div>
                     <RouterLink to="/admin/profile" class="header-button profile">
-                        <i class="fas fa-user-circle"></i> Profile
+                        <i class="fas fa-user-circle"></i> Hồ Sơ
                     </RouterLink>
                     <RouterLink to="/admin/chat" class="header-button chat">
-                        <i class="fas fa-comments"></i> Chat
-                        <!-- Hiển thị tổng số thông báo trong chat -->
+                        <i class="fas fa-comments"></i> Tin Nhắn
                         <span v-if="unreadCount > 0" class="unread-count">
                             {{ unreadCount }}
                         </span>
                     </RouterLink>
                     <router-link :to="{ name: 'Login' }" class="header-button logout" @click.native="handleLogout">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt"></i> Đăng Xuất
                     </router-link>
                 </div>
             </header>
@@ -96,6 +95,7 @@
         </main>
     </div>
 </template>
+
 
 
 <script>
@@ -251,6 +251,7 @@ export default {
     border-right: 1px solid #34495e;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     background: linear-gradient(180deg, #2c3e50, #34495e);
+    height: 100vh;
 }
 
 .sidebar h2 {
@@ -355,6 +356,10 @@ export default {
 .notification-container {
     position: relative;
     cursor: pointer;
+}
+
+.main {
+    height: 100vh;
 }
 
 .notification-icon {

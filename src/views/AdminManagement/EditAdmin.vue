@@ -43,6 +43,10 @@
                     <strong>Liên hệ khẩn cấp:</strong>
                     <input type="text" v-model="admin.emergencyContact" />
                 </label>
+                <label>
+                    <strong>Căn cước công dân:</strong>
+                    <input type="text" v-model="admin.identityCard" required />
+                </label>
 
                 <label>
                     <strong>Chi tiết địa chỉ:</strong>
@@ -56,23 +60,20 @@
 
                 <div v-if="previewImage" class="image-preview">
                     <p>Hình ảnh hiện tại:</p>
-                    <img :src="previewImage" alt="Profile Picture" />
+                    <img :src="getProfilePictureUrl(previewImage)" alt="Profile Picture" />
                 </div>
-
-                <label>
-                    <strong>Mật khẩu mới:</strong>
-                    <input type="password" v-model="newPassword" />
-                </label>
-
-                <label>
-                    <strong>Xác nhận mật khẩu:</strong>
-                    <input type="password" v-model="confirmPassword" />
-                </label>
-
-                <button type="submit" class="save-button">Lưu thay đổi</button>
             </form>
         </div>
+        <label>
+            <strong>Mật khẩu mới:</strong>
+            <input type="password" v-model="newPassword" />
+        </label>
 
+        <label>
+            <strong>Xác nhận mật khẩu:</strong>
+            <input type="password" v-model="confirmPassword" />
+        </label>
+        <button type="button" class="save-button" @click="updateAdmin">Lưu thay đổi</button>
         <button class="back-button" @click="$router.push({ name: 'AdminManagement' })">Quay lại</button>
     </div>
 </template>
@@ -93,6 +94,7 @@ export default {
                 gender: '',
                 emergencyContact: '',
                 addressDetails: '',
+                identityCard: '',
                 profilePicture: ''
             },
             newPassword: '',
@@ -130,7 +132,8 @@ export default {
                     gender: adminData.Gender,
                     emergencyContact: adminData.EmergencyContact,
                     addressDetails: adminData.AddressDetails,
-                    profilePicture: adminData.ProfilePicture
+                    profilePicture: adminData.ProfilePicture,
+                    identityCard: adminData.IdentityCard
                 };
 
                 // Hiển thị hình ảnh hiện tại
@@ -139,7 +142,17 @@ export default {
                 console.error('Error fetching admin details:', error);
             }
         },
-
+        getProfilePictureUrl(picture) {
+            if (picture) {
+                // Kiểm tra nếu `picture` là URL đầy đủ (bắt đầu bằng "http" hoặc "blob")
+                if (picture.startsWith('http') || picture.startsWith('blob')) {
+                    return picture; // Trả về URL đầy đủ
+                }
+                // Nếu không, tạo URL từ tên tệp
+                return `http://localhost:5000/uploads/${picture}`;
+            }
+            return ''; // Trả về chuỗi rỗng nếu không có ảnh
+        },
         formatDateToInputValue(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
@@ -195,9 +208,7 @@ export default {
 .admin-details-container {
     padding: 2.5rem;
     background-color: #ffffff;
-    /* Nền sáng */
     color: #2c3e50;
-    /* Màu chữ tối */
     border-radius: 12px;
     max-width: 800px;
     margin: 40px auto;
@@ -207,21 +218,21 @@ export default {
 
 h2 {
     color: #27ae60;
-    /* Màu nhấn */
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 700;
 }
 
 .admin-form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Thay đổi từ 2 cột sang 3 cột */
+    gap: 2rem;
     margin-bottom: 1.5rem;
 }
 
 label {
     color: #2c3e50;
-    /* Màu chữ tối */
     font-weight: 600;
     margin-top: 1rem;
 }
@@ -231,38 +242,36 @@ input[type="email"],
 input[type="date"],
 input[type="password"],
 input[type="file"] {
-    width: 95%;
+    width: 100%;
     padding: 12px;
     margin-top: 5px;
     background-color: #ecf0f1;
-    /* Nền sáng cho input */
     border: 1px solid #bdc3c7;
-    /* Viền sáng */
     border-radius: 8px;
     color: #2c3e50;
-    /* Màu chữ tối */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-label {
-    width: 100%;
 }
 
 input:focus {
     border-color: #27ae60;
-    /* Màu nhấn khi focus */
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
 }
 
 .image-preview {
     margin-top: 1rem;
     text-align: center;
+    grid-column: span 4;
+    /* Chiếm toàn bộ 3 cột */
 }
 
 .image-preview img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+    width: 100px;
+    /* Chỉnh kích thước nhỏ như avatar */
+    height: 100px;
+    border-radius: 50%;
+    /* Làm tròn hình ảnh */
+    object-fit: cover;
+    /* Cắt ảnh sao cho không bị biến dạng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 0.5rem;
 }
@@ -281,18 +290,16 @@ button {
 
 .save-button {
     background-color: #27ae60;
-    /* Màu xanh lá */
+    width: 100%;
 }
 
 .back-button {
     background-color: #2980b9;
-    /* Màu xanh lam */
     width: 100%;
 }
 
 button:hover {
     background-color: #2ecc71;
-    /* Màu xanh lá sáng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

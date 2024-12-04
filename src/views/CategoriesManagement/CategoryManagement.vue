@@ -74,6 +74,8 @@
 
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
     data() {
         return {
@@ -108,33 +110,49 @@ export default {
         goToEditCategory(categoryId) {
             this.$router.push({ name: 'CategoryEdit', params: { categoryId: categoryId } });
         },
-        async deleteCategory(categoryId) {
-            if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+        async deleteSubcategory(subcategoryId) {
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa danh mục phụ này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (result.isConfirmed) {
                 try {
-                    await fetch(`http://localhost:5000/api/Category/categories/${categoryId}`, { method: 'DELETE' });
-                    this.fetchCategories();
-                    alert('Danh mục đã được xóa thành công');
+                    await fetch(`http://localhost:5000/api/Category/subcategories/${subcategoryId}`, { method: 'DELETE' });
+                    this.fetchSubcategories();
+                    Swal.fire('Xóa thành công!', 'Danh mục phụ đã được xóa.', 'success');
                 } catch (error) {
-                    console.error('Lỗi khi xóa danh mục:', error);
-                    alert('Đã xảy ra lỗi.');
+                    console.error('Lỗi khi xóa danh mục phụ:', error);
+                    Swal.fire('Đã xảy ra lỗi', 'Không thể xóa danh mục phụ này.', 'error');
                 }
             }
         },
         goToEditSubcategory(subcategoryId) {
             this.$router.push({ name: 'SubcategoryEdit', params: { subcategoryId: subcategoryId } });
         },
-        async deleteSubcategory(subcategoryId) {
-            if (confirm('Bạn có chắc chắn muốn xóa danh mục phụ này?')) {
+        async deleteCategory(categoryId) {
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa danh mục này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (result.isConfirmed) {
                 try {
-                    await fetch(`http://localhost:5000/api/Category/subcategories/${subcategoryId}`, { method: 'DELETE' });
-                    this.fetchSubcategories();
-                    alert('Danh mục phụ đã được xóa thành công');
+                    await fetch(`http://localhost:5000/api/Category/categories/${categoryId}`, { method: 'DELETE' });
+                    this.fetchCategories();
+                    Swal.fire('Xóa thành công!', 'Danh mục đã được xóa.', 'success');
                 } catch (error) {
-                    console.error('Lỗi khi xóa danh mục phụ:', error);
-                    alert('Đã xảy ra lỗi.');
+                    console.error('Lỗi khi xóa danh mục:', error);
+                    Swal.fire('Đã xảy ra lỗi', 'Không thể xóa danh mục này.', 'error');
                 }
             }
-        }
+        },
     }
 };
 </script>

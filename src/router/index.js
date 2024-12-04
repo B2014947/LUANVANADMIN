@@ -57,6 +57,22 @@ function requireAuth(to, from, next) {
   }
 }
 
+function checkSuperAdmin(to, from, next) {
+  const token = localStorage.getItem('token');
+  const decodedToken = JSON.parse(atob(token.split('.')[1]));
+  const userId = decodedToken.userId;
+  const username = decodedToken.username;
+
+  // Kiểm tra nếu là siêu admin (ví dụ userId = 8 và username = 'B2014947')
+  if (userId === 8 && username === 'B2014947') {
+    next();  // Cho phép truy cập
+  } else {
+    // Nếu không phải siêu admin, hiển thị alert và chặn truy cập
+    alert('Bạn không có quyền truy cập vào trang này');
+    next(false);  // Chặn không cho tiếp tục vào route này
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -101,24 +117,28 @@ const routes = [
         path: '/admin',
         name: 'AdminManagement',
         component: AdminManagement,
+        beforeEnter: checkSuperAdmin,
         meta: { requiresAuth: true, title: 'Admin Management' },
       },
       {
         path: '/admin/details/:adminId',
         name: 'AdminDetails',
         component: AdminDetails,
+        beforeEnter: checkSuperAdmin,
         meta: { requiresAuth: true, title: 'Chi Tiết Quản Trị Viên' },
       },
       {
         path: '/admin/edit/:adminId',
         name: 'EditAdmin',
         component: AdminDetailsEdit,
+        beforeEnter: checkSuperAdmin,
         meta: { requiresAuth: true, title: 'Chỉnh Sửa Quản Trị Viên' },
       },
       {
         path: '/admin/AddAdmin',
         name: 'AddAdmin',
         component: AddAdmin,
+        beforeEnter: checkSuperAdmin,
         meta: { requiresAuth: true, title: 'Add Admin' },
       },
       {
@@ -280,6 +300,7 @@ const routes = [
     component: LoginPage,
     meta: { title: 'LOGIN PAGE' },
   },
+
 ];
 
 const router = createRouter({

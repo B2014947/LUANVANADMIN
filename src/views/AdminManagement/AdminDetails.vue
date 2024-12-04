@@ -22,6 +22,7 @@
                 <p><strong><i class="fas fa-venus-mars"></i> Giới tính:</strong> {{ admin.Gender }}</p>
                 <p><strong><i class="fas fa-phone-square-alt"></i> Liên hệ khẩn cấp:</strong> {{ admin.EmergencyContact
                     }}</p>
+                <p><strong><i class="fas fa-id-card"></i> Căn cước công dân:</strong> {{ admin.IdentityCard }}</p>
             </div>
         </div>
         <div class="button-group">

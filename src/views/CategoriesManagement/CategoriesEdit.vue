@@ -83,7 +83,7 @@ export default {
     background-color: #ffffff;
     color: #2c3e50;
     border-radius: 12px;
-    max-width: 800px;
+    max-width: 400px;
     margin: 40px auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -108,6 +108,7 @@ label {
     font-size: 14px;
     color: #34495e;
     font-weight: 600;
+    width: 100%;
 }
 
 input[type="text"],
@@ -145,10 +146,12 @@ button {
 
 .submit-button {
     background-color: #27ae60;
+    width: 100%;
 }
 
 .back-button {
     background-color: #2980b9;
+    width: 100%;
 }
 
 button:hover {

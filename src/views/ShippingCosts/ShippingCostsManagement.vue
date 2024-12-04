@@ -45,6 +45,8 @@
 
 
 <script>
+
+import Swal from 'sweetalert2';
 export default {
     data() {
         return {
@@ -72,15 +74,28 @@ export default {
             this.$router.push({ name: 'ShippingCostsEdit', params: { shippingId: shippingId } });
         },
         async deleteShippingCost(shippingId) {
-            if (confirm('Bạn có chắc chắn muốn xóa phí vận chuyển này?')) {
+            // SweetAlert2 Confirm Dialog
+            const result = await Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa phí vận chuyển này?',
+                text: 'Hành động này không thể hoàn tác!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Có, xóa!',
+                cancelButtonText: 'Hủy'
+            });
+
+            if (result.isConfirmed) {
                 try {
                     const response = await fetch(`http://localhost:5000/api/ShippingCost/${shippingId}`, { method: 'DELETE' });
                     if (!response.ok) throw new Error('Failed to delete');
                     this.fetchShippingCosts();
-                    alert('Phí vận chuyển đã được xóa thành công.');
+                    // SweetAlert2 Success Message
+                    Swal.fire('Đã xóa!', 'Phí vận chuyển đã được xóa thành công.', 'success');
                 } catch (error) {
                     console.error('Lỗi khi xóa phí vận chuyển:', error);
-                    alert('Đã xảy ra lỗi khi xóa phí vận chuyển.');
+                    Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi xóa phí vận chuyển.', 'error');
                 }
             }
         }

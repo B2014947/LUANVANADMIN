@@ -73,26 +73,27 @@ export default {
 
     mounted() {
         this.setupSocket();
-        this.loadMessagesFromLocalStorage();  // Kiểm tra và tải dữ liệu từ localStorage nếu có
+        this.loadMessages();
+        //this.loadMessagesFromLocalStorage();  // Kiểm tra và tải dữ liệu từ localStorage nếu có
     },
     methods: {
-        // Tải dữ liệu từ localStorage
-        loadMessagesFromLocalStorage() {
-            const storedMessages = localStorage.getItem('groupedMessages');
-            const storedUnreadCount = localStorage.getItem('unreadMessagesCount');
-            if (storedMessages && storedUnreadCount) {
-                this.groupedMessages = JSON.parse(storedMessages);
-                this.unreadMessagesCount = JSON.parse(storedUnreadCount);
-            } else {
-                this.loadMessages();  // Nếu không có dữ liệu trong localStorage, gọi API
-            }
-        },
+        // // Tải dữ liệu từ localStorage
+        // loadMessagesFromLocalStorage() {
+        //     const storedMessages = localStorage.getItem('groupedMessages');
+        //     const storedUnreadCount = localStorage.getItem('unreadMessagesCount');
+        //     if (storedMessages && storedUnreadCount) {
+        //         this.groupedMessages = JSON.parse(storedMessages);
+        //         this.unreadMessagesCount = JSON.parse(storedUnreadCount);
+        //     } else {
+        //         this.loadMessages();  // Nếu không có dữ liệu trong localStorage, gọi API
+        //     }
+        // },
 
-        // Lưu dữ liệu vào localStorage
-        saveMessagesToLocalStorage() {
-            localStorage.setItem('groupedMessages', JSON.stringify(this.groupedMessages));
-            localStorage.setItem('unreadMessagesCount', JSON.stringify(this.unreadMessagesCount));
-        },
+        // // Lưu dữ liệu vào localStorage
+        // saveMessagesToLocalStorage() {
+        //     localStorage.setItem('groupedMessages', JSON.stringify(this.groupedMessages));
+        //     localStorage.setItem('unreadMessagesCount', JSON.stringify(this.unreadMessagesCount));
+        // },
 
         async loadMessages() {
             try {

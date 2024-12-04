@@ -86,7 +86,7 @@ export default {
     color: #2c3e50;
     /* Màu chữ tối */
     border-radius: 12px;
-    max-width: 700px;
+    max-width: 400px;
     margin: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
@@ -158,6 +158,7 @@ button {
 .back-button {
     background-color: #2980b9;
     /* Màu xanh lam */
+    width: 100%;
 }
 
 button:hover {

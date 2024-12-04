@@ -62,7 +62,7 @@
         </section>
 
         <section v-if="wishlist.length" class="user-wishlist">
-            <h3><i class="fas fa-heart"></i> Danh Sách Mong Muốn</h3>
+            <h3><i class="fas fa-heart"></i> Danh Sách Sản Phẩm Yêu Thích</h3>
             <table>
                 <thead>
                     <tr>
@@ -82,7 +82,6 @@
                 </tbody>
             </table>
         </section>
-
 
         <div class="button-group">
             <button class="back-button" @click="goBack">
@@ -117,7 +116,7 @@ export default {
                 const response = await fetch(`http://localhost:5000/api/AccountCustomer/users/${userId}`);
                 const data = await response.json();
                 this.user = data.user;
-                this.address = data.address;
+                this.address = data.addresses; // Sửa lại theo đúng tên trường 'addresses'
                 this.cart = data.cart;
                 this.orders = data.orders;
                 this.wishlist = data.wishlist;
@@ -146,9 +145,7 @@ export default {
 .customer-details-container {
     padding: 2rem;
     background-color: #ffffff;
-    /* Nền sáng */
     color: #2c3e50;
-    /* Màu chữ chính */
     border-radius: 12px;
     max-width: 1100px;
     margin: 40px auto;
@@ -158,7 +155,6 @@ export default {
 
 h2 {
     color: #3498db;
-    /* Màu xanh lam cho tiêu đề */
     margin-bottom: 1.5rem;
     font-weight: 700;
     text-align: center;
@@ -172,23 +168,15 @@ h2 {
     font-size: 16px;
     color: #2c3e50;
     margin-bottom: 1rem;
-    display: block;
-}
-
-.info-group {
-    display: block;
-    margin-bottom: 20px;
 }
 
 .status-active {
     color: #2ecc71;
-    /* Màu xanh cho trạng thái hoạt động */
     font-weight: 600;
 }
 
 .status-inactive {
     color: #e74c3c;
-    /* Màu đỏ cho trạng thái vô hiệu hóa */
     font-weight: 600;
 }
 
@@ -197,7 +185,6 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #f4f4f4;
-    /* Màu nền sáng cho bảng */
     border-radius: 6px;
     overflow: hidden;
 }
@@ -212,19 +199,16 @@ td {
 
 th {
     background-color: #27ae60;
-    /* Màu xanh lá cho đầu bảng */
     color: #ffffff;
     font-weight: 600;
 }
 
 tr:nth-child(even) {
     background-color: #f9f9f9;
-    /* Màu nền xen kẽ */
 }
 
 tr:hover {
     background-color: #e0f7fa;
-    /* Màu nền khi hover */
 }
 
 .button-group {
@@ -246,28 +230,24 @@ tr:hover {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .back-button {
     background-color: #3498db;
-    /* Màu xanh lam cho nút Quay Lại */
 }
 
 .edit-button {
-    background-color: #27ae60;
-    /* Màu xanh lá cho nút Chỉnh Sửa */
+    background-color: #f39c12;
 }
 
 .back-button:hover {
     background-color: #2980b9;
-    /* Màu xanh đậm khi hover nút Quay Lại */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .edit-button:hover {
-    background-color: #219150;
-    /* Màu xanh đậm khi hover nút Chỉnh Sửa */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #e67e22;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

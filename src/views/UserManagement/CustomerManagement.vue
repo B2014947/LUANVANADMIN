@@ -2,10 +2,27 @@
   <div class="management-container">
     <h2 class="management-title">Quản lý người dùng</h2>
     <p class="description">Quản lý người dùng tại đây.</p>
+
+    <!-- Form tìm kiếm -->
+    <div class="search-container">
+      <input v-model="searchQuery.username" type="text" placeholder="Tên người dùng" />
+      <input v-model="searchQuery.email" type="email" placeholder="Email" />
+      <input v-model="searchQuery.phoneNumber" type="text" placeholder="Số điện thoại" />
+      <select v-model="searchQuery.isActive">
+        <option value="">Trạng thái</option>
+        <option value="true">Kích hoạt</option>
+        <option value="false">Vô hiệu hóa</option>
+      </select>
+      <button class="search-button" @click="searchUsers">
+        <i class="fas fa-search"></i> Tìm kiếm
+      </button>
+    </div>
+
     <button class="add-button" @click="addUser">
       <i class="fas fa-user-plus"></i> Thêm Người Dùng
     </button>
     <br>
+
     <div class="table-container">
       <table>
         <thead>
@@ -38,23 +55,43 @@
         </tbody>
       </table>
     </div>
-
-
   </div>
 </template>
+
 
 <script>
 export default {
   name: 'UserManagement',
   data() {
     return {
-      users: []
+      users: [],
+      searchQuery: {
+        username: '',
+        email: '',
+        phoneNumber: '',
+        createdAt: '',
+        isActive: ''
+      }
     };
   },
   methods: {
-    async fetchUsers() {
+    // Tìm kiếm người dùng
+    async searchUsers() {
+      // Tạo đối tượng chứa các tham số tìm kiếm
+      const queryParams = {};
+
+      // Chỉ thêm các tham số không rỗng vào URLSearchParams
+      if (this.searchQuery.username) queryParams.username = this.searchQuery.username;
+      if (this.searchQuery.email) queryParams.email = this.searchQuery.email;
+      if (this.searchQuery.phoneNumber) queryParams.phoneNumber = this.searchQuery.phoneNumber;
+      if (this.searchQuery.createdAt) queryParams.createdAt = this.searchQuery.createdAt;
+      if (this.searchQuery.isActive !== '') queryParams.isActive = this.searchQuery.isActive;
+
+      // Chuyển đổi queryParams thành chuỗi query
+      const queryString = new URLSearchParams(queryParams).toString();
+
       try {
-        const response = await fetch('http://localhost:5000/api/AccountCustomer/getuser', {
+        const response = await fetch(`http://localhost:5000/api/AccountCustomer/users-search/search?${queryString}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json'
@@ -71,6 +108,7 @@ export default {
         console.error('Error fetching users:', error);
       }
     },
+
 
     viewUserDetails(userId) {
       this.$router.push({ name: 'CustomerDetails', params: { userId } });
@@ -118,6 +156,26 @@ export default {
 
     addUser() {
       this.$router.push({ name: 'AddCustomer' });
+    },
+
+    async fetchUsers() {
+      try {
+        const response = await fetch('http://localhost:5000/api/AccountCustomer/getuser', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.users = data;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     }
   },
   mounted() {
@@ -126,7 +184,39 @@ export default {
 };
 </script>
 
+
+
+
 <style scoped>
+/* Add your styles for the search form and other components */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-container input,
+.search-container select {
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.search-button:hover {
+  background-color: #219150;
+}
+
 .management-container {
   padding: 24px;
   background-color: #ffffff;

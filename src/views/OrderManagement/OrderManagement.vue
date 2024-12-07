@@ -71,7 +71,10 @@ export default {
             try {
                 const response = await fetch('http://localhost:5000/api/Order');
                 if (!response.ok) throw new Error('Lỗi khi tải danh sách đơn hàng');
-                this.orders = await response.json();
+                const data = await response.json();
+
+                // Sắp xếp đơn hàng theo ngày giảm dần (mới nhất lên đầu)
+                this.orders = data.sort((a, b) => new Date(b.OrderDate) - new Date(a.OrderDate));
             } catch (error) {
                 console.error(error);
                 alert('Không thể tải danh sách đơn hàng.');

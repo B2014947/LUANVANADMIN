@@ -33,6 +33,7 @@ import StatusManagement from '../views/StatusManagement/StatusManagement.vue'
 import BrandManagement from '../views/BrandManagement/BrandManagement.vue'
 import BrandAdd from '../views/BrandManagement/BrandAdd.vue'
 import BrandEdit from '@/views/BrandManagement/BrandEdit.vue';
+import Warranty from '../views/Warranty.vue'
 
 import Chat from '../views/AdminChatPage.vue'
 
@@ -291,6 +292,12 @@ const routes = [
         name: 'Chat',
         component: Chat,
         meta: { requiresAuth: true, title: 'Tin nhắn' },
+      },
+      {
+        path: '/admin/warranty',
+        name: 'Warranty',
+        component: Warranty,
+        meta: { requiresAuth: true, title: 'Thông tin bảo hành' },
       },
     ],
   },

@@ -124,7 +124,11 @@ export default {
             try {
                 const response = await fetch("http://localhost:5000/api/transactions");
                 if (!response.ok) throw new Error("Error fetching transactions");
-                this.transactions = await response.json();
+
+                const data = await response.json();
+
+                // Sắp xếp giao dịch theo ngày giảm dần (giao dịch mới nhất lên đầu)
+                this.transactions = data.sort((a, b) => new Date(b.transactionDate) - new Date(a.transactionDate));
             } catch (error) {
                 console.error("Không thể tải danh sách giao dịch:", error);
                 Swal.fire({
@@ -135,7 +139,8 @@ export default {
                 });
                 alert("Lỗi khi tải danh sách giao dịch.");
             }
-        },
+        }
+        ,
         async fetchStatistics() {
             const filterParams = new URLSearchParams();
 

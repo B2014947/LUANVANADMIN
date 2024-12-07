@@ -28,6 +28,8 @@
                 <p><i class="fas fa-credit-card"></i> <strong>Phương Thức Thanh Toán</strong>: {{ order.PaymentMethod }}
                 </p>
                 <p><i class="fas fa-clipboard-check"></i> <strong>Trạng Thái</strong>: {{ orderStatus.StatusName }}</p>
+
+
             </div>
 
             <div class="payment-info">
@@ -49,6 +51,7 @@
                             <th><i class="fas fa-tag"></i> Tên Sản Phẩm</th>
                             <th><i class="fas fa-boxes"></i> Số Lượng</th>
                             <th><i class="fas fa-dollar-sign"></i> Giá</th>
+                            <th>Bảo hành</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,10 +60,16 @@
                             <td>{{ item.ProductName }}</td>
                             <td>{{ item.Quantity }}</td>
                             <td>{{ item.Price.toLocaleString() }} VND</td>
+                            <td><!-- Nút Tạo Bảo Hành -->
+                                <button @click="createWarranty(order.OrderId)" class="create-warranty-button">
+                                    <i class="fas fa-wrench"></i> Tạo Bảo Hành
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
 
         <button @click="goBack" class="back-button"><i class="fas fa-arrow-left"></i> Quay Lại</button>
@@ -68,6 +77,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 export default {
     data() {
         return {
@@ -86,6 +96,53 @@ export default {
         this.fetchOrderDetails();
     },
     methods: {
+        async createWarranty(orderId) {
+            // Kiểm tra nếu đơn hàng không tồn tại
+            if (!this.order) {
+                Swal.fire('Lỗi!', 'Đơn hàng không tồn tại.', 'error');
+                return;
+            }
+
+            // Chọn sản phẩm đầu tiên trong đơn hàng
+            const product = this.orderItems[0]; // Hoặc có thể thay đổi để chọn sản phẩm khác nếu cần
+            if (!product) {
+                Swal.fire('Lỗi!', 'Không có sản phẩm trong đơn hàng để tạo bảo hành.', 'error');
+                return;
+            }
+
+            const warrantyData = {
+                orderId: this.order.OrderId,
+                productId: product.ProductId,
+                userId: this.order.UserId,
+            };
+
+            try {
+                // Gửi yêu cầu POST đến API tạo bảo hành
+                const response = await fetch('http://localhost:5000/api/Warranty/warranties', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(warrantyData),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Thành công!',
+                        text: `Bảo hành đã được tạo thành công. Thời gian bảo hành từ ${data.warrantyStartDate} đến ${data.warrantyEndDate}.`,
+                        icon: 'success',
+                    });
+                } else {
+                    Swal.fire('Lỗi!', data.message || 'Đã xảy ra lỗi khi tạo bảo hành.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi tạo bảo hành.', 'error');
+            }
+        }
+        ,
         async fetchOrderDetails() {
             const orderId = this.$route.params.orderId;
             try {
@@ -122,6 +179,30 @@ export default {
 
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.create-warranty-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2ecc71;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-warranty-button i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.create-warranty-button:hover {
+    background-color: #27ae60;
+}
 
 .order-details {
     padding: 30px;

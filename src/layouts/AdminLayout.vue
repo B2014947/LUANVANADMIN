@@ -80,6 +80,9 @@
                             {{ unreadCount }}
                         </span>
                     </RouterLink>
+                    <router-link :to="{ name: 'Warranty' }" class="header-button">
+                        <i class="fas fa-shield-alt"></i> Bảo hành
+                    </router-link>
                     <router-link :to="{ name: 'Login' }" class="header-button logout" @click.native="handleLogout">
                         <i class="fas fa-sign-out-alt"></i> Đăng Xuất
                     </router-link>
